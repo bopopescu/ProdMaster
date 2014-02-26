@@ -26,8 +26,9 @@ class MainWindow(Frame):
             
     def _createPanel(self, panelType):
         
-        if True or panelType == "PARTNER":
-            pass
+        if panelType == "PARTNER":
+            World.LOG().info("PartnerPanel called")
+
 
         
     def _createPanels(self):
@@ -44,15 +45,15 @@ class MainWindow(Frame):
         menubar = Menu(self.master)
         
         fileMenu = Menu(menubar)
-        fileMenu.add_command(label="Exit", command=self._onExit)
-        menubar.add_cascade(label="File", menu=fileMenu)
+        fileMenu.add_command(label=World.L("MainWindow.EXIT"), command=self._onExit)
+        menubar.add_cascade(label=World.L("MainWindow.FILE"), menu=fileMenu)
                 
         editMenu = Menu(menubar)
-        menubar.add_cascade(label="Edit", menu=editMenu)
+        menubar.add_cascade(label=World.L("MainWindow.EDIT"), menu=editMenu)
         
         dataMenu = Menu(menubar)
-        dataMenu.add_command(label="Partners", command=lambda:self.createPanel("PARTNER"))
-        menubar.add_cascade(label="Data", menu=dataMenu)
+        dataMenu.add_command(label=World.L("MainWindow.PARTNERS"), command=lambda:self._createPanel("PARTNER"))
+        menubar.add_cascade(label=World.L("MainWindow.DATA"), menu=dataMenu)
     
         self.master.config(menu=menubar)
         
@@ -77,7 +78,7 @@ class MainWindow(Frame):
         
         
 root = Tk()
-root.title("ProdMaster - MINUX SOFTWARE")
+root.title(World.L("Application.TITLE"))
 w, h = root.winfo_screenwidth(), root.winfo_screenheight()
 root.geometry("%dx%d+0+0" % (w, h-60))
 root.minsize(800, 600)
