@@ -18,13 +18,22 @@ class hu(Translator):
         '''
         Constructor
         '''
-        self._translations = {'Application.TITLE' : 'ProdMaster - MINUX Szoftver',
+        self._translations = {'EXIT' : 'Kilépés',
+                              'LOGIN' : 'Belépés',
+                              'PASSWORD' : 'Jelszó',
+                              'USERNAME' : 'Felhasználói név',
+
+                              'Application.TITLE' : 'ProdMaster - MINUX Szoftver',
                               
+                              'LoginDialog.TITLE' : 'Adja meg felhasználói adatait a belépéshez',
+                              
+                              'MainWindow.ADDITIVES' : 'Adalékanyagok',
+                              'MainWindow.ADDITIVE_GROUPS' : 'Adalékanyag csoportok',
                               'MainWindow.DATA' : 'Törzsadatok',
                               'MainWindow.EDIT' : 'Szerkesztés',
-                              'MainWindow.EXIT' : 'Kilépés',
                               'MainWindow.FILE' : 'Fájl',
                               'MainWindow.PARTNERS' : 'Partnerek',
+                              'MainWindow.RAW_MATERIALS' : 'Alapanyagok',
                               '':''
                               }
                               

@@ -13,10 +13,11 @@ class World(object):
     _instance = None
     _DBA = None
     _logger = None
-    L = None
+
 
     def __init__(self):
         pass
+
     
     @staticmethod
     def init():
@@ -35,12 +36,7 @@ class World(object):
         if World._instance == None:
             World._instance = World()
         World._DBA = DB.getConnection()        
-        
-    @staticmethod
-    def L(string):
-        if True: # TODO: language handling        
-            return hu.getInstance().translate(string)
-        
+               
     
     @staticmethod
     def DBA():
@@ -48,8 +44,23 @@ class World(object):
             World._DBA = DB.getConnection()
         return World._DBA    
 
+
+    @staticmethod
+    def L(string):
+        if True: # TODO: language handling        
+            return hu.getInstance().translate(string)
+
+
     @staticmethod
     def LOG():
         return World._logger
 
     
+    @staticmethod
+    def padSize():
+        return 5
+    
+    
+    @staticmethod
+    def smallPadSize():
+        return 3
