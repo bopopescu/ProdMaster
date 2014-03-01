@@ -11,15 +11,19 @@ from mysql.connector import errorcode
 
 class DB(object):
 
-    _db = None
-    _conn = None
+    __db = None
+    conn = None
+    cursor = None
 
     def __init__(self):                
         try:
-            DB._conn = mysql.connector.connect(user='minux', password='nemerdekel',
+            DB.conn = mysql.connector.connect(user='minux', password='nemerdekel',
                                                host='127.0.0.1',
-                                               database='prodmaster')
+                                               database='prodmaster',
+                                               get_warnings=True)
+            DB.cursor = DB.conn.cursor()
             logging.info("Database connection successful")
+            return
         except mysql.connector.Error as err:
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
                 logging.exception("Something is wrong with your user name or password")
@@ -27,23 +31,28 @@ class DB(object):
                 logging.exception("Database does not exists")
             else:
                 logging.exception(err)
-        else:
-            DB._conn.close()    
+ 
 
     @staticmethod
-    def getConnection():
+    def getInstance():
         logging.info("DB.getConnection() called")
         #global _db
-        if DB._db == None:
-            DB._db = DB()
-            
-        return DB._db
+        if DB.__db == None:
+            DB.__db = DB()
+        return DB.__db
     
     @staticmethod
     def closeConnection():
         try:
-            DB._conn.close()
+            DB.cursor.close()
+            DB.conn.close()
             logging.info("Database connection closed")
         except:
             logging.exception("Fatal exception while closing database connection")
+ 
+ 
+    @staticmethod
+    def execute(operation, params=None, multi=False):
+        logging.debug(operation)
+        DB.cursor.execute(operation, params, multi)
             

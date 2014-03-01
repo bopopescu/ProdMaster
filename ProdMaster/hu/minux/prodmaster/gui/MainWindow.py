@@ -15,7 +15,7 @@ from tkinter.ttk import *
 from hu.minux.prodmaster.gui.LoginDialog import LoginDialog
 from hu.minux.prodmaster.gui.PartnerPanel import PartnerPanel
 from hu.minux.prodmaster.tools.World import World
-from tkinter.messagebox import showinfo
+from hu.minux.prodmaster.app.Main import Main
 
 class MainWindow(Frame):
  
@@ -50,6 +50,10 @@ class MainWindow(Frame):
 
     def _createMenu(self):
         menubar = Menu(self.master)
+        
+        for element in Main.getMainMenuItems():
+            pass
+            
         
         fileMenu = Menu(menubar)
         fileMenu.add_command(label=World.L("EXIT"), command=self._onExit)

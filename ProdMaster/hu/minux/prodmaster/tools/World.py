@@ -35,14 +35,15 @@ class World(object):
 
         if World._instance == None:
             World._instance = World()
-        World._DBA = DB.getConnection()        
+        World._DBA = DB.getInstance()        
                
     
     @staticmethod
     def DBA():
         if World._DBA == None:
-            World._DBA = DB.getConnection()
-        return World._DBA    
+            World._DBA = DB.getInstance()
+ 
+        return World._DBA
 
 
     @staticmethod
