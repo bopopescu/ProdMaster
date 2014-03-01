@@ -7,8 +7,10 @@ Created on 2014.02.21.
 @author: fekete
 '''
 
-from tkinter import *
-import tkinter.dialog
+import tkinter
+from tkinter import Menu
+from tkinter.ttk import * 
+
 
 from hu.minux.prodmaster.gui.LoginDialog import LoginDialog
 from hu.minux.prodmaster.gui.PartnerPanel import PartnerPanel
@@ -37,13 +39,13 @@ class MainWindow(Frame):
 
         
     def _createLayout(self):
-        self._mainPanedWindow = PanedWindow(orient=HORIZONTAL)
-        self._mainPanedWindow.pack(fill=BOTH, expand=1)
+        self._mainPanedWindow = PanedWindow(orient=tkinter.HORIZONTAL)
+        self._mainPanedWindow.pack(fill=tkinter.BOTH, expand=1)
         
-        self._leftPanel = Canvas(self._mainPanedWindow, background="pink")
-        self._mainPanedWindow.add(self._leftPanel, minsize=300)
-        self._rightPanel = Canvas(self._mainPanedWindow, background="red")
-        self._mainPanedWindow.add(self._rightPanel, minsize=500)
+        self._leftPanel = tkinter.Canvas(self._mainPanedWindow, background="pink")
+        self._mainPanedWindow.add(self._leftPanel)
+        self._rightPanel = tkinter.Canvas(self._mainPanedWindow, background="red")
+        self._mainPanedWindow.add(self._rightPanel)
 
 
     def _createMenu(self):
@@ -67,10 +69,11 @@ class MainWindow(Frame):
  
     def _createWidgets(self):                
         scrollBar = Scrollbar(self._leftPanel)
-        scrollBar.pack(side=RIGHT, fill=Y)
-        listBox = Listbox(self._leftPanel, yscrollcommand=scrollBar.set)
-        listBox.pack(fill=BOTH, side=LEFT, expand=1)
+        scrollBar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+        listBox = tkinter.Listbox(self._leftPanel, yscrollcommand=scrollBar.set)
+        listBox.pack(fill=tkinter.BOTH, side=tkinter.LEFT, expand=1)
         scrollBar.config(command=listBox.yview)
+
 
 
     def _login(self):
@@ -93,7 +96,7 @@ class MainWindow(Frame):
         self.master.minsize(800, 600)
         
         
-root = Tk()
+root = tkinter.Tk()
 root.title(World.L("Application.TITLE"))
 root.geometry("%dx%d+0+0" % (0, 0))
 mainApp = MainWindow(master=root)

@@ -5,12 +5,12 @@ Created on 2014.02.27.
 '''
 
 import tkinter
-from tkinter import *
+from tkinter.ttk import *
 
 from hu.minux.prodmaster.tools.World import World
 
 
-class LoginDialog(Toplevel):
+class LoginDialog(tkinter.Toplevel):
     
     _nameEntry = None
     _passwordEntry = None
