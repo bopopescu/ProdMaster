@@ -52,6 +52,10 @@ class MainWindow(Frame):
         menubar = Menu(self.master)
         
         for element in Main.getMainMenuItems():
+            
+            if (element.is_root == True):
+                print (element.name)
+            
             pass
             
         
@@ -95,14 +99,14 @@ class MainWindow(Frame):
         self._createMenu()
         self._createLayout()
         self._createWidgets()   
-        w, h = self.master.winfo_screenwidth(), self.master.winfo_screenheight()
-        self.master.geometry("%dx%d+0+0" % (w, h-60))
-        self.master.minsize(800, 600)
+        
         
         
 root = tkinter.Tk()
 root.title(World.L("Application.TITLE"))
-root.geometry("%dx%d+0+0" % (0, 0))
+w, h = root.winfo_screenwidth(), root.winfo_screenheight()
+root.geometry("%dx%d+0+0" % (w, h-60))
+root.minsize(800, 600)
 mainApp = MainWindow(master=root)
 root.mainloop()
 

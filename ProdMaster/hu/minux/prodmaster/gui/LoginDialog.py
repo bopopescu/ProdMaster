@@ -64,3 +64,6 @@ class LoginDialog(tkinter.Toplevel):
         self.resizable(False, False)        
         self.focus()
         self.lift(master)
+        self.transient(master)
+        self.grab_set()
+        master.wait_window(self)
