@@ -8,9 +8,10 @@ import tkinter
 from tkinter.ttk import *
 
 from hu.minux.prodmaster.tools.World import World
+from hu.minux.prodmaster.gui.AbstractWindow import AbstractWindow
 
 
-class LoginDialog(tkinter.Toplevel):
+class LoginDialog(AbstractWindow):
     
     _nameEntry = None
     _passwordEntry = None
@@ -58,12 +59,6 @@ class LoginDialog(tkinter.Toplevel):
         exitButton.grid(row=r, column=c,
                         padx=World.smallPadSize(), pady=World.smallPadSize())
         
-        sw, sh = master.winfo_screenwidth(), master.winfo_screenheight()
-        self.geometry("+%d+%d" % (sw/3, sh/3))
-        
-        self.resizable(False, False)        
-        self.focus()
-        self.lift(master)
-        self.transient(master)
-        self.grab_set()
-        master.wait_window(self)
+        self.center()
+        self.resizable(False, False)
+        self.setModal()

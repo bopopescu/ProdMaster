@@ -12,12 +12,13 @@ from tkinter import Menu
 from tkinter.ttk import * 
 
 
+from hu.minux.prodmaster.gui.AbstractWindow import AbstractWindow
 from hu.minux.prodmaster.gui.LoginDialog import LoginDialog
 from hu.minux.prodmaster.gui.PartnerPanel import PartnerPanel
 from hu.minux.prodmaster.tools.World import World
 from hu.minux.prodmaster.app.Main import Main
 
-class MainWindow(Frame):
+class MainWindow(AbstractWindow):
  
     _mainPanedWindow = None   
     _leftPanel = None
@@ -81,7 +82,6 @@ class MainWindow(Frame):
         listBox = tkinter.Listbox(self._leftPanel, yscrollcommand=scrollBar.set)
         listBox.pack(fill=tkinter.BOTH, side=tkinter.LEFT, expand=1)
         scrollBar.config(command=listBox.yview)
-
 
 
     def _login(self):
