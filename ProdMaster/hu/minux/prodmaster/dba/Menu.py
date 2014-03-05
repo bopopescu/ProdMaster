@@ -83,13 +83,13 @@ class MenuManager(AbstractEntityManager):
 
     
     def readAll(self):        
-        menu = Menu()
         l = []
-        sql = "SELECT id, name, is_root, parent, weight FROM menu"
+        sql = "SELECT id, name, is_root, parent, weight FROM menu order by is_root desc, weight asc"
       
         self.execute(sql)
         
-        for (id, name, is_root, parent, weight) in self._cursor:      
+        for (id, name, is_root, parent, weight) in self._cursor:
+            menu = Menu()      
             menu.id = id 
             menu.name = name
             menu.is_root = is_root

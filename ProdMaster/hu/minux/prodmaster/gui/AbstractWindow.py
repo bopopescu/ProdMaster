@@ -6,6 +6,8 @@ Created on 2014.03.03.
 
 from tkinter import Toplevel
 
+from hu.minux.prodmaster.tools.World import World
+
 
 class AbstractWindow(Toplevel):
 
@@ -37,5 +39,3 @@ class AbstractWindow(Toplevel):
         if self.attributes('-alpha') == 0:
             self.attributes('-alpha', 1.0)
         self.deiconify()
-     
-    

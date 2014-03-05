@@ -18,12 +18,14 @@ class hu(Translator):
         '''
         Constructor
         '''
-        self._translations = {'EXIT' : 'Kilépés',
-                              'LOGIN' : 'Belépés',
+        self._translations = {'LOGIN' : 'Belépés',
                               'PASSWORD' : 'Jelszó',
                               'USERNAME' : 'Felhasználói név',
 
                               'Application.TITLE' : 'ProdMaster - MINUX Szoftver',
+                              
+                              'Exception.GENERAL' : 'Az alkalmazásban hiba lépett fel.\nTovábbi információt a naplófájlban talál.\n\nSTACKTRACE:\n',
+                              'Exception.TITLE' : 'Alkalmazáshiba',
                               
                               'LoginDialog.TITLE' : 'Adja meg felhasználói adatait a belépéshez',
                               
@@ -31,6 +33,7 @@ class hu(Translator):
                               'MainWindow.ADDITIVE_GROUPS' : 'Adalékanyag csoportok',
                               'MainWindow.DATA' : 'Törzsadatok',
                               'MainWindow.EDIT' : 'Szerkesztés',
+                              'MainWindow.EXIT' : 'Kilépés',
                               'MainWindow.FILE' : 'Fájl',
                               'MainWindow.PARTNERS' : 'Partnerek',
                               'MainWindow.RAW_MATERIALS' : 'Alapanyagok',
