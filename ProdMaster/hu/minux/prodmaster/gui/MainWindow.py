@@ -42,7 +42,8 @@ class MainWindow(AbstractWindow):
         
         self._leftPanel = tkinter.Canvas(self._mainPanedWindow, background="pink")
         self._mainPanedWindow.add(self._leftPanel)
-        self._rightPanel = tkinter.Canvas(self._mainPanedWindow, background="red")
+        self._rightPanel = Notebook(self._mainPanedWindow)
+        # self._rightPanel = tkinter.Canvas(self._mainPanedWindow, background="red")
         self._mainPanedWindow.add(self._rightPanel)
 
 
@@ -59,7 +60,6 @@ class MainWindow(AbstractWindow):
                     if (item.is_root == False and item.parent == element.name):
                             com = "_on" + item.name.capitalize() 
                             function = getattr(self, com)
-                            print (item.name)
                             newMenu.add_command(label=World.L("MainWindow." 
                                                               + item.name),
                                                 command=function) 
@@ -84,8 +84,9 @@ class MainWindow(AbstractWindow):
         self.master.destroy()    
   
   
-    def _onPartners(self):
-        self._rightPanel = PartnerPanel(self)
+    def _onPartners(self):   
+        panel = PartnerPanel.getInstance(self)   
+        self._rightPanel.add(panel, text="Partners")
     
     
     def _onAdditives(self):
@@ -112,6 +113,7 @@ class MainWindow(AbstractWindow):
         for elem in traceback.format_exception(*args):
             err += elem
         
+        World().LOG().error(err)
         mbox.showerror(World().L('Exception.TITLE'), err)
         self._onExit()        
 

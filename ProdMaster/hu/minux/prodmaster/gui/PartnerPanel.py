@@ -7,14 +7,24 @@ Created on 2014.02.21.
 
 from tkinter import *
 
-class PartnerPanel(Canvas):
-    '''
-    classdocs
-    '''
+from hu.minux.prodmaster.gui.AbstractFrame import AbstractFrame
 
+class PartnerPanel(AbstractFrame):
 
-    def __init__(self, params):
-        '''
-        Constructor
-        '''
+    _myType = 'PARTNERS'
+
+    def __init__(self, master):
+        AbstractFrame.__init__(self, master)
         
+    
+    @staticmethod
+    def getInstance(master):
+        if PartnerPanel._instance == None:
+            PartnerPanel._instance = PartnerPanel(master)
+        return PartnerPanel._instance
+            
+        
+    def _createWidgets(self):
+        pass
+    
+    
