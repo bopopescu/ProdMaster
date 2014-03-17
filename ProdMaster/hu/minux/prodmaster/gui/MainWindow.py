@@ -7,9 +7,8 @@ Created on 2014.02.21.
 @author: fekete
 '''
 
-import tkinter
 import traceback
-from tkinter import Menu
+from tkinter import *
 from tkinter.ttk import *
 import tkinter.messagebox as mbox
 
@@ -31,17 +30,18 @@ class MainWindow(AbstractWindow):
     def __init__(self, master=None):
         World.init()
         Frame.__init__(self, master)
-        tkinter.Tk.report_callback_exception = self._show_error
+        Tk.report_callback_exception = self._show_error
         self.master.protocol("WM_DELETE_WINDOW", self._onExit)
         self._login()
                      
            
     def _createLayout(self):
-        self._mainPanedWindow = PanedWindow(orient=tkinter.HORIZONTAL)
-        self._mainPanedWindow.pack(fill=tkinter.BOTH, expand=1)
+        self._mainPanedWindow = PanedWindow(orient=HORIZONTAL)
+        self._mainPanedWindow.pack(fill=BOTH, expand=1)
         
-        self._leftPanel = tkinter.Canvas(self._mainPanedWindow, background="pink")
+        self._leftPanel = Canvas(self._mainPanedWindow, background="pink")
         self._mainPanedWindow.add(self._leftPanel)
+
         self._rightPanel = Notebook(self._mainPanedWindow)
         # self._rightPanel = tkinter.Canvas(self._mainPanedWindow, background="red")
         self._mainPanedWindow.add(self._rightPanel)
@@ -68,9 +68,9 @@ class MainWindow(AbstractWindow):
  
     def _createWidgets(self):                
         scrollBar = Scrollbar(self._leftPanel)
-        scrollBar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
-        listBox = tkinter.Listbox(self._leftPanel, yscrollcommand=scrollBar.set)
-        listBox.pack(fill=tkinter.BOTH, side=tkinter.LEFT, expand=1)
+        scrollBar.pack(side=RIGHT, fill=Y)
+        listBox = Listbox(self._leftPanel, yscrollcommand=scrollBar.set)
+        listBox.pack(fill=BOTH, side=LEFT, expand=1)
         scrollBar.config(command=listBox.yview)
 
 
@@ -85,8 +85,8 @@ class MainWindow(AbstractWindow):
   
   
     def _onPartners(self):   
-        panel = PartnerPanel.getInstance(self)   
-        self._rightPanel.add(panel, text="Partners")
+        panel = PartnerPanel.getInstance(self._rightPanel)
+        self._rightPanel.add(panel, text=World().L("MainWindow.PARTNERS"))
     
     
     def _onAdditives(self):
@@ -118,7 +118,7 @@ class MainWindow(AbstractWindow):
         self._onExit()        
 
                 
-root = tkinter.Tk()
+root = Tk()
 root.title(World.L("Application.TITLE"))
 w, h = root.winfo_screenwidth(), root.winfo_screenheight()
 root.geometry("%dx%d+0+0" % (w, h-60))

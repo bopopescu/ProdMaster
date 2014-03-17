@@ -16,7 +16,7 @@ class AbstractFrame(Frame):
 
 
     def __init__(self, master):
-        Frame.__init__(self, master)
+        Frame.__init__(self, master, padx= World.padSize(), pady= World.padSize())
         World().LOG().info("Frame called: " + self._myType)
         self._createWidgets()
         

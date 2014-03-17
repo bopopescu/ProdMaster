@@ -18,9 +18,16 @@ class hu(Translator):
         '''
         Constructor
         '''
-        self._translations = {'LOGIN' : 'Belépés',
+        self._translations = {'ADDRESS': 'Cím',
+                              'BANK_ACCOUNT_NUMBER': 'Bankszámlaszám',
+                              'LOCATION': 'Település',
+                              'LOGIN' : 'Belépés',
+                              'NAME' : 'Név',
                               'PASSWORD' : 'Jelszó',
+                              'REG_NUMBER' : 'Adószám',
+                              'REMARK': 'Megjegyzés',
                               'USERNAME' : 'Felhasználói név',
+                              'ZIP': 'Irányítószám',
 
                               'Application.TITLE' : 'ProdMaster - MINUX Szoftver',
                               
