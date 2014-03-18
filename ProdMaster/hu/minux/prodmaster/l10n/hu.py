@@ -20,12 +20,15 @@ class hu(Translator):
         '''
         self._translations = {'ADDRESS': 'Cím',
                               'BANK_ACCOUNT_NUMBER': 'Bankszámlaszám',
+                              'CANCEL': 'Mégsem',
+                              'CLOSE': 'Bezárás',
                               'LOCATION': 'Település',
                               'LOGIN' : 'Belépés',
                               'NAME' : 'Név',
                               'PASSWORD' : 'Jelszó',
                               'REG_NUMBER' : 'Adószám',
                               'REMARK': 'Megjegyzés',
+                              'SAVE': 'Mentés',
                               'USERNAME' : 'Felhasználói név',
                               'ZIP': 'Irányítószám',
 

@@ -36,6 +36,7 @@ class MainWindow(AbstractWindow):
                      
            
     def _createLayout(self):
+        
         self._mainPanedWindow = PanedWindow(orient=HORIZONTAL)
         self._mainPanedWindow.pack(fill=BOTH, expand=1)
         
@@ -45,7 +46,22 @@ class MainWindow(AbstractWindow):
         self._rightPanel = Notebook(self._mainPanedWindow)
         # self._rightPanel = tkinter.Canvas(self._mainPanedWindow, background="red")
         self._mainPanedWindow.add(self._rightPanel)
+         
+        buttonFrame = Frame()
+        buttonFrame.pack(side=RIGHT, padx=World.smallPadSize(), pady=World.padSize())
+        
+        editButton = Button(buttonFrame, text=World.L("MainWindow.EDIT"), state=DISABLED)
+        editButton.pack(fill=BOTH, expand=1, side=LEFT,  padx=World.smallPadSize())
+        
+        saveButton = Button(buttonFrame, text=World.L("SAVE"), state=DISABLED)
+        saveButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
 
+        cancelButton = Button(buttonFrame, text=World.L("CANCEL"), state=DISABLED)
+        cancelButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
+
+        closeButton = Button(buttonFrame, text=World.L("CLOSE"), state=DISABLED)
+        closeButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
+        
 
     def _createMenu(self):
         menubar = Menu(self.master)
