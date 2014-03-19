@@ -9,12 +9,15 @@ from tkinter import *
 from tkinter.ttk import *
 
 from hu.minux.prodmaster.gui.AbstractFrame import AbstractFrame
+from hu.minux.prodmaster.app.Partner import Partner
 from hu.minux.prodmaster.tools.World import World
 
 
 class PartnerPanel(AbstractFrame):
 
     _myType = 'PARTNERS'
+    _myEntity = Partner
+    _myPartner = None
     
     _nameLabel = None
     _nameEntry = None
@@ -32,14 +35,14 @@ class PartnerPanel(AbstractFrame):
     _remarkEntry = None
     
 
-    def __init__(self, master):
-        AbstractFrame.__init__(self, master)
+    def __init__(self, master, appFrame):
+        AbstractFrame.__init__(self, master, appFrame)
         
     
     @staticmethod
-    def getInstance(master):
+    def getInstance(appFrame):
         if PartnerPanel._instance == None:
-            PartnerPanel._instance = PartnerPanel(master)
+            PartnerPanel._instance = PartnerPanel(appFrame.getWorkPane(), appFrame)
         return PartnerPanel._instance
             
         
@@ -62,8 +65,7 @@ class PartnerPanel(AbstractFrame):
         c += 1
         self._regNumberEntry = Entry(self, width=60)
         self._regNumberEntry.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
-        
-       
+               
         c = 0
         r += 1
         self._bankAccountLabel = Label(self, text=World.L("BANK_ACCOUNT_NUMBER"))
@@ -73,7 +75,6 @@ class PartnerPanel(AbstractFrame):
         self._bankAccountEntry = Entry(self, width=60)
         self._bankAccountEntry.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
-
         c = 0
         r += 1
         self._headCityLabel = Label(self, text=World.L("LOCATION"))
@@ -110,4 +111,34 @@ class PartnerPanel(AbstractFrame):
         c += 1
         self._remarkEntry = Text(self, width=68, height=10)
         self._remarkEntry.grid(row=r, column=c, sticky="WE", padx=World.smallPadSize(), pady=World.smallPadSize())
+        
+
+    def showItem(self, elementId):
+        self._myPartner = Partner.getPartner(elementId)
+        p = self._myPartner
+        
+        
+        self._nameEntry.delete(0, END)
+        self._nameEntry.insert(0, p.name)
+        self._regNumberEntry.delete(0, END)
+        self._regNumberEntry.insert(0, p.reg_number)
+        self._bankAccountEntry.delete(0, END)
+        self._bankAccountEntry.insert(0, p.bank_account)
+        self._headCityEntry.delete(0, END)
+        self._headCityEntry.insert(0, p.head_city)
+        self._headZipEntry.delete(0, END)
+        self._headZipEntry.insert(0, p.head_zip)
+        self._headAddressEntry.delete(0, END)
+        self._headAddressEntry.insert(0, p.head_address)
+        self._remarkEntry.delete('0.0', END)
+        self._remarkEntry.insert('0.0', p.remark)
+
+
+      
+      
+        
+        
+        
+        
+        
         

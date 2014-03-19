@@ -25,6 +25,7 @@ class MainWindow(AbstractWindow):
     _mainPanedWindow = None   
     _leftPanel = None
     _rightPanel = None
+    _listBox = None
     
     
     def __init__(self, master=None):
@@ -85,9 +86,9 @@ class MainWindow(AbstractWindow):
     def _createWidgets(self):                
         scrollBar = Scrollbar(self._leftPanel)
         scrollBar.pack(side=RIGHT, fill=Y)
-        listBox = Listbox(self._leftPanel, yscrollcommand=scrollBar.set)
-        listBox.pack(fill=BOTH, side=LEFT, expand=1)
-        scrollBar.config(command=listBox.yview)
+        self._listBox = Listbox(self._leftPanel, yscrollcommand=scrollBar.set)
+        self._listBox.pack(fill=BOTH, side=LEFT, expand=1)
+        scrollBar.config(command=self._listBox.yview)
 
 
     def _login(self):
@@ -101,7 +102,7 @@ class MainWindow(AbstractWindow):
   
   
     def _onPartners(self):   
-        panel = PartnerPanel.getInstance(self._rightPanel)
+        panel = PartnerPanel.getInstance(self)
         self._rightPanel.add(panel, text=World().L("MainWindow.PARTNERS"))
     
     
@@ -131,8 +132,14 @@ class MainWindow(AbstractWindow):
         
         World().LOG().error(err)
         mbox.showerror(World().L('Exception.TITLE'), err)
-        self._onExit()        
+        self._onExit()
+        
+    def getListBox(self):
+        return self._listBox
+            
 
+    def getWorkPane(self):
+        return self._rightPanel
                 
 root = Tk()
 root.title(World.L("Application.TITLE"))
