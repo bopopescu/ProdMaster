@@ -1,0 +1,13 @@
+#!/bin/sh                                                                                                               
+
+MAIN=hu/minux/prodmaster/gui/MainWindow.py
+CMAIN="${MAIN}c"
+
+export PYTHONPATH=`pwd`
+
+if [ -f $MAIN ]; then
+    python3 $MAIN
+else
+    echo "Starting byte compiled ProdMaster application."
+    python3 $CMAIN
+fi
