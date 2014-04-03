@@ -117,7 +117,6 @@ class PartnerPanel(AbstractFrame):
         self._myPartner = Partner.getPartner(elementId)
         p = self._myPartner
         
-        
         self._nameEntry.delete(0, END)
         self._nameEntry.insert(0, p.name)
         self._regNumberEntry.delete(0, END)

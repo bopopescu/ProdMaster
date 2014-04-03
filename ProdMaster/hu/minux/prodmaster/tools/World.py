@@ -36,7 +36,6 @@ class World(object):
         if World._instance == None:
             World._instance = World()
         World._DBA = DB.getInstance()        
-               
     
     @staticmethod
     def DBA():
@@ -46,6 +45,26 @@ class World(object):
         return World._DBA
 
 
+    @staticmethod
+    def getDisabledBackgroundColor():
+        return 'gray95'
+
+
+    @staticmethod
+    def getDisabledForegroundColor():
+        return 'gray10'
+
+    
+    @staticmethod
+    def getNormalBackgroundColor():
+        return 'white'
+
+
+    @staticmethod
+    def getNormalForegroundColor():
+        return 'black'
+
+    
     @staticmethod
     def L(string):
         if True: # TODO: language handling        
@@ -65,3 +84,5 @@ class World(object):
     @staticmethod
     def smallPadSize():
         return 3
+
+

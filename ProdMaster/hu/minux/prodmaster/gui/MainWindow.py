@@ -26,6 +26,10 @@ class MainWindow(AbstractWindow):
     _leftPanel = None
     _rightPanel = None
     _listBox = None
+    _editButton = None
+    _closeButton = None
+    _cancelButton = None
+    _saveButton = None
     
     
     def __init__(self, master=None):
@@ -33,6 +37,7 @@ class MainWindow(AbstractWindow):
         Frame.__init__(self, master)
         Tk.report_callback_exception = self._show_error
         self.master.protocol("WM_DELETE_WINDOW", self._onExit)
+        self._initStyles()
         self._login()
                      
            
@@ -45,23 +50,22 @@ class MainWindow(AbstractWindow):
         self._mainPanedWindow.add(self._leftPanel)
 
         self._rightPanel = Notebook(self._mainPanedWindow)
-        # self._rightPanel = tkinter.Canvas(self._mainPanedWindow, background="red")
         self._mainPanedWindow.add(self._rightPanel)
          
         buttonFrame = Frame()
         buttonFrame.pack(side=RIGHT, padx=World.smallPadSize(), pady=World.padSize())
         
-        editButton = Button(buttonFrame, text=World.L("MainWindow.EDIT"), state=DISABLED)
-        editButton.pack(fill=BOTH, expand=1, side=LEFT,  padx=World.smallPadSize())
+        self._editButton = Button(buttonFrame, text=World.L("MainWindow.EDIT"), state=DISABLED)
+        self._editButton.pack(fill=BOTH, expand=1, side=LEFT,  padx=World.smallPadSize())
         
-        saveButton = Button(buttonFrame, text=World.L("SAVE"), state=DISABLED)
-        saveButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
+        self._saveButton = Button(buttonFrame, text=World.L("SAVE"), state=DISABLED)
+        self._saveButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
 
-        cancelButton = Button(buttonFrame, text=World.L("CANCEL"), state=DISABLED)
-        cancelButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
+        self._cancelButton = Button(buttonFrame, text=World.L("CANCEL"), state=DISABLED)
+        self._cancelButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
 
-        closeButton = Button(buttonFrame, text=World.L("CLOSE"), state=DISABLED)
-        closeButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
+        self._closeButton = Button(buttonFrame, text=World.L("CLOSE"), state=DISABLED)
+        self._closeButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
         
 
     def _createMenu(self):
@@ -86,11 +90,19 @@ class MainWindow(AbstractWindow):
     def _createWidgets(self):                
         scrollBar = Scrollbar(self._leftPanel)
         scrollBar.pack(side=RIGHT, fill=Y)
-        self._listBox = Listbox(self._leftPanel, yscrollcommand=scrollBar.set)
+        self._listBox = Listbox(self._leftPanel, yscrollcommand=scrollBar.set,
+                                selectmode=SINGLE)
         self._listBox.pack(fill=BOTH, side=LEFT, expand=1)
         scrollBar.config(command=self._listBox.yview)
 
 
+    def _initStyles(self):
+        Style().map("TEntry",
+                  foreground=[('disabled', World.getDisabledForegroundColor()),
+                              ('active', World.getNormalForegroundColor())],
+                  fieldbackground=[('disabled', World.getDisabledBackgroundColor())])
+        
+    
     def _login(self):
         LoginDialog(self)
    
@@ -133,6 +145,30 @@ class MainWindow(AbstractWindow):
         World().LOG().error(err)
         mbox.showerror(World().L('Exception.TITLE'), err)
         self._onExit()
+        
+    def cancelButtonEnabled(self, isEnabled):
+        if isEnabled:
+            self._cancelButton['state'] = NORMAL
+        else:
+            self._cancelButton['state'] = DISABLED
+        
+    def closeButtonEnabled(self, isEnabled):
+        if isEnabled:
+            self._closeButton['state'] = NORMAL
+        else:
+            self._closeButton['state'] = DISABLED
+
+    def editButtonEnabled(self, isEnabled):
+        if isEnabled:
+            self._editButton['state'] = NORMAL
+        else:
+            self._editButton['state'] = DISABLED
+
+    def saveButtonEnabled(self, isEnabled):
+        if isEnabled:
+            self._saveButton['state'] = NORMAL
+        else:
+            self._saveButton['state'] = DISABLED
         
     def getListBox(self):
         return self._listBox
