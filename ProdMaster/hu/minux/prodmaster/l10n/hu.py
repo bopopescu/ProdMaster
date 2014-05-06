@@ -18,7 +18,8 @@ class hu(Translator):
         '''
         Constructor
         '''
-        self._translations = {'ADDRESS': 'Cím',
+        self._translations = {'ABORT' : 'Megszakítás',
+                              'ADDRESS': 'Cím',
                               'BANK_ACCOUNT_NUMBER': 'Bankszámlaszám',
                               'CANCEL': 'Mégsem',
                               'CLOSE': 'Bezárás',
@@ -26,11 +27,15 @@ class hu(Translator):
                               'LOGIN' : 'Belépés',
                               'NAME' : 'Név',
                               'PASSWORD' : 'Jelszó',
+                              'PROCEED_NO_SAVE' : 'Folytatás mentés nélkül',
+                              'QUESTION' : 'Kérdés',
                               'REG_NUMBER' : 'Adószám',
                               'REMARK': 'Megjegyzés',
                               'SAVE': 'Mentés',
                               'USERNAME' : 'Felhasználói név',
                               'ZIP': 'Irányítószám',
+                              
+                              'AbstractFrame.ARC' : 'Az űrlap szerkesztő módban van. Válasszon az alábbiak közül:', 
 
                               'Application.TITLE' : 'ProdMaster - MINUX Szoftver',
                               

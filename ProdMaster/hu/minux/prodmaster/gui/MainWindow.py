@@ -26,10 +26,10 @@ class MainWindow(AbstractWindow):
     _leftPanel = None
     _rightPanel = None
     _listBox = None
-    _editButton = None
-    _closeButton = None
-    _cancelButton = None
-    _saveButton = None
+    editButton = None
+    closeButton = None
+    cancelButton = None
+    saveButton = None
     
     
     def __init__(self, master=None):
@@ -55,17 +55,17 @@ class MainWindow(AbstractWindow):
         buttonFrame = Frame()
         buttonFrame.pack(side=RIGHT, padx=World.smallPadSize(), pady=World.padSize())
         
-        self._editButton = Button(buttonFrame, text=World.L("MainWindow.EDIT"), state=DISABLED)
-        self._editButton.pack(fill=BOTH, expand=1, side=LEFT,  padx=World.smallPadSize())
+        self.editButton = Button(buttonFrame, text=World.L("MainWindow.EDIT"), state=DISABLED)
+        self.editButton.pack(fill=BOTH, expand=1, side=LEFT,  padx=World.smallPadSize())
         
-        self._saveButton = Button(buttonFrame, text=World.L("SAVE"), state=DISABLED)
-        self._saveButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
+        self.saveButton = Button(buttonFrame, text=World.L("SAVE"), state=DISABLED)
+        self.saveButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
 
-        self._cancelButton = Button(buttonFrame, text=World.L("CANCEL"), state=DISABLED)
-        self._cancelButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
+        self.cancelButton = Button(buttonFrame, text=World.L("CANCEL"), state=DISABLED)
+        self.cancelButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
 
-        self._closeButton = Button(buttonFrame, text=World.L("CLOSE"), state=DISABLED)
-        self._closeButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
+        self.closeButton = Button(buttonFrame, text=World.L("CLOSE"), state=DISABLED)
+        self.closeButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
         
 
     def _createMenu(self):
@@ -110,7 +110,7 @@ class MainWindow(AbstractWindow):
     def _onExit(self):
         World.DBA().closeConnection()
         World.LOG().info("************** Application closed. Bye! **************\n")
-        self.master.destroy()    
+        self.master.destroy()
   
   
     def _onPartners(self):   
@@ -148,27 +148,27 @@ class MainWindow(AbstractWindow):
         
     def cancelButtonEnabled(self, isEnabled):
         if isEnabled:
-            self._cancelButton['state'] = NORMAL
+            self.cancelButton['state'] = NORMAL
         else:
-            self._cancelButton['state'] = DISABLED
+            self.cancelButton['state'] = DISABLED
         
     def closeButtonEnabled(self, isEnabled):
         if isEnabled:
-            self._closeButton['state'] = NORMAL
+            self.closeButton['state'] = NORMAL
         else:
-            self._closeButton['state'] = DISABLED
+            self.closeButton['state'] = DISABLED
 
     def editButtonEnabled(self, isEnabled):
         if isEnabled:
-            self._editButton['state'] = NORMAL
+            self.editButton['state'] = NORMAL
         else:
-            self._editButton['state'] = DISABLED
+            self.editButton['state'] = DISABLED
 
     def saveButtonEnabled(self, isEnabled):
         if isEnabled:
-            self._saveButton['state'] = NORMAL
+            self.saveButton['state'] = NORMAL
         else:
-            self._saveButton['state'] = DISABLED
+            self.saveButton['state'] = DISABLED
         
     def getListBox(self):
         return self._listBox
