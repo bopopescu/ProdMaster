@@ -26,10 +26,7 @@ class MainWindow(AbstractWindow):
     _leftPanel = None
     _rightPanel = None
     _listBox = None
-    editButton = None
-    closeButton = None
-    cancelButton = None
-    saveButton = None
+    exitButton = None
     
     
     def __init__(self, master=None):
@@ -55,17 +52,9 @@ class MainWindow(AbstractWindow):
         buttonFrame = Frame()
         buttonFrame.pack(side=RIGHT, padx=World.smallPadSize(), pady=World.padSize())
         
-        self.editButton = Button(buttonFrame, text=World.L("MainWindow.EDIT"), state=DISABLED)
-        self.editButton.pack(fill=BOTH, expand=1, side=LEFT,  padx=World.smallPadSize())
-        
-        self.saveButton = Button(buttonFrame, text=World.L("SAVE"), state=DISABLED)
-        self.saveButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
-
-        self.cancelButton = Button(buttonFrame, text=World.L("CANCEL"), state=DISABLED)
-        self.cancelButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
-
-        self.closeButton = Button(buttonFrame, text=World.L("CLOSE"), state=DISABLED)
-        self.closeButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
+        self.exitButton = Button(buttonFrame, text=World.L("MainWindow.EXIT"),
+                                 command=self._onExit)
+        self.exitButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
         
 
     def _createMenu(self):
@@ -146,29 +135,13 @@ class MainWindow(AbstractWindow):
         mbox.showerror(World().L('Exception.TITLE'), err)
         self._onExit()
         
-    def cancelButtonEnabled(self, isEnabled):
-        if isEnabled:
-            self.cancelButton['state'] = NORMAL
-        else:
-            self.cancelButton['state'] = DISABLED
         
-    def closeButtonEnabled(self, isEnabled):
+    def exitButtonEnabled(self, isEnabled):
         if isEnabled:
-            self.closeButton['state'] = NORMAL
+            self.exitButton['state'] = NORMAL
         else:
-            self.closeButton['state'] = DISABLED
+            self.exitButton['state'] = DISABLED
 
-    def editButtonEnabled(self, isEnabled):
-        if isEnabled:
-            self.editButton['state'] = NORMAL
-        else:
-            self.editButton['state'] = DISABLED
-
-    def saveButtonEnabled(self, isEnabled):
-        if isEnabled:
-            self.saveButton['state'] = NORMAL
-        else:
-            self.saveButton['state'] = DISABLED
         
     def getListBox(self):
         return self._listBox

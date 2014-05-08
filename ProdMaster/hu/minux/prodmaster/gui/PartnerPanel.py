@@ -9,15 +9,15 @@ from tkinter import *
 from tkinter.ttk import *
 
 from hu.minux.prodmaster.gui.AbstractFrame import AbstractFrame
-from hu.minux.prodmaster.app.Partner import Partner
+from hu.minux.prodmaster.app.Partner import Partner, PartnerManager
 from hu.minux.prodmaster.tools.World import World
 
 
 class PartnerPanel(AbstractFrame):
 
-    _myType = 'PARTNERS'
+    _type = 'PARTNERS'
     _myEntity = Partner
-    _myPartner = None
+    _partner = None
     
     _nameLabel = None
     _nameEntry = None
@@ -44,6 +44,10 @@ class PartnerPanel(AbstractFrame):
         if PartnerPanel._instance == None:
             PartnerPanel._instance = PartnerPanel(appFrame.getWorkPane(), appFrame)
         return PartnerPanel._instance
+            
+            
+    def _create(self):
+        pass
             
         
     def _createWidgets(self):
@@ -112,10 +116,32 @@ class PartnerPanel(AbstractFrame):
         self._remarkEntry = Text(self, width=68, height=10)
         self._remarkEntry.grid(row=r, column=c, sticky="WE", padx=World.smallPadSize(), pady=World.smallPadSize())
         
+        # Append operation buttons
+        c = 0
+        r += 1
+        AbstractFrame._createWidgets(self, r , c, 2)
+        
+        
+    def _save(self):
+        if AbstractFrame._save(self) is False:
+            return
+
+        self._partner.name = self._nameEntry.get()
+        self._partner.reg_number = self._regNumberEntry.get()
+        self._partner.bank_account = self._bankAccountEntry.get()
+        self._partner.head_city = self._headCityEntry.get()
+        self._partner.head_zip = self._headZipEntry.get()
+        self._partner.head_address = self._headAddressEntry.get() 
+        self._partner.customer = False
+        self._partner.supplier = False
+        self._partner.remark = self._remarkEntry.get('0.0', END)
+
+        PartnerManager.getInstance().update(self._partner)
+        
 
     def showItem(self, elementId):
-        self._myPartner = Partner.getPartner(elementId)
-        p = self._myPartner
+        self._partner = Partner.getPartner(elementId)
+        p = self._partner
         
         self._nameEntry.delete(0, END)
         self._nameEntry.insert(0, p.name)
@@ -133,11 +159,10 @@ class PartnerPanel(AbstractFrame):
         self._remarkEntry.insert('0.0', p.remark)
 
 
-      
-      
-        
-        
-        
+    def _validate(self):
+        ''' TO BE IMPLEMENTED '''
+        errorStr = None
+        return errorStr
         
         
         

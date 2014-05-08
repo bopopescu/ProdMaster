@@ -23,6 +23,8 @@ class hu(Translator):
                               'BANK_ACCOUNT_NUMBER': 'Bankszámlaszám',
                               'CANCEL': 'Mégsem',
                               'CLOSE': 'Bezárás',
+                              'CREATE': 'Új létrehozása',
+                              'DELETE': 'Törlés',
                               'LOCATION': 'Település',
                               'LOGIN' : 'Belépés',
                               'NAME' : 'Név',

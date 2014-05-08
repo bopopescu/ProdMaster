@@ -21,17 +21,24 @@ class AbstractFrame(Frame):
     _myTabId = 0
     _myElementId = 0
     _myEntity = None
-    _myType = 'Not Implemented'
+    _type = 'Not Implemented'
     _myApplication = None
     _myListBox = None
     _myStoredListItems = None
     _myState = None
     answer = None
+    
+    createButton = None
+    editButton = None
+    closeButton = None
+    cancelButton = None
+    deleteButton = None
+    saveButton = None
 
 
     def __init__(self, master, appFrame, elementId=0):
         Frame.__init__(self, master, padding= World.padSize())
-        World().LOG().info("Frame called: " + self._myType)
+        World().LOG().info("Frame called: " + self._type)
         self._myApplication = appFrame
         self._myElementId = elementId
         self._myListBox = self._myApplication.getListBox()
@@ -43,20 +50,59 @@ class AbstractFrame(Frame):
        
         
     def _cancel(self):
-        self._myApplication.saveButtonEnabled(False)
-        self._myApplication.cancelButtonEnabled(False)
+        self.saveButtonEnabled(False)
+        self.cancelButtonEnabled(False)
         self._displayElement(self._myElementId)
 
     
     def _close(self):
-        self._myListBox.delete(0, END)
-        self.master.forget('current')
-        if self.master.index('end') > 0:
-            self.master.select('end')
-        else:
-            self._myApplication.closeButtonEnabled(False)
+        if self._getState() == 'normal':
+            self._handleChangeWhileInEditMode()
+            
+        if self.answer != 'ABORT':
+            self._myListBox.delete(0, END)
+            self.master.forget('current')
+            if self.master.index('end') > 0:
+                self.master.select('end')
+            else:
+                self.createButtonEnabled(False)
+                self.closeButtonEnabled(False)
+                self.saveButtonEnabled(False)
+                self.cancelButtonEnabled(False)
+                self.editButtonEnabled(False)
+                self.deleteButtonEnabled(False)
+                self._myApplication.exitButton.config(command=self._myApplication._onExit)
+                
+                
+    def _create(self):
+        raise NotImplemented
+    
 
-    def _createWidgets(self):
+    def _createWidgets(self, r, c, cspan=0):
+        buttonFrame = Frame(self)
+        buttonFrame.grid(row=r, column=c, columnspan=cspan, sticky=E,
+                         padx=World.smallPadSize(), pady=World.smallPadSize())
+        
+        self.createButton = Button(buttonFrame, text=World.L("CREATE"), state=DISABLED)
+        self.createButton.pack(fill=BOTH, expand=1, side=LEFT,  padx=World.smallPadSize())
+
+        self.editButton = Button(buttonFrame, text=World.L("MainWindow.EDIT"), state=DISABLED)
+        self.editButton.pack(fill=BOTH, expand=1, side=LEFT,  padx=World.smallPadSize())
+        
+        self.saveButton = Button(buttonFrame, text=World.L("SAVE"), state=DISABLED)
+        self.saveButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
+
+        self.cancelButton = Button(buttonFrame, text=World.L("CANCEL"), state=DISABLED)
+        self.cancelButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
+
+        self.deleteButton = Button(buttonFrame, text=World.L("DELETE"), state=DISABLED)
+        self.deleteButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
+
+        self.closeButton = Button(buttonFrame, text=World.L("CLOSE"), state=DISABLED)
+        self.closeButton.pack(fill=BOTH, expand=1, side=LEFT, padx=World.smallPadSize())
+
+    
+    def _delete(self):
         raise NotImplemented
 
     
@@ -88,8 +134,10 @@ class AbstractFrame(Frame):
         
     def _edit(self):
         self._setState(self, 'normal')
-        self._myApplication.saveButtonEnabled(True)
-        self._myApplication.cancelButtonEnabled(True)
+        self.createButtonEnabled(False)
+        self.saveButtonEnabled(True)
+        self.cancelButtonEnabled(True)
+        self.deleteButtonEnabled(False)
         
         
     def _getState(self):
@@ -122,10 +170,12 @@ class AbstractFrame(Frame):
         self._myStoredListItems = self._myEntity.getListItems()
         for e in self._myStoredListItems:
             self._myListBox.insert(END, e.name)        
-        
-        self._myApplication.editButtonEnabled(True)
-        self._myApplication.closeButtonEnabled(True)
-        
+
+        self.createButtonEnabled(True)        
+        self.editButtonEnabled(True)
+        self.closeButtonEnabled(True)
+        self.deleteButtonEnabled(True)
+                
         
     def _handleChangeWhileInEditMode(self):
         QuestionDialog(self,
@@ -137,14 +187,28 @@ class AbstractFrame(Frame):
         
         
     def _save(self):
-        raise NotImplemented
+        if self._validate() != None:
+            return False
+        
+        self.createButtonEnabled(True)
+        self.saveButtonEnabled(False)
+        self.cancelButtonEnabled(False)
+        self.deleteButtonEnabled(True)
+        self._setState(self, 'disabled')
         
         
     def _setControls(self):
-        self._myApplication.closeButton.config(command=self._close)
-        self._myApplication.cancelButton.config(command=self._cancel)
-        self._myApplication.saveButton.config(command=self._save)
-        self._myApplication.editButton.config(command=self._edit)        
+        self.createButton.config(command=self._create)
+        self.closeButton.config(command=self._close)
+        self.cancelButton.config(command=self._cancel)
+        self.deleteButton.config(command=self._delete)
+        self.saveButton.config(command=self._save)
+        self.editButton.config(command=self._edit)
+        self._myApplication.exitButton.config(command=self._close)
+        
+        
+    def _validate(self):
+        raise NotImplemented
         
             
     def refreshDetails(self, params):
@@ -159,4 +223,40 @@ class AbstractFrame(Frame):
     @staticmethod    
     def getInstance(master):
         raise NotImplemented
-            
+       
+    
+    def createButtonEnabled(self, isEnabled):
+        if isEnabled:
+            self.createButton['state'] = NORMAL
+        else:
+            self.createButton['state'] = DISABLED
+        
+    def cancelButtonEnabled(self, isEnabled):
+        if isEnabled:
+            self.cancelButton['state'] = NORMAL
+        else:
+            self.cancelButton['state'] = DISABLED
+
+    def closeButtonEnabled(self, isEnabled):
+        if isEnabled:
+            self.closeButton['state'] = NORMAL
+        else:
+            self.closeButton['state'] = DISABLED
+
+    def editButtonEnabled(self, isEnabled):
+        if isEnabled:
+            self.editButton['state'] = NORMAL
+        else:
+            self.editButton['state'] = DISABLED
+
+    def saveButtonEnabled(self, isEnabled):
+        if isEnabled:
+            self.saveButton['state'] = NORMAL
+        else:
+            self.saveButton['state'] = DISABLED
+
+    def deleteButtonEnabled(self, isEnabled):
+        if isEnabled:
+            self.deleteButton['state'] = NORMAL
+        else:
+            self.deleteButton['state'] = DISABLED

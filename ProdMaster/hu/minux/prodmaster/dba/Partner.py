@@ -46,14 +46,15 @@ class PartnerManager(AbstractEntityManager):
         
         self.execute(sql, data)
         e.id = self._cursor.lastrowid 
-        self._db.commit()
+        self._db.conn.commit()
 
         return e
     
     
     def read(self, pid):       
         e = Partner()
-        sql = "SELECT id, name, reg_number, bank_account, head_city, head_zip, head_address, customer, supplier, remark FROM partner WHERE id = {0}".format(pid)
+        sql = "SELECT id, name, reg_number, bank_account, head_city, head_zip, head_address, customer, supplier, remark, enabled \
+         FROM partner WHERE is_enabled = 1 AND id = {0}".format(pid)
         
         self.execute(sql)
         res = self._cursor.fetchall()
@@ -73,15 +74,24 @@ class PartnerManager(AbstractEntityManager):
         
         return e
             
-
+            
     def update(self, e):        
-        sql = "UPDATE partner SET name=%s, reg_number=%s, bank_account=%s, head_city=%s, head_zip=%s, head_address=%s, customer=%d, supplier=%d, remark=%s \
-               WHERE id = %d"
-        data = (e.name, e.reg_number, e.bank_account, e.head_city, e.head_zip, e.head_address, e.customer, e.supplier, e.remark)
+        sql = "UPDATE partner SET name='{0}', reg_number='{1}', bank_account='{2}', head_city='{3}', \
+                                  head_zip='{4}', head_address='{5}', customer='{6}', supplier='{7}', remark='{8}' \
+               WHERE id = {9}".format(e.name,
+                                      e.reg_number,
+                                      e.bank_account,
+                                      e.head_city,          
+                                      e.head_zip,
+                                      e.head_address,
+                                      e.customer,
+                                      e.supplier,
+                                      e.remark,
+                                      e.id)
         
-        self.execute(sql, data)
+        self.execute(sql)
         e.id = self._cursor.lastrowid 
-        self._db.commit()
+        self._db.conn.commit()
         
         return e
 
@@ -90,7 +100,7 @@ class PartnerManager(AbstractEntityManager):
         sql = "DELETE FROM partner WHERE id = %d"
         data = (id)
         self.execute(sql, data) 
-        self._db.commit()
+        self._db.conn.commit()
         
         return True
 
