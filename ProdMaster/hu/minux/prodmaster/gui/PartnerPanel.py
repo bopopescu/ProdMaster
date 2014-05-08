@@ -9,7 +9,7 @@ from tkinter import *
 from tkinter.ttk import *
 
 from hu.minux.prodmaster.gui.AbstractFrame import AbstractFrame
-from hu.minux.prodmaster.app.Partner import Partner, PartnerManager
+from hu.minux.prodmaster.app.Partner import Partner
 from hu.minux.prodmaster.tools.World import World
 
 
@@ -38,18 +38,29 @@ class PartnerPanel(AbstractFrame):
     def __init__(self, master, appFrame):
         AbstractFrame.__init__(self, master, appFrame)
         
-    
+        
     @staticmethod
     def getInstance(appFrame):
         if PartnerPanel._instance == None:
             PartnerPanel._instance = PartnerPanel(appFrame.getWorkPane(), appFrame)
         return PartnerPanel._instance
-            
-            
+
+
+    def _clearForm(self):
+        self._nameEntry.delete(0, END)
+        self._regNumberEntry.delete(0, END)
+        self._bankAccountEntry.delete(0, END)
+        self._headCityEntry.delete(0, END)
+        self._headZipEntry.delete(0, END)
+        self._headAddressEntry.delete(0, END)
+        self._remarkEntry.delete('0.0', END)
+       
+                   
     def _create(self):
-        pass
-            
+        AbstractFrame._create(self)
+        self._partner = Partner.new()
         
+                    
     def _createWidgets(self):
         
         r = 0
@@ -124,7 +135,10 @@ class PartnerPanel(AbstractFrame):
         
     def _save(self):
         if AbstractFrame._save(self) is False:
+            '''Form Validation'''
             return
+
+        old_name = self._partner.name 
 
         self._partner.name = self._nameEntry.get()
         self._partner.reg_number = self._regNumberEntry.get()
@@ -136,26 +150,29 @@ class PartnerPanel(AbstractFrame):
         self._partner.supplier = False
         self._partner.remark = self._remarkEntry.get('0.0', END)
 
-        PartnerManager.getInstance().update(self._partner)
-        
+        if self._partner.id == 0:
+            Partner.create(self._partner)
+        else:
+            Partner.update(self._partner)
+                
+        if self._partner.name != old_name:
+            self._myListBox.delete(self._myListBox.curselection()[0])
+            self._myListBox.insert(END, self._partner.name)
+            self._myListBox.selection_set(END)
+            
 
     def showItem(self, elementId):
-        self._partner = Partner.getPartner(elementId)
+        self._partner = Partner.get(elementId)
         p = self._partner
         
-        self._nameEntry.delete(0, END)
+        self._clearForm()
+        
         self._nameEntry.insert(0, p.name)
-        self._regNumberEntry.delete(0, END)
         self._regNumberEntry.insert(0, p.reg_number)
-        self._bankAccountEntry.delete(0, END)
         self._bankAccountEntry.insert(0, p.bank_account)
-        self._headCityEntry.delete(0, END)
         self._headCityEntry.insert(0, p.head_city)
-        self._headZipEntry.delete(0, END)
         self._headZipEntry.insert(0, p.head_zip)
-        self._headAddressEntry.delete(0, END)
         self._headAddressEntry.insert(0, p.head_address)
-        self._remarkEntry.delete('0.0', END)
         self._remarkEntry.insert('0.0', p.remark)
 
 

@@ -23,6 +23,9 @@ class AbstractEntityManager(object):
         self._db.execute(operation, params, multi)
         
 
+    def new(self):
+        raise NotImplemented
+
     def create(self):
         raise NotImplemented
     

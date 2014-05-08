@@ -54,6 +54,10 @@ class AbstractFrame(Frame):
         self.cancelButtonEnabled(False)
         self._displayElement(self._myElementId)
 
+
+    def _clearForm(self):
+        raise NotImplemented
+    
     
     def _close(self):
         if self._getState() == 'normal':
@@ -75,7 +79,17 @@ class AbstractFrame(Frame):
                 
                 
     def _create(self):
-        raise NotImplemented
+        self.createButtonEnabled(False)
+        self.closeButtonEnabled(True)
+        self.saveButtonEnabled(True)
+        self.cancelButtonEnabled(True)
+        self.editButtonEnabled(False)
+        self.deleteButtonEnabled(False)
+        self._myListBox.selection_clear(0, END)
+        self._setState(self, 'normal')
+        
+        self._clearForm()
+
     
 
     def _createWidgets(self, r, c, cspan=0):

@@ -9,7 +9,7 @@ from hu.minux.prodmaster.tools.World import World
 from hu.minux.prodmaster.dba.NameIdPair import NameIdPair
 
 
-class Partner(object):
+class Partner():
 
     id = 0
     name = ""
@@ -38,10 +38,13 @@ class PartnerManager(AbstractEntityManager):
         return PartnerManager._instance
 
         
-    def create(self):               
-        e = Partner() 
+    def new(self):
+        return Partner()    
+        
+        
+    def create(self, e):               
         sql = "INSERT INTO partner (name, reg_number, bank_account, head_city, head_zip, head_address, customer, supplier, remark) \
-               VALUES (%s, %s, %s, %s, %s, %s, %d, %d, %s)"
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         data = (e.name, e.reg_number, e.bank_account, e.head_city, e.head_zip, e.head_address, e.customer, e.supplier, e.remark)
         
         self.execute(sql, data)
@@ -53,10 +56,10 @@ class PartnerManager(AbstractEntityManager):
     
     def read(self, pid):       
         e = Partner()
-        sql = "SELECT id, name, reg_number, bank_account, head_city, head_zip, head_address, customer, supplier, remark, enabled \
-         FROM partner WHERE is_enabled = 1 AND id = {0}".format(pid)
+        sql = ('SELECT id, name, reg_number, bank_account, head_city, head_zip, head_address, customer, supplier, remark '
+               'FROM partner WHERE id = %s')
         
-        self.execute(sql)
+        self.execute(sql, (pid,))
         res = self._cursor.fetchall()
         
         for (id, name, reg_number, bank_account, head_city, head_zip, head_address, customer, supplier, remark) in res:
@@ -76,20 +79,15 @@ class PartnerManager(AbstractEntityManager):
             
             
     def update(self, e):        
-        sql = "UPDATE partner SET name='{0}', reg_number='{1}', bank_account='{2}', head_city='{3}', \
-                                  head_zip='{4}', head_address='{5}', customer='{6}', supplier='{7}', remark='{8}' \
-               WHERE id = {9}".format(e.name,
-                                      e.reg_number,
-                                      e.bank_account,
-                                      e.head_city,          
-                                      e.head_zip,
-                                      e.head_address,
-                                      e.customer,
-                                      e.supplier,
-                                      e.remark,
-                                      e.id)
+        sql = ("UPDATE partner SET name=%s, reg_number=%s, bank_account=%s, head_city=%s, "
+               "head_zip=%s, head_address=%s, customer=%s, supplier=%s, remark=%s "
+               "WHERE id=%s")
+        data = (e.name, e.reg_number, e.bank_account,
+                e.head_city, e.head_zip, e.head_address,
+                e.customer, e.supplier, e.remark,
+                e.id)
         
-        self.execute(sql)
+        self.execute(sql, data)
         e.id = self._cursor.lastrowid 
         self._db.conn.commit()
         

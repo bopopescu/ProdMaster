@@ -20,6 +20,26 @@ class Partner(AbstractModule):
 
 
     @staticmethod
-    def getPartner(elementId):
+    def get(elementId):
         return PartnerManager.getInstance().read(elementId)
+
+    
+    @staticmethod
+    def new():
+        return PartnerManager.getInstance().new()
+
+    
+    @staticmethod
+    def update(partner):
+        return PartnerManager.getInstance().update(partner)
+    
+    
+    @staticmethod
+    def create(partner):
+        return PartnerManager.getInstance().create(partner)
+ 
+    
+    @staticmethod
+    def delete(partner):
+        return PartnerManager.getInstance().delete(partner)
     
