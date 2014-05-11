@@ -18,8 +18,8 @@ class Partner():
     head_city = ""
     head_zip = ""
     head_address = ""
-    customer = False
-    supplier = False
+    is_customer = False
+    is_supplier = False
     remark = ""
      
 
@@ -43,9 +43,9 @@ class PartnerManager(AbstractEntityManager):
         
         
     def create(self, e):               
-        sql = "INSERT INTO partner (name, reg_number, bank_account, head_city, head_zip, head_address, customer, supplier, remark) \
+        sql = "INSERT INTO partner (name, reg_number, bank_account, head_city, head_zip, head_address, is_customer, is_supplier, remark) \
                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        data = (e.name, e.reg_number, e.bank_account, e.head_city, e.head_zip, e.head_address, e.customer, e.supplier, e.remark)
+        data = (e.name, e.reg_number, e.bank_account, e.head_city, e.head_zip, e.head_address, e.is_customer, e.is_supplier, e.remark)
         
         self.execute(sql, data)
         e.id = self._cursor.lastrowid 
@@ -56,7 +56,7 @@ class PartnerManager(AbstractEntityManager):
     
     def read(self, pid):       
         e = Partner()
-        sql = ('SELECT id, name, reg_number, bank_account, head_city, head_zip, head_address, customer, supplier, remark '
+        sql = ('SELECT id, name, reg_number, bank_account, head_city, head_zip, head_address, is_customer, is_supplier, remark '
                'FROM partner WHERE id = %s')
         
         self.execute(sql, (pid,))
@@ -70,8 +70,8 @@ class PartnerManager(AbstractEntityManager):
             e.head_city = head_city
             e.head_zip = head_zip
             e.head_address = head_address
-            e.customer = customer
-            e.supplier = supplier
+            e.is_customer = customer
+            e.is_supplier = supplier
             e.remark = remark
             break
         
@@ -80,11 +80,11 @@ class PartnerManager(AbstractEntityManager):
             
     def update(self, e):        
         sql = ("UPDATE partner SET name=%s, reg_number=%s, bank_account=%s, head_city=%s, "
-               "head_zip=%s, head_address=%s, customer=%s, supplier=%s, remark=%s "
+               "head_zip=%s, head_address=%s, is_customer=%s, is_supplier=%s, remark=%s "
                "WHERE id=%s")
         data = (e.name, e.reg_number, e.bank_account,
                 e.head_city, e.head_zip, e.head_address,
-                e.customer, e.supplier, e.remark,
+                e.is_customer, e.is_supplier, e.remark,
                 e.id)
         
         self.execute(sql, data)
@@ -105,7 +105,7 @@ class PartnerManager(AbstractEntityManager):
     
     def readAll(self):        
         l = []
-        sql = "SELECT id, name, reg_number, bank_account, head_city, head_zip, head_address, customer, supplier, remark FROM partner order by name asc"
+        sql = "SELECT id, name, reg_number, bank_account, head_city, head_zip, head_address, is_customer, is_supplier, remark FROM partner order by name asc"
       
         self.execute(sql)
         
@@ -118,8 +118,8 @@ class PartnerManager(AbstractEntityManager):
             e.head_city = self._cursor.head_city
             e.head_zip = self._cursor.zip
             e.head_address = self._cursor.head_address
-            e.customer = self._cursor.customer
-            e.supplier = self._cursor.supplier
+            e.is_customer = self._cursor.is_customer
+            e.is_supplier = self._cursor.is_supplier
             e.remark = self._cursor.remark
             
             l.append(e)

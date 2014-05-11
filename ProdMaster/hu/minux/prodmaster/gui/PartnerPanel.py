@@ -134,31 +134,17 @@ class PartnerPanel(AbstractFrame):
         
         
     def _save(self):
-        if AbstractFrame._save(self) is False:
-            '''Form Validation'''
-            return
-
-        old_name = self._partner.name 
-
         self._partner.name = self._nameEntry.get()
         self._partner.reg_number = self._regNumberEntry.get()
         self._partner.bank_account = self._bankAccountEntry.get()
         self._partner.head_city = self._headCityEntry.get()
         self._partner.head_zip = self._headZipEntry.get()
         self._partner.head_address = self._headAddressEntry.get() 
-        self._partner.customer = False
-        self._partner.supplier = False
+        self._partner.is_customer = False
+        self._partner.is_supplier = False
         self._partner.remark = self._remarkEntry.get('0.0', END)
 
-        if self._partner.id == 0:
-            Partner.create(self._partner)
-        else:
-            Partner.update(self._partner)
-                
-        if self._partner.name != old_name:
-            self._myListBox.delete(self._myListBox.curselection()[0])
-            self._myListBox.insert(END, self._partner.name)
-            self._myListBox.selection_set(END)
+        AbstractFrame._save(self, self._partner)
             
 
     def showItem(self, elementId):

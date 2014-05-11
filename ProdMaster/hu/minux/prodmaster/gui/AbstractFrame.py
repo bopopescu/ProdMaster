@@ -13,6 +13,7 @@ from builtins import NotImplemented
 
 from hu.minux.prodmaster.tools.World import World
 from hu.minux.prodmaster.gui.QuestionDialog import QuestionDialog
+from hu.minux.prodmaster.dba.NameIdPair import NameIdPair
 
 
 class AbstractFrame(Frame):
@@ -121,6 +122,11 @@ class AbstractFrame(Frame):
 
     
     def _displayElement(self, elementId):
+        if len(self._myStoredListItems) < 1:
+            '''handle the empty datatable case'''
+            self._create()
+            return                
+        
         self.answer = ''
         if self._getState() == 'normal' and elementId != self._myElementId:
             self._handleChangeWhileInEditMode()
@@ -200,7 +206,7 @@ class AbstractFrame(Frame):
             self._save()
         
         
-    def _save(self):
+    def _save(self, entity):
         if self._validate() != None:
             return False
         
@@ -209,6 +215,38 @@ class AbstractFrame(Frame):
         self.cancelButtonEnabled(False)
         self.deleteButtonEnabled(True)
         self._setState(self, 'disabled')
+        
+        old_name = entity.name
+        
+        if entity.id == 0:
+            self._myEntity.create(entity)
+        else:
+            self._myEntity.update(entity)
+            
+        i = 0 
+        
+        print (old_name + " : " + entity.name)
+                
+        if entity.name != old_name:
+            i = self._myListBox.curselection()[0]
+            print("index: " + i)
+            print("name on the index: " + self._myStoredListItems[i].name)
+            print("id on the index: " + self._myStoredListItems[i].id)
+            self._myListBox.delete(i)
+            # update the internal list
+            for item in self._myStoredListItems:
+                if item.id == entity.id:
+                    item.name = entity.name
+        
+                
+            
+        self._myListBox.insert(END, entity.name)
+        self._myListBox.selection_set(END)
+        
+        pair = NameIdPair()
+        pair.id = entity.id
+        pair.name = entity.name
+        self._myStoredListItems.append(pair)
         
         
     def _setControls(self):
