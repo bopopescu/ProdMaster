@@ -235,11 +235,12 @@ class AbstractFrame(Frame):
         self._myStoredListItems = self._myEntityType.getListItems()
         for item in self._myStoredListItems:
             if item.id == self._entity.id:
-                self._myListBox.delete(self._myListBox.curselection()[0])
+                if len(self._myListBox.curselection()) > 0:
+                    self._myListBox.delete(self._myListBox.curselection()[0])
                 self._myListBox.insert(idx, self._myStoredListItems[idx].name)
                 break
             idx += 1
-            
+    
         self._myListBox.selection_set(idx)
         
         
