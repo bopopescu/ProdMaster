@@ -88,7 +88,6 @@ class PartnerManager(AbstractEntityManager):
                 e.id)
         
         self.execute(sql, data)
-        e.id = self._cursor.lastrowid 
         self._db.conn.commit()
         
         return e

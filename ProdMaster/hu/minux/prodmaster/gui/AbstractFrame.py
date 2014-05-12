@@ -4,6 +4,8 @@ Created on 2014.03.05.
 @author: fekete
 '''
 
+from copy import deepcopy
+
 import tkinter.messagebox as mbox
 from tkinter import END
 from tkinter.constants import *
@@ -21,7 +23,9 @@ class AbstractFrame(Frame):
     _instance = None
     _myTabId = 0
     _myElementId = 0
-    _myEntity = None
+    _myEntityType = None
+    _entity = None
+    _storedEntity = None
     _type = 'Not Implemented'
     _myApplication = None
     _myListBox = None
@@ -187,9 +191,9 @@ class AbstractFrame(Frame):
 
     
     def _fillListWithElements(self):
-        self._myStoredListItems = self._myEntity.getListItems()
+        self._myStoredListItems = self._myEntityType.getListItems()
         for e in self._myStoredListItems:
-            self._myListBox.insert(END, e.name)        
+            self._myListBox.insert(END, e.name)
 
         self.createButtonEnabled(True)        
         self.editButtonEnabled(True)
@@ -206,7 +210,12 @@ class AbstractFrame(Frame):
             self._save()
         
         
-    def _save(self, entity):
+    def _prepareSave(self):
+        self._storedEntity = deepcopy(self._entity)
+        self._save() # implemented in child panels
+        
+        
+    def _save(self):
         if self._validate() != None:
             return False
         
@@ -216,37 +225,22 @@ class AbstractFrame(Frame):
         self.deleteButtonEnabled(True)
         self._setState(self, 'disabled')
         
-        old_name = entity.name
-        
-        if entity.id == 0:
-            self._myEntity.create(entity)
+        if self._entity.id == 0:
+            self._myEntityType.create(self._entity)
         else:
-            self._myEntity.update(entity)
+            self._myEntityType.update(self._entity)
+        
+        #refresh the listbox
+        idx = 0
+        self._myStoredListItems = self._myEntityType.getListItems()
+        for item in self._myStoredListItems:
+            if item.id == self._entity.id:
+                self._myListBox.delete(self._myListBox.curselection()[0])
+                self._myListBox.insert(idx, self._myStoredListItems[idx].name)
+                break
+            idx += 1
             
-        i = 0 
-        
-        print (old_name + " : " + entity.name)
-                
-        if entity.name != old_name:
-            i = self._myListBox.curselection()[0]
-            print("index: " + i)
-            print("name on the index: " + self._myStoredListItems[i].name)
-            print("id on the index: " + self._myStoredListItems[i].id)
-            self._myListBox.delete(i)
-            # update the internal list
-            for item in self._myStoredListItems:
-                if item.id == entity.id:
-                    item.name = entity.name
-        
-                
-            
-        self._myListBox.insert(END, entity.name)
-        self._myListBox.selection_set(END)
-        
-        pair = NameIdPair()
-        pair.id = entity.id
-        pair.name = entity.name
-        self._myStoredListItems.append(pair)
+        self._myListBox.selection_set(idx)
         
         
     def _setControls(self):
@@ -254,7 +248,7 @@ class AbstractFrame(Frame):
         self.closeButton.config(command=self._close)
         self.cancelButton.config(command=self._cancel)
         self.deleteButton.config(command=self._delete)
-        self.saveButton.config(command=self._save)
+        self.saveButton.config(command=self._prepareSave)
         self.editButton.config(command=self._edit)
         self._myApplication.exitButton.config(command=self._close)
         

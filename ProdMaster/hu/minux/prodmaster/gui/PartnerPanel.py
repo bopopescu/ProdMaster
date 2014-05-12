@@ -16,8 +16,7 @@ from hu.minux.prodmaster.tools.World import World
 class PartnerPanel(AbstractFrame):
 
     _type = 'PARTNERS'
-    _myEntity = Partner
-    _partner = None
+    _myEntityType = Partner
     
     _nameLabel = None
     _nameEntry = None
@@ -58,7 +57,7 @@ class PartnerPanel(AbstractFrame):
                    
     def _create(self):
         AbstractFrame._create(self)
-        self._partner = Partner.new()
+        self._entity = Partner.new()
         
                     
     def _createWidgets(self):
@@ -133,23 +132,23 @@ class PartnerPanel(AbstractFrame):
         AbstractFrame._createWidgets(self, r , c, 2)
         
         
-    def _save(self):
-        self._partner.name = self._nameEntry.get()
-        self._partner.reg_number = self._regNumberEntry.get()
-        self._partner.bank_account = self._bankAccountEntry.get()
-        self._partner.head_city = self._headCityEntry.get()
-        self._partner.head_zip = self._headZipEntry.get()
-        self._partner.head_address = self._headAddressEntry.get() 
-        self._partner.is_customer = False
-        self._partner.is_supplier = False
-        self._partner.remark = self._remarkEntry.get('0.0', END)
-
-        AbstractFrame._save(self, self._partner)
+    def _save(self):        
+        self._entity.name = self._nameEntry.get()
+        self._entity.reg_number = self._regNumberEntry.get()
+        self._entity.bank_account = self._bankAccountEntry.get()
+        self._entity.head_city = self._headCityEntry.get()
+        self._entity.head_zip = self._headZipEntry.get()
+        self._entity.head_address = self._headAddressEntry.get() 
+        self._entity.is_customer = False
+        self._entity.is_supplier = False
+        self._entity.remark = self._remarkEntry.get('0.0', END)
+        
+        AbstractFrame._save(self)
             
 
     def showItem(self, elementId):
-        self._partner = Partner.get(elementId)
-        p = self._partner
+        self._entity = Partner.get(elementId)
+        p = self._entity
         
         self._clearForm()
         
