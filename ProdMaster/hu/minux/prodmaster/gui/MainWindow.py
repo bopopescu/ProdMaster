@@ -24,7 +24,7 @@ class MainWindow(AbstractWindow):
  
     _mainPanedWindow = None   
     _leftPanel = None
-    _rightPanel = None
+    noteBookPanel = None
     _listBox = None
     exitButton = None
     
@@ -46,8 +46,8 @@ class MainWindow(AbstractWindow):
         self._leftPanel = Canvas(self._mainPanedWindow, background="pink")
         self._mainPanedWindow.add(self._leftPanel)
 
-        self._rightPanel = Notebook(self._mainPanedWindow)
-        self._mainPanedWindow.add(self._rightPanel)
+        self.noteBookPanel = Notebook(self._mainPanedWindow)
+        self._mainPanedWindow.add(self.noteBookPanel)
          
         buttonFrame = Frame()
         buttonFrame.pack(side=RIGHT, padx=World.smallPadSize(), pady=World.padSize())
@@ -104,7 +104,8 @@ class MainWindow(AbstractWindow):
   
     def _onPartners(self):   
         panel = PartnerPanel.getInstance(self)
-        self._rightPanel.add(panel, text=World().L("MainWindow.PARTNERS"))
+#        self.noteBookPanel.add(panel, text=World().L("MainWindow.PARTNERS"))
+        panel.showDialog(World().L("MainWindow.PARTNERS"))
     
     
     def _onAdditives(self):
@@ -148,7 +149,7 @@ class MainWindow(AbstractWindow):
             
 
     def getWorkPane(self):
-        return self._rightPanel
+        return self.noteBookPanel
                 
 root = Tk()
 root.title(World.L("Application.TITLE"))

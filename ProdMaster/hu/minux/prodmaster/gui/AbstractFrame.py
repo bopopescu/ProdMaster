@@ -31,6 +31,7 @@ class AbstractFrame(Frame):
     _myListBox = None
     _myStoredListItems = None
     _myState = None
+    _windowName = ''
     answer = None
     
     createButton = None
@@ -42,16 +43,10 @@ class AbstractFrame(Frame):
 
 
     def __init__(self, master, appFrame, elementId=0):
-        Frame.__init__(self, master, padding= World.padSize())
         World().LOG().info("Frame called: " + self._type)
+        Frame.__init__(self, master, padding= World.padSize())
         self._myApplication = appFrame
         self._myElementId = elementId
-        self._myListBox = self._myApplication.getListBox()
-        self._myListBox.bind('<<ListboxSelect>>', self.refreshDetails)
-        self._createWidgets()
-        self._fillListWithElements()
-        self._displayElement(elementId) 
-        self._setControls()
        
         
     def _cancel(self):
@@ -122,7 +117,8 @@ class AbstractFrame(Frame):
 
     
     def _delete(self):
-        raise NotImplemented
+    	self._myEntityType.delete(self._entity)
+
 
     
     def _displayElement(self, elementId):
@@ -253,6 +249,32 @@ class AbstractFrame(Frame):
         self.editButton.config(command=self._edit)
         self._myApplication.exitButton.config(command=self._close)
         
+ 
+    def showDialog(self, tabTitle):        
+        found = False
+        oneTab = ''
+        for oneTab in self._myApplication.noteBookPanel.tabs():
+            if oneTab == self._windowName:
+                found = True
+                break
+                       
+        if found:
+            self._myApplication.noteBookPanel.select(oneTab)
+        else:
+        	self._myApplication.noteBookPanel.add(self, text=tabTitle)
+        	self._windowName =  self._myApplication.noteBookPanel.select()
+        	self._myListBox = self._myApplication.getListBox()
+        	self._myListBox.bind('<<ListboxSelect>>', self.refreshDetails)
+        	self._createWidgets()
+        	self._fillListWithElements()
+                
+        elementId = 0
+        if self._entity != None:
+            elementId = self._entity.id
+            
+        self._displayElement(elementId) # show or refresh data from DB 
+        self._setControls()
+ 
         
     def _validate(self):
         raise NotImplemented

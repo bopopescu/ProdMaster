@@ -93,12 +93,10 @@ class PartnerManager(AbstractEntityManager):
         return e
 
     
-    def delete(self, id):        
-        sql = "DELETE FROM partner WHERE id = %d"
-        data = (id)
-        self.execute(sql, data) 
+    def delete(self, e):        
+        sql = "UPDATE partner SET is_enabled = 0 WHERE id=%s"
+        self.execute(sql, (e.id,))
         self._db.conn.commit()
-        
         return True
 
     
