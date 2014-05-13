@@ -77,7 +77,8 @@ class PartnerManager(AbstractEntityManager):
         
         return e
             
-            
+ 
+         
     def update(self, e):        
         sql = ("UPDATE partner SET name=%s, reg_number=%s, bank_account=%s, head_city=%s, "
                "head_zip=%s, head_address=%s, is_customer=%s, is_supplier=%s, remark=%s "
