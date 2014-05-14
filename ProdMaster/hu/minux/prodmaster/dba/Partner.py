@@ -44,10 +44,11 @@ class PartnerManager(AbstractEntityManager):
         
     def create(self, e):
         ### If already exists with the same name, enable it ###
-        existingId = self.getIdByName(e)
-        if existingId > 0:
-            e.id = existingId
-            return self.update(e)
+        if e.id == 0:
+            existingId = self.getIdByName(e)
+            if existingId > 0:
+                e.id = existingId
+                return self.update(e)
         
         ### If the element does not already exists, we create it ###
         sql = ("INSERT INTO partner "
