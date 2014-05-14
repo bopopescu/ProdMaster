@@ -232,7 +232,7 @@ class AbstractFrame(Frame):
         
     def _handleChangeWhileInEditMode(self):
         World().LOG().info("_handleChangeWhileInEditMode called: " 
-                           + self._entity.id + "|" + self._entity.name)
+                           + str(self._entity.id) + "|" + self._entity.name)
 
         QuestionDialog(self,
                            title=World.L('QUESTION'),

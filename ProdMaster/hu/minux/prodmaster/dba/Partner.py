@@ -6,6 +6,7 @@ Created on 2014.03.01.
 
 from hu.minux.prodmaster.dba.AbstractEntityManager import AbstractEntityManager
 from hu.minux.prodmaster.tools.World import World
+from hu.minux.prodmaster.dba.Person import PersonManager
 from hu.minux.prodmaster.dba.NameIdPair import NameIdPair
 
 
@@ -97,6 +98,8 @@ class PartnerManager(AbstractEntityManager):
             e.is_supplier = supplier
             e.remark = remark
             break
+        
+        e.contacts = PersonManager.getInstance().readAllByPartner(e)
         
         return e
             

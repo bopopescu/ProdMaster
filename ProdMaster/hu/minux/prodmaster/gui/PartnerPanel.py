@@ -55,6 +55,7 @@ class PartnerPanel(AbstractFrame):
         self._headCityEntry.delete(0, END)
         self._headZipEntry.delete(0, END)
         self._headAddressEntry.delete(0, END)
+        self._contactTable.deleteEntries()
         self._remarkEntry.delete('0.0', END)
        
                    
@@ -126,7 +127,9 @@ class PartnerPanel(AbstractFrame):
         self._contactLabel.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
         c += 1
-        self._contactTable = MinuxTable(self)
+        hd = (World.L('ID'), World.L('NAME'), World.L('ADDRESS'),
+              World.L('PHONE'), World.L('EMAIL'))
+        self._contactTable = MinuxTable(self, columns=5, header=hd)
         self._contactTable.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
         c = 0
@@ -170,6 +173,11 @@ class PartnerPanel(AbstractFrame):
         self._headCityEntry.insert(0, p.head_city)
         self._headZipEntry.insert(0, p.head_zip)
         self._headAddressEntry.insert(0, p.head_address)
+        
+        for contact in p.contacts:
+            data = (contact.id, contact.name, contact.address, contact.phone, contact.email)
+            self._contactTable.appendRow(data)
+        
         self._remarkEntry.insert('0.0', p.remark)
 
 
