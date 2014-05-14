@@ -5,9 +5,6 @@ Created on 2014.03.19.
 '''
 
 class AbstractModule(object):
-    '''
-    classdocs
-    '''
 
 
     def __init__(self, params):

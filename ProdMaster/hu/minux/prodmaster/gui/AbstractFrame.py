@@ -50,6 +50,7 @@ class AbstractFrame(Frame):
        
         
     def _cancel(self):
+        World().LOG().info("_cancel called: " + str(self._entity.id) + "|" + self._entity.name)
         self.saveButtonEnabled(False)
         self.cancelButtonEnabled(False)
         self._displayElement(self._myElementId)
@@ -60,6 +61,8 @@ class AbstractFrame(Frame):
     
     
     def _close(self):
+        World().LOG().info("_close called: " + str(self._entity.id) + "|" + self._entity.name)
+
         if self._getState() == 'normal':
             self._handleChangeWhileInEditMode()
             
@@ -79,6 +82,8 @@ class AbstractFrame(Frame):
                 
                 
     def _create(self):
+        World().LOG().info("_create called: " + str(self._entity.id) + "|" + self._entity.name)
+
         self.createButtonEnabled(False)
         self.closeButtonEnabled(True)
         self.saveButtonEnabled(True)
@@ -117,11 +122,33 @@ class AbstractFrame(Frame):
 
     
     def _delete(self):
-    	self._myEntityType.delete(self._entity)
+        World().LOG().info("_delete called: " + str(self._entity.id) + "|" + self._entity.name)
 
-
+        idx = int(self._myListBox.curselection()[0])
+        print(idx)
+        new_idx = 0
+        old_entity = deepcopy(self._entity)
+        if idx > 0:
+            new_idx = idx-1
+        else:
+            new_idx = idx
+            
+        self._displayElement(self._myStoredListItems[new_idx].id)    
+                     
+        self._myListBox.delete(idx)
+        
+        print(idx)
+        
+        for item in self._myStoredListItems:
+            if item.id == old_entity.id:
+                self._myStoredListItems.remove(item)
+                break
+        self._myEntityType.delete(old_entity)
+            
     
     def _displayElement(self, elementId):
+        World().LOG().info("_displayElement called: " + str(elementId))
+
         if len(self._myStoredListItems) < 1:
             '''handle the empty datatable case'''
             self._create()
@@ -153,6 +180,8 @@ class AbstractFrame(Frame):
         
         
     def _edit(self):
+        World().LOG().info("_edit called: " + str(self._entity.id) + "|" + self._entity.name)
+
         self._setState(self, 'normal')
         self.createButtonEnabled(False)
         self.saveButtonEnabled(True)
@@ -165,6 +194,8 @@ class AbstractFrame(Frame):
         
     
     def _setState(self, widget, state='disabled'):
+        World().LOG().info("_setState called: " + state)
+
         if widget.winfo_class() == 'TLabel':
             return
         try:
@@ -187,6 +218,8 @@ class AbstractFrame(Frame):
 
     
     def _fillListWithElements(self):
+        World().LOG().info("_fillListWithElement called.")
+
         self._myStoredListItems = self._myEntityType.getListItems()
         for e in self._myStoredListItems:
             self._myListBox.insert(END, e.name)
@@ -198,6 +231,9 @@ class AbstractFrame(Frame):
                 
         
     def _handleChangeWhileInEditMode(self):
+        World().LOG().info("_handleChangeWhileInEditMode called: " 
+                           + self._entity.id + "|" + self._entity.name)
+
         QuestionDialog(self,
                            title=World.L('QUESTION'),
                            message=World.L('AbstractFrame.ARC'),
@@ -212,6 +248,8 @@ class AbstractFrame(Frame):
         
         
     def _save(self):
+        World().LOG().info("_save called: " + str(self._entity.id) + "|" + self._entity.name)
+
         if self._validate() != None:
             return False
         
@@ -250,7 +288,9 @@ class AbstractFrame(Frame):
         self._myApplication.exitButton.config(command=self._close)
         
  
-    def showDialog(self, tabTitle):        
+    def showDialog(self, tabTitle):
+        World().LOG().info("showDialog called: " + tabTitle)
+        
         found = False
         oneTab = ''
         for oneTab in self._myApplication.noteBookPanel.tabs():
@@ -261,12 +301,12 @@ class AbstractFrame(Frame):
         if found:
             self._myApplication.noteBookPanel.select(oneTab)
         else:
-        	self._myApplication.noteBookPanel.add(self, text=tabTitle)
-        	self._windowName =  self._myApplication.noteBookPanel.select()
-        	self._myListBox = self._myApplication.getListBox()
-        	self._myListBox.bind('<<ListboxSelect>>', self.refreshDetails)
-        	self._createWidgets()
-        	self._fillListWithElements()
+            self._myApplication.noteBookPanel.add(self, text=tabTitle)
+            self._windowName =  self._myApplication.noteBookPanel.select()
+            self._myListBox = self._myApplication.getListBox()
+            self._myListBox.bind('<<ListboxSelect>>', self.refreshDetails)
+            self._createWidgets()
+            self._fillListWithElements()
                 
         elementId = 0
         if self._entity != None:
@@ -282,7 +322,11 @@ class AbstractFrame(Frame):
             
     def refreshDetails(self, params):
         selectedIdx = int(self._myListBox.curselection()[0])
-        self._displayElement(self._myStoredListItems[selectedIdx].id)
+        id = self._myStoredListItems[selectedIdx].id
+        name = self._myStoredListItems[selectedIdx].name
+        World().LOG().info("_refreshDetails called: idx=" + str(selectedIdx) 
+                           + " id=" + str(id) + " name=" + name)
+        self._displayElement(id)
     
         
     def showItem(self, elementId):

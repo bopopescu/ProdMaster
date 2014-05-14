@@ -42,10 +42,18 @@ class PartnerManager(AbstractEntityManager):
         return Partner()    
         
         
-    def create(self, e):               
-        sql = "INSERT INTO partner (name, reg_number, bank_account, head_city, head_zip, head_address, is_customer, is_supplier, remark) \
-               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        data = (e.name, e.reg_number, e.bank_account, e.head_city, e.head_zip, e.head_address, e.is_customer, e.is_supplier, e.remark)
+    def create(self, e):
+        ### If already exists with the same name, enable it ###
+        existingId = self.getIdByName(e)
+        if existingId > 0:
+            e.id = existingId
+            return self.update(e)
+        
+        ### If the element does not already exists, we create it ###
+        sql = ("INSERT INTO partner "
+               "(name, reg_number, bank_account, head_city, head_zip, head_address, is_customer, is_supplier, remark, is_enabled) "
+               "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+        data = (e.name, e.reg_number, e.bank_account, e.head_city, e.head_zip, e.head_address, e.is_customer, e.is_supplier, e.remark, 1)
         
         self.execute(sql, data)
         e.id = self._cursor.lastrowid 
@@ -54,10 +62,23 @@ class PartnerManager(AbstractEntityManager):
         return e
     
     
+    def getIdByName(self, e):
+        pid = 0
+        sql = ('SELECT id FROM partner WHERE name = %s')        
+        self.execute(sql, (e.name,))
+        res = self._cursor.fetchall()
+        
+        for (id,) in res:
+            pid = id
+            break
+        
+        return pid
+        
+        
     def read(self, pid):       
         e = Partner()
         sql = ('SELECT id, name, reg_number, bank_account, head_city, head_zip, head_address, is_customer, is_supplier, remark '
-               'FROM partner WHERE id = %s')
+               'FROM partner WHERE is_enabled=1 AND id = %s')
         
         self.execute(sql, (pid,))
         res = self._cursor.fetchall()
@@ -81,7 +102,8 @@ class PartnerManager(AbstractEntityManager):
          
     def update(self, e):        
         sql = ("UPDATE partner SET name=%s, reg_number=%s, bank_account=%s, head_city=%s, "
-               "head_zip=%s, head_address=%s, is_customer=%s, is_supplier=%s, remark=%s "
+               "head_zip=%s, head_address=%s, is_customer=%s, is_supplier=%s, "
+               "remark=%s, is_enabled=1 "
                "WHERE id=%s")
         data = (e.name, e.reg_number, e.bank_account,
                 e.head_city, e.head_zip, e.head_address,
@@ -103,7 +125,10 @@ class PartnerManager(AbstractEntityManager):
     
     def readAll(self):        
         l = []
-        sql = "SELECT id, name, reg_number, bank_account, head_city, head_zip, head_address, is_customer, is_supplier, remark FROM partner order by name asc"
+        sql = ("SELECT id, name, reg_number, bank_account, head_city, head_zip, "
+               "head_address, is_customer, is_supplier, remark "
+               "FROM partner WHERE is_enabled=1 "
+               "ORDER BY name ASC")
       
         self.execute(sql)
         
@@ -127,7 +152,7 @@ class PartnerManager(AbstractEntityManager):
     
     def readAllNameIdPairs(self):        
         l = []
-        sql = "SELECT id, name FROM partner"
+        sql = "SELECT id, name FROM partner WHERE is_enabled=1 ORDER BY name ASC"
         
         self.execute(sql)
         
