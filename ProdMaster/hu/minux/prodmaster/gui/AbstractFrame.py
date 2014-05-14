@@ -198,14 +198,17 @@ class AbstractFrame(Frame):
 
         if widget.winfo_class() == 'TLabel':
             return
+        
         try:
             widget.configure(state=state)
-            print(widget.winfo_class())
         except TclError:
             pass
+        
         for child in widget.winfo_children():
-            if child.winfo_class() == 'TEntry' or child.winfo_class() == 'Text':
-                child.configure(state=state)
+            if child.winfo_class() in ('TEntry', 'Text', 'TFrame', 'Button'):
+                if child.winfo_class() != 'TFrame':
+                    child.configure(state=state)
+                                                    
                 if  child.winfo_class() == 'Text':
                     if state == 'disabled':
                         child.configure(background=World.getDisabledBackgroundColor())
