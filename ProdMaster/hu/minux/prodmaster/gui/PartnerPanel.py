@@ -9,6 +9,7 @@ from tkinter import *
 from tkinter.ttk import *
 
 from hu.minux.prodmaster.gui.AbstractFrame import AbstractFrame
+from hu.minux.prodmaster.gui.MinuxTable import MinuxTable
 from hu.minux.prodmaster.app.Partner import Partner
 from hu.minux.prodmaster.tools.World import World
 
@@ -30,6 +31,8 @@ class PartnerPanel(AbstractFrame):
     _headZipEntry = None
     _headAddressLabel = None
     _headAddressEntry = None
+    _contactLabel = None
+    _contactTable = None
     _remarkLabel = None
     _remarkEntry = None
     
@@ -116,6 +119,15 @@ class PartnerPanel(AbstractFrame):
         self._headAddressEntry = Entry(self, width=60)
         self._headAddressEntry.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
+        
+        c = 0
+        r += 1
+        self._contactLabel = Label(self, text=World.L("CONTACTS"))
+        self._contactLabel.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
+        
+        c += 1
+        self._contactTable = MinuxTable(self)
+        self._contactTable.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
         c = 0
         r += 1

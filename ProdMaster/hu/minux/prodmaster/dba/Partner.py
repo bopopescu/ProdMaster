@@ -21,6 +21,7 @@ class Partner():
     is_customer = False
     is_supplier = False
     remark = ""
+    contacts = []
      
 
 class PartnerManager(AbstractEntityManager):
