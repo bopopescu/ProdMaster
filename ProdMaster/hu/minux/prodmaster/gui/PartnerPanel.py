@@ -12,11 +12,13 @@ from hu.minux.prodmaster.gui.AbstractFrame import AbstractFrame
 from hu.minux.prodmaster.gui.MinuxTable import MinuxTable
 from hu.minux.prodmaster.app.Partner import Partner
 from hu.minux.prodmaster.tools.World import World
+from hu.minux.prodmaster.gui.PersonDialog import PersonDialog
 
 
 class PartnerPanel(AbstractFrame):
 
     _type = 'PARTNERS'
+    _personType = 'PERSON'
     _myEntityType = Partner
     
     _nameLabel = None
@@ -72,7 +74,7 @@ class PartnerPanel(AbstractFrame):
         self._nameLabel.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
         c += 1
-        self._nameEntry = Entry(self, width=60)
+        self._nameEntry = Entry(self, width=World.defaultEntryWidth())
         self._nameEntry.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
         c = 0
@@ -81,7 +83,7 @@ class PartnerPanel(AbstractFrame):
         self._regNumberLabel.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
         c += 1
-        self._regNumberEntry = Entry(self, width=60)
+        self._regNumberEntry = Entry(self, width=World.defaultEntryWidth())
         self._regNumberEntry.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
                
         c = 0
@@ -90,7 +92,7 @@ class PartnerPanel(AbstractFrame):
         self._bankAccountLabel.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
         c += 1
-        self._bankAccountEntry = Entry(self, width=60)
+        self._bankAccountEntry = Entry(self, width=World.defaultEntryWidth())
         self._bankAccountEntry.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
         c = 0
@@ -99,7 +101,7 @@ class PartnerPanel(AbstractFrame):
         self._headCityLabel.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
         c += 1
-        self._headCityEntry = Entry(self, width=60)
+        self._headCityEntry = Entry(self, width=World.defaultEntryWidth())
         self._headCityEntry.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
         c = 0
@@ -117,7 +119,7 @@ class PartnerPanel(AbstractFrame):
         self._headAddressLabel.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
         c += 1
-        self._headAddressEntry = Entry(self, width=60)
+        self._headAddressEntry = Entry(self, width=World.defaultEntryWidth())
         self._headAddressEntry.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
         
@@ -129,7 +131,7 @@ class PartnerPanel(AbstractFrame):
         c += 1
         hd = (World.L('ID'), World.L('NAME'), World.L('ADDRESS'),
               World.L('PHONE'), World.L('EMAIL'))
-        self._contactTable = MinuxTable(self, columns=5, header=hd)
+        self._contactTable = MinuxTable(self, columns=5, header=hd, type=self._personType)
         self._contactTable.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
         c = 0
@@ -138,7 +140,7 @@ class PartnerPanel(AbstractFrame):
         self._remarkLabel.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
         c += 1
-        self._remarkEntry = Text(self, width=68, height=10)
+        self._remarkEntry = Text(self, width=World.textEntryWidth(), height=10)
         self._remarkEntry.grid(row=r, column=c, sticky="WE", padx=World.smallPadSize(), pady=World.smallPadSize())
         
         # Append operation buttons
@@ -146,6 +148,11 @@ class PartnerPanel(AbstractFrame):
         r += 1
         AbstractFrame._createWidgets(self, r , c, 2)
         
+
+    def _editPerson(self, data):
+        w = PersonDialog(self, data)
+        return None
+
         
     def _save(self):        
         self._entity.name = self._nameEntry.get()
@@ -159,6 +166,21 @@ class PartnerPanel(AbstractFrame):
         self._entity.remark = self._remarkEntry.get('0.0', END)
         
         AbstractFrame._save(self)
+
+
+    def _validate(self):
+        ''' TO BE IMPLEMENTED '''
+        errorStr = None
+        return errorStr
+        
+        
+    def editChild(self, childType, data):
+        World.LOG().info("editChild called: " + childType + " " + str(data))
+        
+        if childType == self._personType:
+            data = self._editPerson(data)
+        
+        return data
             
 
     def showItem(self, elementId):
@@ -175,16 +197,8 @@ class PartnerPanel(AbstractFrame):
         self._headAddressEntry.insert(0, p.head_address)
         
         for contact in p.contacts:
-            data = (contact.id, contact.name, contact.address, contact.phone, contact.email)
+            data = (contact.id, contact.name, contact.address, contact.phone, contact.email, contact.remark)
             self._contactTable.appendRow(data)
         
         self._remarkEntry.insert('0.0', p.remark)
 
-
-    def _validate(self):
-        ''' TO BE IMPLEMENTED '''
-        errorStr = None
-        return errorStr
-        
-        
-        

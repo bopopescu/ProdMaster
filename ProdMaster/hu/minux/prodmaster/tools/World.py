@@ -46,6 +46,11 @@ class World(object):
 
 
     @staticmethod
+    def defaultEntryWidth():
+        return 60
+
+
+    @staticmethod
     def getDisabledBackgroundColor():
         return 'gray95'
 
@@ -82,7 +87,17 @@ class World(object):
     
     
     @staticmethod
+    def smallButtonWidth():
+        return 3
+    
+    
+    @staticmethod
     def smallPadSize():
         return 3
+    
+    @staticmethod
+    def textEntryWidth():
+        return 68
+    
 
 

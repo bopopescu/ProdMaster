@@ -36,6 +36,7 @@ class hu(Translator):
                               'PROCEED_NO_SAVE' : 'Folytatás mentés nélkül',
                               'QUESTION' : 'Kérdés',
                               'REG_NUMBER' : 'Adószám',
+                              'READY': 'Kész',
                               'REMARK': 'Megjegyzés',
                               'SAVE': 'Mentés',
                               'USERNAME' : 'Felhasználói név',
@@ -58,6 +59,7 @@ class hu(Translator):
                               'MainWindow.FILE' : 'Fájl',
                               'MainWindow.PARTNERS' : 'Partnerek',
                               'MainWindow.RAW_MATERIALS' : 'Alapanyagok',
+                              'PersonDialog.TITLE' : 'Kapcsolat szerkesztése',
                               '':''
                               }
                               
