@@ -13,6 +13,7 @@ from hu.minux.prodmaster.gui.MinuxTable import MinuxTable
 from hu.minux.prodmaster.app.Partner import Partner
 from hu.minux.prodmaster.tools.World import World
 from hu.minux.prodmaster.gui.PersonDialog import PersonDialog
+from hu.minux.prodmaster.dba.Person import PersonManager
 
 
 class PartnerPanel(AbstractFrame):
@@ -132,6 +133,7 @@ class PartnerPanel(AbstractFrame):
         hd = (World.L('ID'), World.L('NAME'), World.L('ADDRESS'),
               World.L('PHONE'), World.L('EMAIL'))
         self._contactTable = MinuxTable(self, columns=5, header=hd, type=self._personType)
+        self._contactTable.setInvisibleColumns((2, 6))
         self._contactTable.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
         c = 0
@@ -149,9 +151,9 @@ class PartnerPanel(AbstractFrame):
         AbstractFrame._createWidgets(self, r , c, 2)
         
 
-    def _editPerson(self, data):
-        w = PersonDialog(self, data)
-        return None
+    def _editPerson(self, person):
+        PersonDialog(self, person)
+        return person
 
         
     def _save(self):        
@@ -178,7 +180,9 @@ class PartnerPanel(AbstractFrame):
         World.LOG().info("editChild called: " + childType + " " + str(data))
         
         if childType == self._personType:
-            data = self._editPerson(data)
+            person = PersonManager.getInstance().unserialize(data)
+            person = self._editPerson(person)
+            data = PersonManager.getInstance().serialize(person)
         
         return data
             
@@ -186,7 +190,7 @@ class PartnerPanel(AbstractFrame):
     def showItem(self, elementId):
         self._entity = Partner.get(elementId)
         p = self._entity
-        
+            
         self._clearForm()
         
         self._nameEntry.insert(0, p.name)
@@ -197,8 +201,7 @@ class PartnerPanel(AbstractFrame):
         self._headAddressEntry.insert(0, p.head_address)
         
         for contact in p.contacts:
-            data = (contact.id, contact.name, contact.address, contact.phone, contact.email, contact.remark)
-            self._contactTable.appendRow(data)
+            self._contactTable.appendRow(PersonManager.getInstance().serialize(contact))
         
         self._remarkEntry.insert('0.0', p.remark)
 

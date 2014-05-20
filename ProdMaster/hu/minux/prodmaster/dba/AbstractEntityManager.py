@@ -44,3 +44,10 @@ class AbstractEntityManager(object):
     def readAllNameIdPairs(self):
         raise NotImplemented
     
+    def serialize(self, dbobject):
+        raise NotImplemented
+    
+    def unserialize(self, dbobject):
+        raise NotImplemented
+    
+    
