@@ -58,15 +58,10 @@ class MinuxTable(Frame):
         rowIdx = 0
         for actualRow in self.__widgets:
             if rowIdx > 0:
-                print("text:" + str(actualRow[0]['text']))
-                print("newData: " + str(newData))
                 if str(actualRow[0]['text']) == str(newData[0]):
+                    self.setRowData(rowIdx, newData)
                     break
             rowIdx += 1
-        
-        colIdx = 0
-        for columnData in newData:
-            self.setData(rowIdx, colIdx, columnData) 
         
         
     def clear(self):
@@ -138,19 +133,20 @@ class MinuxTable(Frame):
         return self.__data[row][column]
     
     
-    def setData(self, row, column, data):
-        print("row:" + str(row) + " column:" + str(column) + " data:" + str(data))
-        self.__data[row][column] = data
-        
-        if column not in self.__invisibleColumns:
-            rowIdx = 0
-            for actualRow in self.__widgets:
-                print("actualRow idx:" + str(rowIdx))
-                if rowIdx == row:
-                    print("megvan a sor")
-                    actualRow[column].config(text=data)
-                rowIdx += 1
-        
+    def setRowData(self, row, data):
+        self.__data[row] = data
+        dataIdx = 0
+        colIdx = 0
+        for dataIdx in range(0, len(data)):
+            if dataIdx not in self.__invisibleColumns:
+                rowIdx = 0
+                for actualRow in self.__widgets:
+                    if rowIdx == row:
+                        actualRow[colIdx].config(text=data[dataIdx])
+                        break
+                    rowIdx += 1
+                colIdx += 1
+
         
     def setInvisibleColumns(self, columns):
         self.__invisibleColumns = columns
