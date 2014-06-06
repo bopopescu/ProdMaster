@@ -100,6 +100,13 @@ class PersonManager(AbstractEntityManager):
         self._db.conn.commit()
         return True
 
+
+    def deleteAllForPartner(self, p):
+        sql = "DELETE FROM person WHERE partner_id=%s"
+        self.execute(sql, (p.id,))
+        self._db.conn.commit()
+        return True
+    
     
     def readAll(self):
         raise NotImplemented

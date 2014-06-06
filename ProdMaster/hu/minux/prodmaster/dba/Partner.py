@@ -59,7 +59,11 @@ class PartnerManager(AbstractEntityManager):
         data = (e.name, e.reg_number, e.bank_account, e.head_city, e.head_zip, e.head_address, e.is_customer, e.is_supplier, e.remark, 1)
         
         self.execute(sql, data)
-        e.id = self._cursor.lastrowid 
+        e.id = self._cursor.lastrowid
+        
+        for person in e.contacts:
+            PersonManager.getInstance().create(person)
+         
         self._db.conn.commit()
 
         return e
@@ -116,6 +120,11 @@ class PartnerManager(AbstractEntityManager):
                 e.id)
         
         self.execute(sql, data)
+        
+        PersonManager.getInstance().deleteAllForPartner(e)
+        for person in e.contacts:
+            PersonManager.getInstance().create(person)
+        
         self._db.conn.commit()
         
         return e

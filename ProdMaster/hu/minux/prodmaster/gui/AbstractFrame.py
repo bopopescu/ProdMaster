@@ -79,6 +79,8 @@ class AbstractFrame(Frame):
                 self.editButtonEnabled(False)
                 self.deleteButtonEnabled(False)
                 self._myApplication.exitButton.config(command=self._myApplication._onExit)
+       
+        self._myApplication.destroy()
                 
                 
     def _create(self):
@@ -91,7 +93,7 @@ class AbstractFrame(Frame):
         self.editButtonEnabled(False)
         self.deleteButtonEnabled(False)
         self._myListBox.selection_clear(0, END)
-        self._setState(self, 'normal')
+        self.setState(self, 'normal')
         
         self._clearForm()
 
@@ -171,9 +173,9 @@ class AbstractFrame(Frame):
                 idx += 1
     
         if self.answer != 'ABORT':
-            self._setState(self, 'normal')
+            self.setState(self, 'normal')
             self.showItem(self._myStoredListItems[idx].id)
-            self._setState(self, 'disabled')
+            self.setState(self, 'disabled')
 
         self._myListBox.selection_clear(0, END)        
         self._myListBox.selection_set(idx)
@@ -182,7 +184,7 @@ class AbstractFrame(Frame):
     def _edit(self):
         World().LOG().info("_edit called: " + str(self._entity.id) + "|" + self._entity.name)
 
-        self._setState(self, 'normal')
+        self.setState(self, 'normal')
         self.createButtonEnabled(False)
         self.saveButtonEnabled(True)
         self.cancelButtonEnabled(True)
@@ -193,8 +195,8 @@ class AbstractFrame(Frame):
         return self._myState
         
     
-    def _setState(self, widget, state='disabled'):
-        World().LOG().info("_setState called: " + state)
+    def setState(self, widget, state='disabled'):
+        World().LOG().info("setState called: " + state)
 
         if widget.winfo_class() == 'TLabel':
             return
@@ -260,7 +262,7 @@ class AbstractFrame(Frame):
         self.saveButtonEnabled(False)
         self.cancelButtonEnabled(False)
         self.deleteButtonEnabled(True)
-        self._setState(self, 'disabled')
+        self.setState(self, 'disabled')
         
         if self._entity.id == 0:
             self._myEntityType.create(self._entity)

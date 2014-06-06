@@ -20,6 +20,7 @@ class MinuxTable(Frame):
     __rows = None
     __columnCount = 0
     __invisibleColumns = ()
+    __plusButton = None
     __widgets = []
     __widgetFrame = None
 
@@ -39,10 +40,12 @@ class MinuxTable(Frame):
         
 
     def __createControls(self):
-        button = Button(self, text='+', width=World.smallButtonWidth())
-        button.grid(row=1, column=0,
-                    padx=World.smallPadSize(), pady=World.smallPadSize(),
-                    sticky="SW")
+        self.__plusButton = Button(self, text='+', 
+                                   width=World.smallButtonWidth())
+        self.__plusButton.grid(row=1, column=0,
+                               padx=World.smallPadSize(),
+                               pady=World.smallPadSize(),
+                               sticky="SW")
 
         
     def __createGrid(self):
@@ -55,9 +58,12 @@ class MinuxTable(Frame):
     def __editRow(self, data):
         newData = self.master.editChild(self.__type, data)
         
+        print(newData)
+        
         rowIdx = 0
         for actualRow in self.__widgets:
             if rowIdx > 0:
+                print(str(actualRow[0]))
                 if str(actualRow[0]['text']) == str(newData[0]):
                     self.setRowData(rowIdx, newData)
                     break
@@ -65,9 +71,14 @@ class MinuxTable(Frame):
         
         
     def clear(self):
+        World.LOG().info("MinuxTable.clear() called")
+        print("SLAVES: " + str(len(self.__widgetFrame.grid_slaves())))
+        for widget in self.__widgetFrame.grid_slaves():
+            widget.grid_forget()
+            widget.destroy()
+
         for row in self.__widgets:
-            for widget in row:
-                widget.destroy()
+            self.__widgets.remove(row)
 
         
     def deleteEntries(self):
@@ -133,6 +144,14 @@ class MinuxTable(Frame):
         return self.__data[row][column]
     
     
+    def getRowData(self, row):
+        return self.__data[row]
+    
+    
+    def getAllData(self):
+        return self.__data
+    
+    
     def setRowData(self, row, data):
         self.__data[row] = data
         dataIdx = 0
@@ -150,3 +169,13 @@ class MinuxTable(Frame):
         
     def setInvisibleColumns(self, columns):
         self.__invisibleColumns = columns
+        
+    
+    def setState(self, state='disabled'):
+        World.LOG().info("MinuxTable.setState called ")
+        self.__plusButton.configure(state=state)
+        for row in self.__widgets:
+            for widget in row:
+                if widget != None and widget.winfo_class() == 'Button':
+                    widget.configure(state=state)
+        

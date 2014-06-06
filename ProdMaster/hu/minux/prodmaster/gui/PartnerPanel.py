@@ -60,7 +60,7 @@ class PartnerPanel(AbstractFrame):
         self._headAddressEntry.delete(0, END)
         self._contactTable.deleteEntries()
         self._remarkEntry.delete('0.0', END)
-       
+               
                    
     def _create(self):
         AbstractFrame._create(self)
@@ -155,6 +155,12 @@ class PartnerPanel(AbstractFrame):
         PersonDialog(self, person)
         return person
 
+
+    def setState(self, widget, state='disabled'):
+        '''Override'''
+        AbstractFrame.setState(self, widget, state)
+        self._contactTable.setState(state)
+        
         
     def _save(self):        
         self._entity.name = self._nameEntry.get()
@@ -166,6 +172,14 @@ class PartnerPanel(AbstractFrame):
         self._entity.is_customer = False
         self._entity.is_supplier = False
         self._entity.remark = self._remarkEntry.get('0.0', END)
+        
+        self._entity.contacts = []
+        contactData = self._contactTable.getAllData()
+        for rowIdx in range(1, len(contactData)):
+            rowData = self._contactTable.getRowData(rowIdx)
+            print(rowData)
+            person = PersonManager.getInstance().unserialize(rowData)
+            self._entity.contacts.append(person)
         
         AbstractFrame._save(self)
 
@@ -186,6 +200,12 @@ class PartnerPanel(AbstractFrame):
         
         return data
             
+
+    def refreshDetails(self, params):
+        '''Override'''
+        self._contactTable.clear()
+        AbstractFrame.refreshDetails(self, params)
+
 
     def showItem(self, elementId):
         self._entity = Partner.get(elementId)
