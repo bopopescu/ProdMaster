@@ -57,13 +57,9 @@ class MinuxTable(Frame):
             
     def __editRow(self, data):
         newData = self.master.editChild(self.__type, data)
-        
-        print(newData)
-        
         rowIdx = 0
         for actualRow in self.__widgets:
             if rowIdx > 0:
-                print(str(actualRow[0]))
                 if str(actualRow[0]['text']) == str(newData[0]):
                     self.setRowData(rowIdx, newData)
                     break
@@ -72,7 +68,6 @@ class MinuxTable(Frame):
         
     def clear(self):
         World.LOG().info("MinuxTable.clear() called")
-        print("SLAVES: " + str(len(self.__widgetFrame.grid_slaves())))
         for widget in self.__widgetFrame.grid_slaves():
             widget.grid_forget()
             widget.destroy()
@@ -87,9 +82,10 @@ class MinuxTable(Frame):
         for row in self.__widgets:
             if r > 0:
                 for widget in row:
-                    widget.destroy()
-                self.__widgetFrame.forget()    
+                    widget.grid_forget()
+                self.__widgets.remove(row)
             r += 1
+                    
                 
     def setHeader(self, header):
         '''header: a list of strings with names of columns'''

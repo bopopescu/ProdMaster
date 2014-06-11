@@ -127,7 +127,6 @@ class AbstractFrame(Frame):
         World().LOG().info("_delete called: " + str(self._entity.id) + "|" + self._entity.name)
 
         idx = int(self._myListBox.curselection()[0])
-        print(idx)
         new_idx = 0
         old_entity = deepcopy(self._entity)
         if idx > 0:
@@ -138,8 +137,6 @@ class AbstractFrame(Frame):
         self._displayElement(self._myStoredListItems[new_idx].id)    
                      
         self._myListBox.delete(idx)
-        
-        print(idx)
         
         for item in self._myStoredListItems:
             if item.id == old_entity.id:

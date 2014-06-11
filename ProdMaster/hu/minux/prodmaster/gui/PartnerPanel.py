@@ -177,7 +177,6 @@ class PartnerPanel(AbstractFrame):
         contactData = self._contactTable.getAllData()
         for rowIdx in range(1, len(contactData)):
             rowData = self._contactTable.getRowData(rowIdx)
-            print(rowData)
             person = PersonManager.getInstance().unserialize(rowData)
             self._entity.contacts.append(person)
         
@@ -203,7 +202,7 @@ class PartnerPanel(AbstractFrame):
 
     def refreshDetails(self, params):
         '''Override'''
-        self._contactTable.clear()
+        self._contactTable.deleteEntries()
         AbstractFrame.refreshDetails(self, params)
 
 
