@@ -67,25 +67,28 @@ class MinuxTable(Frame):
         
         
     def clear(self):
+        return
         World.LOG().info("MinuxTable.clear() called")
         for widget in self.__widgetFrame.grid_slaves():
             widget.grid_forget()
             widget.destroy()
 
-        for row in self.__widgets:
-            self.__widgets.remove(row)
-
+        del self.__widgets[1:]
+        del self.__data[:]
+     
         
     def deleteEntries(self):
         '''do not remove the header'''
         r = 0
-        for row in self.__widgets:
+        for row in self.__widgets:            
             if r > 0:
                 for widget in row:
                     widget.grid_forget()
-                self.__widgets.remove(row)
             r += 1
-                    
+            
+        del self.__widgets[1:]
+        del self.__data[:]
+        
                 
     def setHeader(self, header):
         '''header: a list of strings with names of columns'''
@@ -97,7 +100,7 @@ class MinuxTable(Frame):
         return self.__columnCount
     
     
-    def getRow(self, rowIndex):
+    def getDataInRow(self, rowIndex):
         if self.__data != None and len(self.__data) >= rowIndex:
             return self.__data[rowIndex]
         
@@ -133,6 +136,7 @@ class MinuxTable(Frame):
             dataIdx += 1
             
         self.__widgets.append(actualRow)
+        print("length of wiget container: " + str(len(self.__widgets)))
         self.__data.append(data)
     
     
@@ -161,6 +165,7 @@ class MinuxTable(Frame):
                         break
                     rowIdx += 1
                 colIdx += 1
+        
 
         
     def setInvisibleColumns(self, columns):

@@ -53,6 +53,6 @@ class DB(object):
  
     @staticmethod
     def execute(operation, params=None, multi=False):
-        logging.debug(operation)
         DB.cursor.execute(operation, params, multi)
+        logging.debug(DB.cursor.statement)
             

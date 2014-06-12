@@ -95,8 +95,8 @@ class PersonManager(AbstractEntityManager):
 
     
     def delete(self, e):        
-        sql = "DELETE FROM person WHERE partner_id=%s"
-        self.execute(sql, (e.partner_id,))
+        sql = "DELETE FROM person WHERE id=%s"
+        self.execute(sql, (e.id,))
         self._db.conn.commit()
         return True
 

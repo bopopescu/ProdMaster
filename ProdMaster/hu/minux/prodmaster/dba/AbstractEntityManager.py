@@ -21,7 +21,6 @@ class AbstractEntityManager(object):
 
     def execute(self, operation, params=None, multi=False):
         self._db.execute(operation, params, multi)
-        
 
     def new(self):
         raise NotImplemented

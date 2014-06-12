@@ -202,7 +202,7 @@ class PartnerPanel(AbstractFrame):
 
     def refreshDetails(self, params):
         '''Override'''
-        self._contactTable.deleteEntries()
+        # self._contactTable.deleteEntries()
         AbstractFrame.refreshDetails(self, params)
 
 
