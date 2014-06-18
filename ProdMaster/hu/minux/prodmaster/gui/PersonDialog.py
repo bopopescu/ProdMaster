@@ -124,11 +124,10 @@ class PersonDialog(AbstractWindow):
 
     def __sendDataToMaster(self):
         self.__person.name = self.__nameEntry.get()
-        self.__person.address = self.__addressEntry.get('0.0', END)
-        self.__person.phone = self.__phoneEntry.get('0.0', END)
-        self.__person.email = self.__emailEntry.get('0.0', END)
-        self.__person.remark = self.__remarkEntry.get('0.0', END)
-        
+        self.__person.address = self.__addressEntry.get('0.0', 'end-1c')
+        self.__person.phone = self.__phoneEntry.get('0.0', 'end-1c')
+        self.__person.email = self.__emailEntry.get('0.0', 'end-1c')
+        self.__person.remark = self.__remarkEntry.get('0.0', 'end-1c')
         self.destroy()
    
     

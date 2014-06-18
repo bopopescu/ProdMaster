@@ -171,7 +171,7 @@ class PartnerPanel(AbstractFrame):
         self._entity.head_address = self._headAddressEntry.get() 
         self._entity.is_customer = False
         self._entity.is_supplier = False
-        self._entity.remark = self._remarkEntry.get('0.0', END)
+        self._entity.remark = self._remarkEntry.get('0.0', 'end-1c')
         
         self._entity.contacts = []
         contactData = self._contactTable.getAllData()

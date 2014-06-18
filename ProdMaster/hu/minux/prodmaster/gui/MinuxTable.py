@@ -62,9 +62,10 @@ class MinuxTable(Frame):
             if rowIdx > 0:
                 if str(actualRow[0]['text']) == str(newData[0]):
                     self.setRowData(rowIdx-1, newData)
+                    actualRow[0].configure(command= lambda: self.__editRow(newData))
                     break
             rowIdx += 1
-        
+
         
     def clear(self):
         return
@@ -128,7 +129,7 @@ class MinuxTable(Frame):
                     widget = Label(self.__widgetFrame, text=columnData)
                     
             if widget != None:                
-                widget.grid(row=r, column=c,
+                widget.grid(row=r, column=c, sticky="ns",
                             padx=World.smallPadSize(), pady=World.smallPadSize())
                 actualRow.append(widget)
                 c += 1
@@ -176,6 +177,6 @@ class MinuxTable(Frame):
         self.__plusButton.configure(state=state)
         for row in self.__widgets:
             for widget in row:
-                if widget != None and widget.winfo_class() == 'Button':
+                if widget != None and widget.winfo_class() == 'TButton':
                     widget.configure(state=state)
         
