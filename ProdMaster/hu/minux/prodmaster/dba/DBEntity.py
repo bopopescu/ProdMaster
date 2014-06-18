@@ -8,4 +8,5 @@ class DBEntity(object):
 
     id = 0;
     weight = 0
+    remark = '' 
     markedForDeletion = False

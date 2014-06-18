@@ -84,8 +84,6 @@ class AbstractFrame(Frame):
                 
                 
     def _create(self):
-        World().LOG().info("_create called: " + str(self._entity.id) + "|" + self._entity.name)
-
         self.createButtonEnabled(False)
         self.closeButtonEnabled(True)
         self.saveButtonEnabled(True)
@@ -94,9 +92,7 @@ class AbstractFrame(Frame):
         self.deleteButtonEnabled(False)
         self._myListBox.selection_clear(0, END)
         self.setState(self, 'normal')
-        
         self._clearForm()
-
     
 
     def _createWidgets(self, r, c, cspan=0):

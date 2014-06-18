@@ -16,6 +16,7 @@ import tkinter.messagebox as mbox
 from hu.minux.prodmaster.gui.AbstractWindow import AbstractWindow
 from hu.minux.prodmaster.gui.LoginDialog import LoginDialog
 from hu.minux.prodmaster.gui.PartnerPanel import PartnerPanel
+from hu.minux.prodmaster.gui.AdditiveGroupPanel import AdditiveGroupPanel
 from hu.minux.prodmaster.tools.World import World
 from hu.minux.prodmaster.app.Main import Main
 
@@ -62,8 +63,9 @@ class MainWindow(AbstractWindow):
             
         menuItems = Main.getMainMenuItems()   
         for element in menuItems:
+            World().LOG().debug("Menu item: " + element.name)
             if (element.is_root == True):
-                newMenu = Menu(menubar)
+                newMenu = Menu(menubar, tearoff=0)
                 menubar.add_cascade(label=World.L("MainWindow." + element.name),
                                     menu=newMenu)
                 for item in menuItems:
@@ -113,7 +115,9 @@ class MainWindow(AbstractWindow):
     
     
     def _onAdditive_groups(self):
-        raise NotImplemented
+        panel = AdditiveGroupPanel.getInstance(self)
+#        self.noteBookPanel.add(panel, text=World().L("MainWindow.PARTNERS"))
+        panel.showDialog(World().L("MainWindow.ADDITIVE_GROUPS"))
 
 
     def _onRaw_materials(self):
