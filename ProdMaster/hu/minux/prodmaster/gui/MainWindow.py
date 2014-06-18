@@ -58,7 +58,7 @@ class MainWindow(AbstractWindow):
         
 
     def _createMenu(self):
-        menubar = Menu(self.master)
+        menubar = Menu(self.master, tearoff=0)
             
         menuItems = Main.getMainMenuItems()   
         for element in menuItems:

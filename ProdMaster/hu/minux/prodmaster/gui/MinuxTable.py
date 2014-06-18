@@ -23,6 +23,10 @@ class MinuxTable(Frame):
     __plusButton = None
     __widgets = []
     __widgetFrame = None
+    
+    WEIGHT_COLUMN_NR = 0
+    ID_COLUMN_NR = 1
+    ENTITY_IS_MARKED_FOR_DELETION = -9999
 
 
     def __init__(self, master, columns=2, rows=1, header=('First header', 'Second header'),
@@ -39,9 +43,22 @@ class MinuxTable(Frame):
         self.__createControls()
         
 
+    def __appendRow(self):
+        data = []
+        data = self.master.editChild(self.__type, data)
+        if data == []:
+            return
+        
+        if data[0] == 0:
+            data[0] = self.getRowCount()
+        
+        self.appendRow(data)
+
+
     def __createControls(self):
         self.__plusButton = Button(self, text='+', 
-                                   width=World.smallButtonWidth())
+                                   width=World.smallButtonWidth(),
+                                   command=self.__appendRow)
         self.__plusButton.grid(row=1, column=0,
                                padx=World.smallPadSize(),
                                pady=World.smallPadSize(),
@@ -57,12 +74,24 @@ class MinuxTable(Frame):
             
     def __editRow(self, data):
         newData = self.master.editChild(self.__type, data)
+        
+        markedToDeletion = False
+        if newData[self.ID_COLUMN_NR] == self.ENTITY_IS_MARKED_FOR_DELETION:
+            markedToDeletion = True
+        
         rowIdx = 0
         for actualRow in self.__widgets:
             if rowIdx > 0:
                 if str(actualRow[0]['text']) == str(newData[0]):
-                    self.setRowData(rowIdx-1, newData)
-                    actualRow[0].configure(command= lambda: self.__editRow(newData))
+                    if markedToDeletion:
+                        for widget in actualRow:
+                            widget.grid_forget()
+                        del self.__widgets[rowIdx]
+                        del self.__data[rowIdx-1]
+                        break
+                    else:
+                        self.setRowData(rowIdx-1, newData)
+                        actualRow[0].configure(command= lambda: self.__editRow(newData))
                     break
             rowIdx += 1
 

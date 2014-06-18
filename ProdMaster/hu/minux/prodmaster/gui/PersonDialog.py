@@ -115,11 +115,19 @@ class PersonDialog(AbstractWindow):
         cancelButton = Button(f, text=World.L('CANCEL'), command=self.destroy)
         cancelButton.pack(side=LEFT, padx=World.smallPadSize(), pady=World.smallPadSize())
         
+        deleteButton = Button(f, text=World.L('DELETE'), command=self.__markForDeletion)
+        deleteButton.pack(side=LEFT, padx=World.smallPadSize(), pady=World.smallPadSize())
+        
         f.grid(row=r, column=c, columnspan=2, sticky=E,
                padx=World.smallPadSize(), pady=World.smallPadSize())
                 
         self.center()
         self.resizable(False, False)
+
+
+    def __markForDeletion(self):
+        self.__person.markedForDeletion = True
+        self.destroy()
 
 
     def __sendDataToMaster(self):
@@ -132,7 +140,7 @@ class PersonDialog(AbstractWindow):
    
     
     def __showItem(self):
-        self.__idEntry.config(text=self.__person.id)
+        self.__idEntry.config(text=self.__person.weight)
         self.__nameEntry.insert(0, self.__person.name)
         self.__addressEntry.insert('0.0', self.__person.address)
         self.__phoneEntry.insert('0.0', self.__person.phone)

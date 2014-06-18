@@ -133,9 +133,7 @@ class AbstractFrame(Frame):
             new_idx = idx-1
         else:
             new_idx = idx
-            
-        self._displayElement(self._myStoredListItems[new_idx].id)    
-                     
+                                 
         self._myListBox.delete(idx)
         
         for item in self._myStoredListItems:
@@ -143,8 +141,10 @@ class AbstractFrame(Frame):
                 self._myStoredListItems.remove(item)
                 break
         self._myEntityType.delete(old_entity)
-            
-    
+        
+        self._displayElement(self._myStoredListItems[new_idx].id)    
+
+                
     def _displayElement(self, elementId):
         World().LOG().info("_displayElement called: " + str(elementId))
 
@@ -256,9 +256,11 @@ class AbstractFrame(Frame):
             return False
         
         self.createButtonEnabled(True)
+        self.editButtonEnabled(True)
         self.saveButtonEnabled(False)
         self.cancelButtonEnabled(False)
         self.deleteButtonEnabled(True)
+        self.closeButtonEnabled(True)
         self.setState(self, 'disabled')
         
         if self._entity.id == 0:

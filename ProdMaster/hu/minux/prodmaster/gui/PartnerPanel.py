@@ -11,9 +11,9 @@ from tkinter.ttk import *
 from hu.minux.prodmaster.gui.AbstractFrame import AbstractFrame
 from hu.minux.prodmaster.gui.MinuxTable import MinuxTable
 from hu.minux.prodmaster.app.Partner import Partner
+from hu.minux.prodmaster.app.Person import Person
 from hu.minux.prodmaster.tools.World import World
 from hu.minux.prodmaster.gui.PersonDialog import PersonDialog
-from hu.minux.prodmaster.dba.Person import PersonManager
 
 
 class PartnerPanel(AbstractFrame):
@@ -132,8 +132,8 @@ class PartnerPanel(AbstractFrame):
         c += 1
         hd = (World.L('ID'), World.L('NAME'), World.L('ADDRESS'),
               World.L('PHONE'), World.L('EMAIL'))
-        self._contactTable = MinuxTable(self, columns=5, header=hd, type=self._personType)
-        self._contactTable.setInvisibleColumns((2, 6))
+        self._contactTable = MinuxTable(self, columns=6, header=hd, type=self._personType)
+        self._contactTable.setInvisibleColumns((1,3, 7))
         self._contactTable.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
         c = 0
@@ -177,7 +177,7 @@ class PartnerPanel(AbstractFrame):
         contactData = self._contactTable.getAllData()
         for rowIdx in range(0, len(contactData)):
             rowData = self._contactTable.getRowData(rowIdx)
-            person = PersonManager.getInstance().unserialize(rowData)
+            person = Person.unserialize(rowData)
             self._entity.contacts.append(person)
         
         AbstractFrame._save(self)
@@ -193,9 +193,17 @@ class PartnerPanel(AbstractFrame):
         World.LOG().info("editChild called: " + childType + " " + str(data))
         
         if childType == self._personType:
-            person = PersonManager.getInstance().unserialize(data)
+            if len(data) == 0:
+                data = [0, 0, '', self._entity.id, '', '', '', '']  
+            person = Person.unserialize(data)
             person = self._editPerson(person)
-            data = PersonManager.getInstance().serialize(person)
+            if person.name != '': 
+                data = Person.serialize(person)
+            else:
+                data = []
+            
+            if person.markedForDeletion:
+                data[1] = MinuxTable.ENTITY_IS_MARKED_FOR_DELETION
         
         return data
             
@@ -220,7 +228,7 @@ class PartnerPanel(AbstractFrame):
         self._headAddressEntry.insert(0, p.head_address)
         
         for contact in p.contacts:
-            self._contactTable.appendRow(PersonManager.getInstance().serialize(contact))
+            self._contactTable.appendRow(Person.serialize(contact))
         
         self._remarkEntry.insert('0.0', p.remark)
 

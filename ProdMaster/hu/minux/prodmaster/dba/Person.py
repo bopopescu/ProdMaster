@@ -5,23 +5,19 @@ Created on 2014.03.01.
 '''
 
 from hu.minux.prodmaster.dba.AbstractEntityManager import AbstractEntityManager
+from hu.minux.prodmaster.dba.DBEntity import DBEntity
 from hu.minux.prodmaster.tools.World import World
 from hu.minux.prodmaster.dba.NameIdPair import NameIdPair
 
 
-class Person():
+class Person(DBEntity):
 
-    id = 0
     name = ""
-    reg_number = ""
-    bank_account = ""
-    head_city = ""
-    head_zip = ""
-    head_address = ""
-    is_customer = False
-    is_supplier = False
+    partner_id = 0
+    address = ""
+    phone = ""
+    email = ""
     remark = ""
-    contacts = []
      
 
 class PersonManager(AbstractEntityManager):
@@ -45,9 +41,9 @@ class PersonManager(AbstractEntityManager):
         
     def create(self, e):
         sql = ("INSERT INTO person "
-               "(name, partner_id, address, phone, email, remark) "
-               "VALUES (%s, %s, %s, %s, %s, %s)")
-        data = (e.name, e.partner_id, e.address, e.phone, e.email, e.remark)
+               "(name, partner_id, address, phone, email, remark, weight) "
+               "VALUES (%s, %s, %s, %s, %s, %s, %s)")
+        data = (e.name, e.partner_id, e.address, e.phone, e.email, e.remark, e.weight)
         
         self.execute(sql, data)
         e.id = self._cursor.lastrowid 
@@ -71,13 +67,13 @@ class PersonManager(AbstractEntityManager):
         
     def read(self, pid):
         e = Person()
-        sql = ('SELECT id, name, partner_id, address, phone, email, remark '
+        sql = ('SELECT id, name, partner_id, address, phone, email, remark, weight '
                'FROM person WHERE id = %s')
         
         self.execute(sql, (pid,))
         res = self._cursor.fetchall()
         
-        for (id, name, partner_id, address, phone, email, remark) in res:
+        for (id, name, partner_id, address, phone, email, remark, weight) in res:
             e.id = id 
             e.name = name
             e.partner_id = partner_id
@@ -85,6 +81,7 @@ class PersonManager(AbstractEntityManager):
             e.phone = phone
             e.email = email
             e.remark = remark
+            e.weight = weight
             break
         
         return e
@@ -114,13 +111,13 @@ class PersonManager(AbstractEntityManager):
     
     def readAllByPartner(self, partner):
         l = []
-        sql = ('SELECT id, name, partner_id, address, phone, email, remark '
-               'FROM person WHERE partner_id = %s')
+        sql = ('SELECT id, name, partner_id, address, phone, email, remark, weight '
+               'FROM person WHERE partner_id = %s ORDER BY weight asc')
       
         self.execute(sql, (partner.id,))
         res = self._cursor.fetchall()
         
-        for (id, name, partner_id, address, phone, email, remark) in res:
+        for (id, name, partner_id, address, phone, email, remark, weight) in res:
             e = Person()
             e.id = id
             e.name = name
@@ -129,6 +126,7 @@ class PersonManager(AbstractEntityManager):
             e.phone = phone
             e.email = email
             e.remark = remark
+            e.weight = weight
             
             l.append(e)
         
@@ -141,6 +139,7 @@ class PersonManager(AbstractEntityManager):
     
     def serialize(self, person):
         data = []
+        data.append(person.weight)
         data.append(person.id)
         data.append(person.name)
         data.append(person.partner_id)
@@ -154,14 +153,15 @@ class PersonManager(AbstractEntityManager):
     
     def unserialize(self, data, person=None):
         if person == None:
-            person = Person()
+            person = Person()  
             
-        person.id = data[0]
-        person.name = data[1]
-        person.partner_id = data[2]
-        person.address = data[3]
-        person.phone = data[4]
-        person.email = data[5]
-        person.remark = data[6]
+        person.weight = data[0]
+        person.id = data[1]
+        person.name = data[2]
+        person.partner_id = data[3]
+        person.address = data[4]
+        person.phone = data[5]
+        person.email = data[6]
+        person.remark = data[7]
         
         return person
