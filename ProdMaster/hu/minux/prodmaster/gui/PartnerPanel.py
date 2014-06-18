@@ -175,7 +175,7 @@ class PartnerPanel(AbstractFrame):
         
         self._entity.contacts = []
         contactData = self._contactTable.getAllData()
-        for rowIdx in range(1, len(contactData)):
+        for rowIdx in range(0, len(contactData)):
             rowData = self._contactTable.getRowData(rowIdx)
             person = PersonManager.getInstance().unserialize(rowData)
             self._entity.contacts.append(person)

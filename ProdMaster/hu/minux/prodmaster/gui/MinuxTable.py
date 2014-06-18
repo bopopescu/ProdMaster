@@ -61,7 +61,7 @@ class MinuxTable(Frame):
         for actualRow in self.__widgets:
             if rowIdx > 0:
                 if str(actualRow[0]['text']) == str(newData[0]):
-                    self.setRowData(rowIdx, newData)
+                    self.setRowData(rowIdx-1, newData)
                     break
             rowIdx += 1
         
@@ -136,7 +136,6 @@ class MinuxTable(Frame):
             dataIdx += 1
             
         self.__widgets.append(actualRow)
-        print("length of wiget container: " + str(len(self.__widgets)))
         self.__data.append(data)
     
     
@@ -160,7 +159,7 @@ class MinuxTable(Frame):
             if dataIdx not in self.__invisibleColumns:
                 rowIdx = 0
                 for actualRow in self.__widgets:
-                    if rowIdx == row:
+                    if rowIdx == row+1:
                         actualRow[colIdx].config(text=data[dataIdx])
                         break
                     rowIdx += 1
