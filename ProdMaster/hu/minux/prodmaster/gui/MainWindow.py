@@ -16,6 +16,7 @@ import tkinter.messagebox as mbox
 from hu.minux.prodmaster.gui.AbstractWindow import AbstractWindow
 from hu.minux.prodmaster.gui.LoginDialog import LoginDialog
 from hu.minux.prodmaster.gui.PartnerPanel import PartnerPanel
+from hu.minux.prodmaster.gui.AdditivePanel import AdditivePanel
 from hu.minux.prodmaster.gui.AdditiveGroupPanel import AdditiveGroupPanel
 from hu.minux.prodmaster.tools.World import World
 from hu.minux.prodmaster.app.Main import Main
@@ -106,17 +107,16 @@ class MainWindow(AbstractWindow):
   
     def _onPartners(self):   
         panel = PartnerPanel.getInstance(self)
-#        self.noteBookPanel.add(panel, text=World().L("MainWindow.PARTNERS"))
         panel.showDialog(World().L("MainWindow.PARTNERS"))
     
     
     def _onAdditives(self):
-        raise NotImplemented
+        panel = AdditivePanel.getInstance(self)
+        panel.showDialog(World().L("MainWindow.ADDITIVES"))
     
     
     def _onAdditive_groups(self):
         panel = AdditiveGroupPanel.getInstance(self)
-#        self.noteBookPanel.add(panel, text=World().L("MainWindow.PARTNERS"))
         panel.showDialog(World().L("MainWindow.ADDITIVE_GROUPS"))
 
 

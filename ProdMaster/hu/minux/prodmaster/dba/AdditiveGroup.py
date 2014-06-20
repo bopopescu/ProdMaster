@@ -133,4 +133,28 @@ class AdditiveGroupManager(AbstractEntityManager):
             l.append(pair)
         
         return l
+
+
+    def serialize(self, ag):
+        data = []
+        data.append(0) # weight
+        data.append(ag.id)
+        data.append(ag.name)
+        data.append(ag.group_nr)
+        data.append(ag.remark)
+            
+        return data
+    
+    
+    def unserialize(self, data, ag=None):
+        if ag == None:
+            ag = AdditiveGroup()  
+            
+        ag.weight = data[0]
+        ag.id = data[1]
+        ag.name = data[2]
+        ag.group_nr = data[3]
+        ag.remark = data[4]
+        
+        return ag
     

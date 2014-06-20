@@ -40,7 +40,7 @@ class MinuxTable(Frame):
         
         self.__createGrid()
         self.setHeader(header)        
-        self.__createControls()
+        self._createControls()
         
 
     def __appendRow(self):
@@ -55,7 +55,7 @@ class MinuxTable(Frame):
         self.appendRow(data)
 
 
-    def __createControls(self):
+    def _createControls(self):
         self.__plusButton = Button(self, text='+', 
                                    width=World.smallButtonWidth(),
                                    command=self.__appendRow)
