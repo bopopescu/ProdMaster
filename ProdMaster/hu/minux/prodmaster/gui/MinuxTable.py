@@ -203,7 +203,9 @@ class MinuxTable(Frame):
     
     def setState(self, state='disabled'):
         World.LOG().info("MinuxTable.setState called ")
-        self.__plusButton.configure(state=state)
+        if self.__plusButton != None:
+            self.__plusButton.configure(state=state)
+            
         for row in self.__widgets:
             for widget in row:
                 if widget != None and widget.winfo_class() == 'TButton':

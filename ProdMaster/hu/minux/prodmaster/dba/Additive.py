@@ -89,7 +89,7 @@ class AdditiveManager(AbstractEntityManager):
         sql = ("UPDATE " + self.MY_TABLE_NAME + " SET name=%s, additive_group_id=%s, "
                "e_number=%s, remark=%s"
                "WHERE id=%s")
-        data = (e.name, e.additive_group_id, e.e_number, e.remark, e.id)
+        data = (e.name, e.additive_group.id, e.e_number, e.remark, e.id)
         
         self.execute(sql, data)
         self._db.conn.commit()

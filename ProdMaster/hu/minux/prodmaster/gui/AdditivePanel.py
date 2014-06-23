@@ -118,20 +118,22 @@ class AdditivePanel(AbstractFrame):
             
             if ag.markedForDeletion:
                 data[1] = ChooserTable.ENTITY_IS_MARKED_FOR_DELETION
-        
+               
         return data
 
 
     def setState(self, widget, state='disabled'):
         '''Override'''
+        self._additiveGroupTable.setState(state)
         AbstractFrame.setState(self, widget, state)
         
     
     def _editAdditiveGroup(self, ag):
-        ChooserDialog(self, AdditiveGroup, ag)
-        World.LOG().debug("additive group choosen: " + ag.name)
+        ChooserDialog(self, AdditiveGroup, ag) # ag contains only the name and id
+        ag = AdditiveGroup.get(ag.id) # we should read the whole record
+        self._entity.additive_group = ag
+        World.LOG().debug("additive group choosen: " + str(ag.id))
         return ag
-
                 
         
     def _save(self):        

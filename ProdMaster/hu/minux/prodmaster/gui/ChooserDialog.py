@@ -101,9 +101,8 @@ class ChooserDialog(AbstractWindow):
 
     def __sendDataToMaster(self):
         idx = int(self._nameListBox.curselection()[0])
-        print("Index: " + str(idx))
-        self.__entity = deepcopy(self.__appEntity.get(self._myStoredListItems[idx].id))
-        print("item: " + self.__entity.name)
+        self.__entity.id = self._myStoredListItems[idx].id
+        self.__entity.name = self._myStoredListItems[idx].name
         self.destroy()
    
     
