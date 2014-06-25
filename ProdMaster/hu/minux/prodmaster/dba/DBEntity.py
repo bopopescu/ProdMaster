@@ -10,3 +10,5 @@ class DBEntity(object):
     weight = 0
     remark = '' 
     markedForDeletion = False
+    
+    MY_TABLE_NAME = None

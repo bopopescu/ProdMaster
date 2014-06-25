@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `prodmaster` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_hungarian_ci */;
-USE `prodmaster`;
 -- MySQL dump 10.13  Distrib 5.5.37, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: prodmaster
@@ -16,6 +14,90 @@ USE `prodmaster`;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `additive`
+--
+
+DROP TABLE IF EXISTS `additive`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `additive` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) COLLATE utf8_hungarian_ci NOT NULL,
+  `additive_group_id` int(11) NOT NULL,
+  `e_number` varchar(16) COLLATE utf8_hungarian_ci NOT NULL,
+  `remark` text COLLATE utf8_hungarian_ci,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`),
+  KEY `fk_additives_1` (`additive_group_id`),
+  CONSTRAINT `fk_additives_1` FOREIGN KEY (`additive_group_id`) REFERENCES `additive_group` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `additive`
+--
+
+LOCK TABLES `additive` WRITE;
+/*!40000 ALTER TABLE `additive` DISABLE KEYS */;
+/*!40000 ALTER TABLE `additive` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `additive_group`
+--
+
+DROP TABLE IF EXISTS `additive_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `additive_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) COLLATE utf8_hungarian_ci NOT NULL DEFAULT '',
+  `group_nr` smallint(6) NOT NULL,
+  `remark` text COLLATE utf8_hungarian_ci,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `additive_group`
+--
+
+LOCK TABLES `additive_group` WRITE;
+/*!40000 ALTER TABLE `additive_group` DISABLE KEYS */;
+INSERT INTO `additive_group` VALUES (1,'Színezékek',1,'100-181'),(2,'Tartósítószerek',2,'200-297'),(3,'Antioxidánsok és savanyúságot szabályzó anyagok',3,'300-386'),(4,'Sűrítőanyagok, stabilizátorok és emulgeálószerek',4,'400-495'),(5,'Savanyúságot szabályzó anyagok és csomósodást gátló anyagok',5,'500-585'),(6,'Ízfokozók',6,'600-671'),(7,'Antibiotikumok',7,'700-772'),(8,'Egyéb adalékanyagok',9,'900-999'),(9,'Kiegészítő anyagok',10,'1000-1520');
+/*!40000 ALTER TABLE `additive_group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `menu`
+--
+
+DROP TABLE IF EXISTS `menu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(16) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `is_root` tinyint(1) NOT NULL DEFAULT '0',
+  `weight` tinyint(4) NOT NULL DEFAULT '0',
+  `parent` varchar(16) COLLATE utf8_hungarian_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `menu`
+--
+
+LOCK TABLES `menu` WRITE;
+/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
+INSERT INTO `menu` VALUES (1,'FILE',1,0,''),(2,'EXIT',0,0,'FILE'),(3,'EDIT',1,0,''),(4,'DATA',1,0,''),(5,'PARTNERS',0,0,'DATA'),(6,'ADDITIVE_GROUPS',0,100,'DATA'),(7,'ADDITIVES',0,50,'DATA'),(8,'RAW_MATERIALS',0,25,'DATA');
+/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `partner`
@@ -52,30 +134,86 @@ INSERT INTO `partner` VALUES (1,'Minux Bt.','aszám','','Gárdony-Agárd','2484'
 UNLOCK TABLES;
 
 --
--- Table structure for table `menu`
+-- Table structure for table `person`
 --
 
-DROP TABLE IF EXISTS `menu`;
+DROP TABLE IF EXISTS `person`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `menu` (
+CREATE TABLE `person` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(16) COLLATE utf8_hungarian_ci DEFAULT NULL,
-  `is_root` tinyint(1) NOT NULL DEFAULT '0',
+  `name` varchar(64) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `partner_id` int(11) NOT NULL,
+  `address` text COLLATE utf8_hungarian_ci,
+  `phone` text COLLATE utf8_hungarian_ci,
+  `email` text COLLATE utf8_hungarian_ci,
+  `remark` text COLLATE utf8_hungarian_ci,
   `weight` tinyint(4) NOT NULL DEFAULT '0',
-  `parent` varchar(16) COLLATE utf8_hungarian_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+  PRIMARY KEY (`id`,`partner_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `menu`
+-- Dumping data for table `person`
 --
 
-LOCK TABLES `menu` WRITE;
-/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,'FILE',1,0,''),(2,'EXIT',0,0,'FILE'),(3,'EDIT',1,0,''),(4,'DATA',1,0,''),(5,'PARTNERS',0,0,'DATA');
-/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
+LOCK TABLES `person` WRITE;
+/*!40000 ALTER TABLE `person` DISABLE KEYS */;
+INSERT INTO `person` VALUES (53,'Fekete Zoli',1,'','','','ügyvezető',0),(58,'Zoli',5,'','','','',0),(59,'Móni',5,'','','','',1),(60,'Anyu',5,'','','','',3),(61,'Bélánk',6,'','','','',0),(62,'Surc Ottó',0,'','','',' ügyvezető',0),(63,'Aranka',0,'','','','',0),(64,'cxcxyfc',0,'','','','',0),(65,'xvcxvyv',23,'','','','',0);
+/*!40000 ALTER TABLE `person` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `raw_material`
+--
+
+DROP TABLE IF EXISTS `raw_material`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `raw_material` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) COLLATE utf8_hungarian_ci NOT NULL,
+  `is_composite` tinyint(1) NOT NULL DEFAULT '0',
+  `remark` text COLLATE utf8_hungarian_ci,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `raw_material`
+--
+
+LOCK TABLES `raw_material` WRITE;
+/*!40000 ALTER TABLE `raw_material` DISABLE KEYS */;
+INSERT INTO `raw_material` VALUES (3,'Kristálycukor',0,'');
+/*!40000 ALTER TABLE `raw_material` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `raw_material_contents`
+--
+
+DROP TABLE IF EXISTS `raw_material_contents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `raw_material_contents` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `raw_material_id` int(11) NOT NULL,
+  `weight` smallint(6) NOT NULL DEFAULT '0',
+  `percentage` tinyint(4) DEFAULT NULL,
+  `remark` text COLLATE utf8_hungarian_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `raw_material_contents`
+--
+
+LOCK TABLES `raw_material_contents` WRITE;
+/*!40000 ALTER TABLE `raw_material_contents` DISABLE KEYS */;
+/*!40000 ALTER TABLE `raw_material_contents` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -108,36 +246,6 @@ LOCK TABLES `site` WRITE;
 /*!40000 ALTER TABLE `site` DISABLE KEYS */;
 /*!40000 ALTER TABLE `site` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `person`
---
-
-DROP TABLE IF EXISTS `person`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `person` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) COLLATE utf8_hungarian_ci DEFAULT NULL,
-  `partner_id` int(11) NOT NULL,
-  `address` text COLLATE utf8_hungarian_ci,
-  `phone` text COLLATE utf8_hungarian_ci,
-  `email` text COLLATE utf8_hungarian_ci,
-  `remark` text COLLATE utf8_hungarian_ci,
-  `weight` tinyint(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`,`partner_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `person`
---
-
-LOCK TABLES `person` WRITE;
-/*!40000 ALTER TABLE `person` DISABLE KEYS */;
-INSERT INTO `person` VALUES (53,'Fekete Zoli',1,'','','','ügyvezető',0),(58,'Zoli',5,'','','','',0),(59,'Móni',5,'','','','',1),(60,'Anyu',5,'','','','',3),(61,'Bélánk',6,'','','','',0),(62,'Surc Ottó',0,'','','',' ügyvezető',0),(63,'Aranka',0,'','','','',0),(64,'cxcxyfc',0,'','','','',0),(65,'xvcxvyv',23,'','','','',0);
-/*!40000 ALTER TABLE `person` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -148,4 +256,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-18 13:51:11
+-- Dump completed on 2014-06-25 15:07:45

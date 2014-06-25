@@ -15,9 +15,10 @@ import tkinter.messagebox as mbox
 
 from hu.minux.prodmaster.gui.AbstractWindow import AbstractWindow
 from hu.minux.prodmaster.gui.LoginDialog import LoginDialog
-from hu.minux.prodmaster.gui.PartnerPanel import PartnerPanel
 from hu.minux.prodmaster.gui.AdditivePanel import AdditivePanel
 from hu.minux.prodmaster.gui.AdditiveGroupPanel import AdditiveGroupPanel
+from hu.minux.prodmaster.gui.PartnerPanel import PartnerPanel
+from hu.minux.prodmaster.gui.RawMaterialPanel import RawMaterialPanel
 from hu.minux.prodmaster.tools.World import World
 from hu.minux.prodmaster.app.Main import Main
 
@@ -121,7 +122,8 @@ class MainWindow(AbstractWindow):
 
 
     def _onRaw_materials(self):
-        raise NotImplemented
+        panel = RawMaterialPanel.getInstance(self)
+        panel.showDialog(World().L("MainWindow.RAW_MATERIALS"))
 
     
     def _onSuccessfulLogin(self, loginWidget):
