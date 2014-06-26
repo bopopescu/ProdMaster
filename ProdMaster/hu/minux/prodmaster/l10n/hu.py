@@ -62,9 +62,12 @@ class hu(Translator):
                               'MainWindow.EDIT' : 'Szerkesztés',
                               'MainWindow.EXIT' : 'Kilépés',
                               'MainWindow.FILE' : 'Fájl',
+                              'MainWindow.MOVEMENTS' : 'Készletmozgások',
                               'MainWindow.PARTNERS' : 'Partnerek',
                               'MainWindow.PRODUCTS' : 'Termékek',
                               'MainWindow.RAW_MATERIALS' : 'Alapanyagok',
+                              'MainWindow.ROUNDTRIP_SALES' : 'Túra értékesítés',
+                              'MainWindow.STOCKS' : 'Raktárak',
                               'PersonDialog.TITLE' : 'Kapcsolat szerkesztése',
                               '':''
                               }
