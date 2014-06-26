@@ -18,6 +18,7 @@ from hu.minux.prodmaster.gui.LoginDialog import LoginDialog
 from hu.minux.prodmaster.gui.AdditivePanel import AdditivePanel
 from hu.minux.prodmaster.gui.AdditiveGroupPanel import AdditiveGroupPanel
 from hu.minux.prodmaster.gui.PartnerPanel import PartnerPanel
+from hu.minux.prodmaster.gui.ProductPanel import ProductPanel
 from hu.minux.prodmaster.gui.RawMaterialPanel import RawMaterialPanel
 from hu.minux.prodmaster.tools.World import World
 from hu.minux.prodmaster.app.Main import Main
@@ -121,6 +122,11 @@ class MainWindow(AbstractWindow):
         panel.showDialog(World().L("MainWindow.ADDITIVE_GROUPS"))
 
 
+    def _onProducts(self):
+        panel = ProductPanel.getInstance(self)
+        panel.showDialog(World().L("MainWindow.PRODUCTS"))
+
+    
     def _onRaw_materials(self):
         panel = RawMaterialPanel.getInstance(self)
         panel.showDialog(World().L("MainWindow.RAW_MATERIALS"))

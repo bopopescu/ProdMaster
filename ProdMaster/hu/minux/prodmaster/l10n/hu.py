@@ -32,6 +32,7 @@ class hu(Translator):
                               'E_NUMBER': 'e-szám',
                               'ID': '#',
                               'IS_COMPOSITE': 'Összetett alapanyag',
+                              'IS_END/IS_SEMI': 'Kész / félkész',
                               'LOCATION': 'Település',
                               'LOGIN' : 'Belépés',
                               'NAME' : 'Név',
@@ -62,6 +63,7 @@ class hu(Translator):
                               'MainWindow.EXIT' : 'Kilépés',
                               'MainWindow.FILE' : 'Fájl',
                               'MainWindow.PARTNERS' : 'Partnerek',
+                              'MainWindow.PRODUCTS' : 'Termékek',
                               'MainWindow.RAW_MATERIALS' : 'Alapanyagok',
                               'PersonDialog.TITLE' : 'Kapcsolat szerkesztése',
                               '':''
