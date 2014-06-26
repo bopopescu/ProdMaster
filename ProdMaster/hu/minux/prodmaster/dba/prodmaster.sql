@@ -86,7 +86,7 @@ CREATE TABLE `menu` (
   `weight` tinyint(4) NOT NULL DEFAULT '0',
   `parent` varchar(16) COLLATE utf8_hungarian_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,8 +95,34 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,'FILE',1,0,''),(2,'EXIT',0,0,'FILE'),(3,'EDIT',1,0,''),(4,'DATA',1,0,''),(5,'PARTNERS',0,0,'DATA'),(6,'ADDITIVE_GROUPS',0,100,'DATA'),(7,'ADDITIVES',0,50,'DATA'),(8,'RAW_MATERIALS',0,25,'DATA');
+INSERT INTO `menu` VALUES (1,'FILE',1,0,''),(2,'EXIT',0,0,'FILE'),(3,'EDIT',1,0,''),(4,'DATA',1,0,''),(5,'PARTNERS',0,0,'DATA'),(6,'ADDITIVE_GROUPS',0,100,'DATA'),(7,'ADDITIVES',0,50,'DATA'),(8,'RAW_MATERIALS',0,25,'DATA'),(9,'PRODUCTS',0,35,'DATA'),(10,'MOVEMENTS',1,0,''),(11,'ROUNDTRIP_SALES',0,100,'MOVEMENTS'),(12,'STOCKS',0,120,'DATA'),(13,'MOVEMENT_TYPES',0,127,'DATA');
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `movement_type`
+--
+
+DROP TABLE IF EXISTS `movement_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `movement_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) COLLATE utf8_hungarian_ci NOT NULL,
+  `remark` text COLLATE utf8_hungarian_ci,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `movement_type`
+--
+
+LOCK TABLES `movement_type` WRITE;
+/*!40000 ALTER TABLE `movement_type` DISABLE KEYS */;
+INSERT INTO `movement_type` VALUES (1,'Túrajárat értékesítés',''),(2,'Csere vevőnél',''),(3,'Visszáru','A vevőtől visszavásárolt tétel'),(4,'Helyi készpénzes értékesítés',''),(5,'Raktárközi átadás','Telephelyen belüli készletmozgás');
+/*!40000 ALTER TABLE `movement_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -164,6 +190,60 @@ INSERT INTO `person` VALUES (53,'Fekete Zoli',1,'','','','ügyvezető',0),(58,'Z
 UNLOCK TABLES;
 
 --
+-- Table structure for table `product`
+--
+
+DROP TABLE IF EXISTS `product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) COLLATE utf8_hungarian_ci NOT NULL,
+  `is_endproduct` tinyint(1) NOT NULL DEFAULT '0',
+  `remark` text COLLATE utf8_hungarian_ci,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product`
+--
+
+LOCK TABLES `product` WRITE;
+/*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` VALUES (1,'Fehérvári ostya lédig',1,'első és legjobb termékünk ever'),(2,'Fehérvári ostya 200 g - kakaós',1,'AUCHAN'),(3,'Fehérvári ostya 200 g - vaníliás',1,''),(4,'Fehérvári ostya 200 g - capuccino',1,'');
+/*!40000 ALTER TABLE `product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `product_recipe`
+--
+
+DROP TABLE IF EXISTS `product_recipe`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_recipe` (
+  `product_contents` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `percentage` tinyint(4) NOT NULL DEFAULT '0',
+  `remark` text COLLATE utf8_hungarian_ci,
+  PRIMARY KEY (`product_contents`),
+  KEY `fk_product_recipe_1` (`product_id`),
+  CONSTRAINT `fk_product_recipe_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product_recipe`
+--
+
+LOCK TABLES `product_recipe` WRITE;
+/*!40000 ALTER TABLE `product_recipe` DISABLE KEYS */;
+/*!40000 ALTER TABLE `product_recipe` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `raw_material`
 --
 
@@ -203,7 +283,9 @@ CREATE TABLE `raw_material_contents` (
   `weight` smallint(6) NOT NULL DEFAULT '0',
   `percentage` tinyint(4) DEFAULT NULL,
   `remark` text COLLATE utf8_hungarian_ci,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `fk_raw_material_contents_1` (`raw_material_id`),
+  CONSTRAINT `fk_raw_material_contents_1` FOREIGN KEY (`raw_material_id`) REFERENCES `raw_material` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -246,6 +328,32 @@ LOCK TABLES `site` WRITE;
 /*!40000 ALTER TABLE `site` DISABLE KEYS */;
 /*!40000 ALTER TABLE `site` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `stock`
+--
+
+DROP TABLE IF EXISTS `stock`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stock` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) COLLATE utf8_hungarian_ci NOT NULL,
+  `remark` text COLLATE utf8_hungarian_ci,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stock`
+--
+
+LOCK TABLES `stock` WRITE;
+/*!40000 ALTER TABLE `stock` DISABLE KEYS */;
+INSERT INTO `stock` VALUES (1,'Alapanyagraktár 1.','Fő épületben, a konyha előtt'),(2,'Lisztraktár 1.','Fő épületben a masszakeverőnél'),(3,'Készáru raktár','Külön épületben'),(4,'Alkatrész raktár 1.','\"Benizs\" raktár '),(5,'Csomagolóanyag raktár 1.','Új csomagolóépület üvegablakos'),(6,'Tisztítószer raktár 1.','Fő épületben');
+/*!40000 ALTER TABLE `stock` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -256,4 +364,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-25 15:07:45
+-- Dump completed on 2014-06-26 15:30:39
