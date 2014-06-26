@@ -63,6 +63,7 @@ class hu(Translator):
                               'MainWindow.EXIT' : 'Kilépés',
                               'MainWindow.FILE' : 'Fájl',
                               'MainWindow.MOVEMENTS' : 'Készletmozgások',
+                              'MainWindow.MOVEMENT_TYPES' : 'Mozgásnemek',
                               'MainWindow.PARTNERS' : 'Partnerek',
                               'MainWindow.PRODUCTS' : 'Termékek',
                               'MainWindow.RAW_MATERIALS' : 'Alapanyagok',
