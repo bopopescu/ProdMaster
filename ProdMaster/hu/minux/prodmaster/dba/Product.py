@@ -14,6 +14,7 @@ class Product(DBEntity):
 
     name = ""
     is_end_product = False
+    barcode = ""
     contents = []
     
     MY_TABLE_NAME = 'product'
@@ -40,9 +41,9 @@ class ProductManager(AbstractEntityManager):
         
     def create(self, e):
         sql = ("INSERT INTO " + Product.MY_TABLE_NAME + " "
-               "(name, is_endproduct, remark) "
-               "VALUES (%s, %s, %s)")
-        data = (e.name, e.is_endproduct, e.remark)
+               "(name, is_endproduct, barcode, remark) "
+               "VALUES (%s, %s, %s, %s)")
+        data = (e.name, e.is_endproduct, e.barcode, e.remark)
         
         self.execute(sql, data)
         e.id = self._cursor.lastrowid
@@ -72,16 +73,17 @@ class ProductManager(AbstractEntityManager):
         
     def read(self, eid):       
         e = Product()
-        sql = ('SELECT id, name, is_endproduct, remark '
+        sql = ('SELECT id, name, is_endproduct, barcode, remark '
                'FROM ' + Product.MY_TABLE_NAME + ' WHERE id = %s')
         
         self.execute(sql, (eid,))
         res = self._cursor.fetchall()
         
-        for (id, name, is_endproduct, remark) in res:
+        for (id, name, is_endproduct, barcode, remark) in res:
             e.id = id 
             e.name = name
             e.is_endproduct = is_endproduct
+            e.barcode = barcode
             e.remark = remark
             break
         
@@ -94,9 +96,9 @@ class ProductManager(AbstractEntityManager):
     def update(self, e):        
         sql = ("UPDATE " + Product.MY_TABLE_NAME + " "
                "SET name=%s, is_endproduct=%s, "
-               "remark=%s"
+               "barcode=%s, remark=%s "
                "WHERE id=%s")
-        data = (e.name, e.is_endproduct, e.remark,
+        data = (e.name, e.is_endproduct, e.barcode, e.remark,
                 e.id)
         
         self.execute(sql, data)

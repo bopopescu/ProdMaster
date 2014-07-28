@@ -24,6 +24,8 @@ class ProductPanel(AbstractFrame):
     
     _nameLabel = None
     _nameEntry = None
+    _barcodeLabel = None
+    _barcodeEntry = None    
     _isEndProductLabel = None
     _isEndProductEntry = None
     _contentLabel = None
@@ -45,6 +47,7 @@ class ProductPanel(AbstractFrame):
 
     def _clearForm(self):
         self._nameEntry.delete(0, END)
+        self._barcodeEntry.delete(0, END)        
         self._isEndProductEntry.delete(0, END)
         self._contentTable.deleteEntries()
         self._remarkEntry.delete('0.0', END)
@@ -66,6 +69,15 @@ class ProductPanel(AbstractFrame):
         self._nameEntry = Entry(self, width=World.defaultEntryWidth())
         self._nameEntry.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
         
+        r += 1
+        c = 0
+        self._barcodeLabel = Label(self, text=World.L("BARCODE"));
+        self._barcodeLabel.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
+        
+        c += 1
+        self._barcodeEntry = Entry(self, width=World.defaultEntryWidth())
+        self._barcodeEntry.grid(row=r, column=c, sticky=W, padx=World.smallPadSize(), pady=World.smallPadSize())
+
         c = 0
         r += 1
         self._isEndProductLabel = Label(self, text=World.L("IS_END/IS_SEMI"))
@@ -115,6 +127,7 @@ class ProductPanel(AbstractFrame):
         
     def _save(self):        
         self._entity.name = self._nameEntry.get()
+        self._entity.barcode = self._barcodeEntry.get()
         self._entity.is_endproduct = self._isEndProductEntry.get()
         self._entity.remark = self._remarkEntry.get('0.0', 'end-1c')
         
@@ -167,6 +180,7 @@ class ProductPanel(AbstractFrame):
         self._clearForm()
         
         self._nameEntry.insert(0, e.name)
+        self._barcodeEntry.insert(0, e.barcode)
         self._isEndProductEntry.insert(0, e.is_endproduct)
         
 #         for content in e.contents:

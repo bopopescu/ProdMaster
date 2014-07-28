@@ -15,6 +15,7 @@ import tkinter.messagebox as mbox
 
 from hu.minux.prodmaster.gui.AbstractWindow import AbstractWindow
 from hu.minux.prodmaster.gui.LoginDialog import LoginDialog
+from hu.minux.prodmaster.gui.AccountClassPanel import AccountClassPanel
 from hu.minux.prodmaster.gui.AdditivePanel import AdditivePanel
 from hu.minux.prodmaster.gui.AdditiveGroupPanel import AdditiveGroupPanel
 from hu.minux.prodmaster.gui.MovementTypePanel import MovementTypePanel
@@ -114,6 +115,11 @@ class MainWindow(AbstractWindow):
         panel.showDialog(World().L("MainWindow.PARTNERS"))
     
     
+    def _onAccount_classes(self):
+        panel = AccountClassPanel.getInstance(self)
+        panel.showDialog(World().L("MainWindow.ACCOUNT_CLASSES"))
+
+    
     def _onAdditives(self):
         panel = AdditivePanel.getInstance(self)
         panel.showDialog(World().L("MainWindow.ADDITIVES"))
@@ -144,12 +150,19 @@ class MainWindow(AbstractWindow):
         panel.showDialog(World().L("MainWindow.STOCKS"))
 
     
+    def _onPurchase(self):
+        pass
+        #panel = PurchasePanel.getInstance(self)
+        #panel.showDialog(World().L("MainWindow.PURCHASE"))
+
+    
     def _onRoundtrip_sales(self):
         pass
         #panel = RawMaterialPanel.getInstance(self)
         #panel.showDialog(World().L("MainWindow.RAW_MATERIALS"))
 
     
+
     def _onSuccessfulLogin(self, loginWidget):
         loginWidget.destroy()
         self._createMenu()
@@ -184,7 +197,8 @@ class MainWindow(AbstractWindow):
 root = Tk()
 root.title(World.L("Application.TITLE"))
 w, h = root.winfo_screenwidth(), root.winfo_screenheight()
-root.geometry("%dx%d+0+0" % (w, h-60))
+#root.geometry("%dx%d+0+0" % (w, h-60))
+root.geometry("1024x768")
 root.minsize(800, 600)
 mainApp = MainWindow(master=root)
 root.mainloop()

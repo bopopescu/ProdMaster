@@ -21,6 +21,7 @@ from hu.minux.prodmaster.dba.NameIdPair import NameIdPair
 class AbstractFrame(Frame):
 
     _instance = None
+    _is_new_entity = False
     _myTabId = 0
     _myElementId = 0
     _myEntityType = None
@@ -84,6 +85,7 @@ class AbstractFrame(Frame):
                 
                 
     def _create(self):
+        self._is_new_entity = True
         self.createButtonEnabled(False)
         self.closeButtonEnabled(True)
         self.saveButtonEnabled(True)
@@ -175,6 +177,7 @@ class AbstractFrame(Frame):
         
         
     def _edit(self):
+        self._is_new_entity = False
         World().LOG().info("_edit called: " + str(self._entity.id) + "|" + self._entity.name)
 
         self.setState(self, 'normal')
@@ -245,7 +248,7 @@ class AbstractFrame(Frame):
         self._save() # implemented in child panels
         
         
-    def _save(self):
+    def _save(self, is_new_entity=False):
         World().LOG().info("_save called: " + str(self._entity.id) + "|" + self._entity.name)
 
         if self._validate() != None:
@@ -259,7 +262,7 @@ class AbstractFrame(Frame):
         self.closeButtonEnabled(True)
         self.setState(self, 'disabled')
         
-        if self._entity.id == 0:
+        if self._entity.id == 0 or is_new_entity:
             self._myEntityType.create(self._entity)
         else:
             self._myEntityType.update(self._entity)
@@ -270,12 +273,13 @@ class AbstractFrame(Frame):
         for item in self._myStoredListItems:
             if item.id == self._entity.id:
                 if len(self._myListBox.curselection()) > 0:
-                    self._myListBox.delete(self._myListBox.curselection()[0])
+                    self._myListBox.delete(self._myListBox.curselection()[0])    
                 self._myListBox.insert(idx, self._myStoredListItems[idx].name)
                 break
             idx += 1
     
         self._myListBox.selection_set(idx)
+        self._is_new_entity = False
         
         
     def _setControls(self):

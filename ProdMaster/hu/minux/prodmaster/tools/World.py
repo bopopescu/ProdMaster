@@ -51,6 +51,11 @@ class World(object):
 
 
     @staticmethod
+    def smallEntryWidth():
+        return 10
+
+    
+    @staticmethod
     def getDisabledBackgroundColor():
         return 'gray95'
 
