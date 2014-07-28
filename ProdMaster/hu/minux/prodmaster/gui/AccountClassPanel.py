@@ -96,6 +96,10 @@ class AccountClassPanel(AbstractFrame):
         self._entity.name = self._nameEntry.get()
         self._entity.remark = self._remarkEntry.get('0.0', 'end-1c')
         
+        if self._storedEntity.id != self._entity.id:
+            AccountClass.delete(self._storedEntity)
+            self._is_new_entity = True
+        
         AbstractFrame._save(self, self._is_new_entity)
         self._is_new_entity = False
 

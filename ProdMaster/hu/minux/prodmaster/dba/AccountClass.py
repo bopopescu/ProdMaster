@@ -80,10 +80,11 @@ class AccountClassManager(AbstractEntityManager):
          
     def update(self, e):        
         sql = ("UPDATE " + AccountClass.MY_TABLE_NAME + " "
-               "SET name=%s, "
+               "SET id=%s, "
+               "name=%s, "
                "remark=%s"
                "WHERE id=%s")
-        data = (e.name, e.remark, e.id)
+        data = (e.id, e.name, e.remark, e.id)
         
         self.execute(sql, data)                        
         self._db.conn.commit()
@@ -104,7 +105,7 @@ class AccountClassManager(AbstractEntityManager):
     
     def readAllNameIdPairs(self):        
         l = []
-        sql = "SELECT id, name FROM " + AccountClass.MY_TABLE_NAME + " ORDER BY name ASC"
+        sql = "SELECT id, name FROM " + AccountClass.MY_TABLE_NAME + " ORDER BY id ASC"
         
         self.execute(sql)
         
