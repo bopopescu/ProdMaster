@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.37, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.38, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: prodmaster
 -- ------------------------------------------------------
--- Server version	5.5.37-0+wheezy1
+-- Server version	5.5.38-0+wheezy1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,31 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `account_class`
+--
+
+DROP TABLE IF EXISTS `account_class`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `account_class` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(64) COLLATE utf8_hungarian_ci NOT NULL,
+  `remark` text COLLATE utf8_hungarian_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `account_class`
+--
+
+LOCK TABLES `account_class` WRITE;
+/*!40000 ALTER TABLE `account_class` DISABLE KEYS */;
+INSERT INTO `account_class` VALUES (211001,'Édesipari nyers- és alapanyagok',''),(211099,'Egyéb nyers- és alapanyagok',''),(221001,'Segédanyagok',''),(222001,'Üzem- és fűtőanyagok',''),(223001,'Fenntartási anyagok',''),(224001,'Építési anyagok',''),(225001,'Egy éven belül elhasználódó anyagi eszközök',''),(226001,'Tárgyi eszközök közül átsorolt anyagok',''),(227001,'Egyéb anyagok',''),(235001,'Ipari félkésztermékek',''),(236001,'Szolgáltatási félkésztermékek',''),(237009,'Egyéb félkésztermékek',''),(251001,'Ipari késztermékek',''),(252001,'Szolgáltatási késztermékek',''),(256001,'Idegen helyen tárolt késztermékek',''),(311009,'Átutalásos belföldi vevők',''),(311029,'Készpénzes belföldi vevők',''),(311091,'Vevő túlfizetés',''),(311098,'Tévesen fizetett kiadások',''),(380001,'Pénztár - számla',''),(381051,'Elektronikus pénzeszközök',''),(381099,'Házipénztár számla',''),(384001,'Elszámolási számla: OTP Bank Nyrt.','11736006-20280187'),(452011,'Rövid lejáratú hitelek forintban',''),(452012,'Széchenyi Kártya',''),(454001,'Nyitó átutalásos belföldi szállítók',''),(454009,'Átutalásos belföldi szállítók',''),(454021,'Nyitó készpénzes belföldi szállítók',''),(454029,'Készpénzes belföldi szállítók',''),(454091,'Szállítói túlfizetés',''),(454098,'Tévesen kapott bevételek',''),(461051,'Különadó elszámolási számla',''),(461099,'Társasági adó elszámolási számla',''),(462001,'SZJA munkabérből levont 16%',''),(467099,'Fizetendő ÁFA','');
+/*!40000 ALTER TABLE `account_class` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `additive`
@@ -81,12 +106,12 @@ DROP TABLE IF EXISTS `menu`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(16) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `name` varchar(32) COLLATE utf8_hungarian_ci DEFAULT NULL,
   `is_root` tinyint(1) NOT NULL DEFAULT '0',
   `weight` tinyint(4) NOT NULL DEFAULT '0',
   `parent` varchar(16) COLLATE utf8_hungarian_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +120,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,'FILE',1,0,''),(2,'EXIT',0,0,'FILE'),(3,'EDIT',1,0,''),(4,'DATA',1,0,''),(5,'PARTNERS',0,0,'DATA'),(6,'ADDITIVE_GROUPS',0,100,'DATA'),(7,'ADDITIVES',0,50,'DATA'),(8,'RAW_MATERIALS',0,25,'DATA'),(9,'PRODUCTS',0,35,'DATA'),(10,'MOVEMENTS',1,0,''),(11,'ROUNDTRIP_SALES',0,100,'MOVEMENTS'),(12,'STOCKS',0,120,'DATA'),(13,'MOVEMENT_TYPES',0,127,'DATA');
+INSERT INTO `menu` VALUES (1,'FILE',1,0,''),(2,'EXIT',0,0,'FILE'),(3,'EDIT',1,0,''),(4,'DATA',1,0,''),(5,'PARTNERS',0,0,'DATA'),(6,'ADDITIVE_GROUPS',0,100,'DATA'),(7,'ADDITIVES',0,50,'DATA'),(8,'RAW_MATERIALS',0,25,'DATA'),(9,'PRODUCTS',0,35,'DATA'),(10,'TRANSACTIONS',1,0,''),(11,'ROUNDTRIP_SALES',0,100,'TRANSACTIONS'),(12,'STOCKS',0,120,'DATA'),(13,'MOVEMENT_TYPES',0,127,'DATA'),(14,'PURCHASE',0,80,'TRANSACTIONS'),(15,'ACCOUNT_CLASSES',0,127,'DATA');
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,8 +226,10 @@ CREATE TABLE `product` (
   `name` varchar(64) COLLATE utf8_hungarian_ci NOT NULL,
   `is_endproduct` tinyint(1) NOT NULL DEFAULT '0',
   `remark` text COLLATE utf8_hungarian_ci,
+  `barcode` varchar(45) COLLATE utf8_hungarian_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name_UNIQUE` (`name`)
+  UNIQUE KEY `name_UNIQUE` (`name`),
+  UNIQUE KEY `barcode_UNIQUE` (`barcode`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -212,7 +239,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'Fehérvári ostya lédig',1,'első és legjobb termékünk ever'),(2,'Fehérvári ostya 200 g - kakaós',1,'AUCHAN'),(3,'Fehérvári ostya 200 g - vaníliás',1,''),(4,'Fehérvári ostya 200 g - capuccino',1,'');
+INSERT INTO `product` VALUES (1,'Fehérvári ostya lédig',1,'első és legjobb termékünk ever',NULL),(2,'Fehérvári ostya 200 g - kakaós',1,'AUCHAN',NULL),(3,'Fehérvári ostya 200 g - vaníliás',1,'',NULL),(4,'Fehérvári capuccino ízű nápolyi 200 g',1,'','599 798770 1011');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -255,8 +282,10 @@ CREATE TABLE `raw_material` (
   `name` varchar(64) COLLATE utf8_hungarian_ci NOT NULL,
   `is_composite` tinyint(1) NOT NULL DEFAULT '0',
   `remark` text COLLATE utf8_hungarian_ci,
+  `unit` varchar(48) COLLATE utf8_hungarian_ci NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name_UNIQUE` (`name`)
+  UNIQUE KEY `name_UNIQUE` (`name`),
+  KEY `fk_raw_material_1_idx` (`unit`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -266,7 +295,7 @@ CREATE TABLE `raw_material` (
 
 LOCK TABLES `raw_material` WRITE;
 /*!40000 ALTER TABLE `raw_material` DISABLE KEYS */;
-INSERT INTO `raw_material` VALUES (3,'Kristálycukor',0,'');
+INSERT INTO `raw_material` VALUES (3,'Kristálycukor',0,'','');
 /*!40000 ALTER TABLE `raw_material` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -354,6 +383,110 @@ LOCK TABLES `stock` WRITE;
 INSERT INTO `stock` VALUES (1,'Alapanyagraktár 1.','Fő épületben, a konyha előtt'),(2,'Lisztraktár 1.','Fő épületben a masszakeverőnél'),(3,'Készáru raktár','Külön épületben'),(4,'Alkatrész raktár 1.','\"Benizs\" raktár '),(5,'Csomagolóanyag raktár 1.','Új csomagolóépület üvegablakos'),(6,'Tisztítószer raktár 1.','Fő épületben');
 /*!40000 ALTER TABLE `stock` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `transaction`
+--
+
+DROP TABLE IF EXISTS `transaction`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `transaction` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) COLLATE utf8_hungarian_ci NOT NULL,
+  `movement_type_id` int(11) NOT NULL,
+  `remark` text COLLATE utf8_hungarian_ci,
+  `partner_id` int(11) NOT NULL,
+  `invoice_number` varchar(32) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `delivery_note_nr` varchar(32) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `date_of_document` date NOT NULL,
+  `date_of_transaction` date NOT NULL,
+  `date_of_payment` date DEFAULT NULL,
+  `paid_amount` int(11) NOT NULL,
+  `payment_type` tinyint(4) NOT NULL COMMENT '0: cash',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `invoice_number_UNIQUE` (`invoice_number`),
+  UNIQUE KEY `delivery_note_nr_UNIQUE` (`delivery_note_nr`),
+  KEY `fk_transaction_1_idx` (`partner_id`),
+  KEY `fk_transaction_2_idx` (`movement_type_id`),
+  CONSTRAINT `fk_transaction_2` FOREIGN KEY (`movement_type_id`) REFERENCES `movement_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_transaction_1` FOREIGN KEY (`partner_id`) REFERENCES `partner` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `transaction`
+--
+
+LOCK TABLES `transaction` WRITE;
+/*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transaction_item`
+--
+
+DROP TABLE IF EXISTS `transaction_item`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `transaction_item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `raw_material_id` int(11) DEFAULT '0',
+  `transaction_id` int(11) NOT NULL DEFAULT '0',
+  `account_class_id` int(11) NOT NULL DEFAULT '0',
+  `unit` varchar(45) COLLATE utf8_hungarian_ci NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT '1',
+  `value_net` int(11) NOT NULL DEFAULT '0',
+  `tax_rate` int(11) NOT NULL DEFAULT '0',
+  `value_gross` int(11) NOT NULL DEFAULT '0',
+  `stock_id` int(11) NOT NULL DEFAULT '0',
+  `remark` text COLLATE utf8_hungarian_ci,
+  `product_id` int(11) DEFAULT NULL,
+  `name` varchar(64) COLLATE utf8_hungarian_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`),
+  KEY `fk_transaction_item_1_idx` (`transaction_id`),
+  KEY `fk_transaction_item_2_idx` (`account_class_id`),
+  KEY `fk_transaction_item_3_idx` (`raw_material_id`),
+  KEY `fk_transaction_item_4_idx` (`product_id`),
+  CONSTRAINT `fk_transaction_item_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_transaction_item_2` FOREIGN KEY (`account_class_id`) REFERENCES `account_class` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_transaction_item_3` FOREIGN KEY (`raw_material_id`) REFERENCES `raw_material` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_transaction_item_4` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `transaction_item`
+--
+
+LOCK TABLES `transaction_item` WRITE;
+/*!40000 ALTER TABLE `transaction_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction_item` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `unit`
+--
+
+DROP TABLE IF EXISTS `unit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `unit` (
+  `name` varchar(8) COLLATE utf8_hungarian_ci NOT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `unit`
+--
+
+LOCK TABLES `unit` WRITE;
+/*!40000 ALTER TABLE `unit` DISABLE KEYS */;
+/*!40000 ALTER TABLE `unit` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -364,4 +497,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-26 15:30:39
+-- Dump completed on 2014-08-27 16:37:19
