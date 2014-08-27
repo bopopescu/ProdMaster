@@ -68,11 +68,12 @@ class hu(Translator):
                               'MainWindow.MOVEMENT_TYPES' : 'Mozgásnemek',
                               'MainWindow.PARTNERS' : 'Partnerek',
                               'MainWindow.PRODUCTS' : 'Termékek',
-                              'MainWindow.PURCHASE' : 'Beszerzés',
+                              'MainWindow.PURCHASE' : 'Vásárlás, beszerzés',
                               'MainWindow.RAW_MATERIALS' : 'Alapanyagok',
                               'MainWindow.ROUNDTRIP_SALES' : 'Túra értékesítés',
                               'MainWindow.STOCKS' : 'Raktárak',
                               'PersonDialog.TITLE' : 'Kapcsolat szerkesztése',
+                              'MainWindow.TRANSACTIONS' : 'Tranzakciók',
                               '':''
                               }
                               
