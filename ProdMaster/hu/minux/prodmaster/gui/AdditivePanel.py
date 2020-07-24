@@ -8,12 +8,12 @@ Created on 2014.02.21.
 from tkinter import *
 from tkinter.ttk import *
 
-from hu.minux.prodmaster.gui.AbstractFrame import AbstractFrame
-from hu.minux.prodmaster.app.Additive import Additive
-from hu.minux.prodmaster.app.AdditiveGroup import AdditiveGroup
-from hu.minux.prodmaster.gui.ChooserTable import ChooserTable
-from hu.minux.prodmaster.gui.ChooserDialog import ChooserDialog
-from hu.minux.prodmaster.tools.World import World
+from hu.minux.prodmain.gui.AbstractFrame import AbstractFrame
+from hu.minux.prodmain.app.Additive import Additive
+from hu.minux.prodmain.app.AdditiveGroup import AdditiveGroup
+from hu.minux.prodmain.gui.ChooserTable import ChooserTable
+from hu.minux.prodmain.gui.ChooserDialog import ChooserDialog
+from hu.minux.prodmain.tools.World import World
 
 
 class AdditivePanel(AbstractFrame):
@@ -32,8 +32,8 @@ class AdditivePanel(AbstractFrame):
     _remarkEntry = None
     
 
-    def __init__(self, master, appFrame):
-        AbstractFrame.__init__(self, master, appFrame)
+    def __init__(self, main, appFrame):
+        AbstractFrame.__init__(self, main, appFrame)
         
         
     @staticmethod

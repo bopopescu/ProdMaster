@@ -4,7 +4,7 @@ Created on 2014.03.01.
 @author: fekete
 '''
 
-from hu.minux.prodmaster.tools.World import World
+from hu.minux.prodmain.tools.World import World
 
 
 class AbstractEntityManager(object):

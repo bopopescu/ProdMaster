@@ -4,15 +4,15 @@ Created on 2014.03.01.
 @author: fekete
 '''
 
-from hu.minux.prodmaster.dba.AbstractEntityManager import AbstractEntityManager
-from hu.minux.prodmaster.dba.DBEntity import DBEntity
-from hu.minux.prodmaster.tools.World import World
-from hu.minux.prodmaster.dba.NameIdPair import NameIdPair
-from hu.minux.prodmaster.dba.RawMaterial import RawMaterialManager
-from hu.minux.prodmaster.dba.Product import ProductManager
-from hu.minux.prodmaster.dba.Transaction import TransactionManager
-from hu.minux.prodmaster.dba.AccountClass import AccountClassManager
-from hu.minux.prodmaster.dba.Product import ProductManager
+from hu.minux.prodmain.dba.AbstractEntityManager import AbstractEntityManager
+from hu.minux.prodmain.dba.DBEntity import DBEntity
+from hu.minux.prodmain.tools.World import World
+from hu.minux.prodmain.dba.NameIdPair import NameIdPair
+from hu.minux.prodmain.dba.RawMaterial import RawMaterialManager
+from hu.minux.prodmain.dba.Product import ProductManager
+from hu.minux.prodmain.dba.Transaction import TransactionManager
+from hu.minux.prodmain.dba.AccountClass import AccountClassManager
+from hu.minux.prodmain.dba.Product import ProductManager
 
 
 class TransactionItem(DBEntity):

@@ -8,12 +8,12 @@ Created on 2014.02.21.
 from tkinter import *
 from tkinter.ttk import *
 
-from hu.minux.prodmaster.gui.AbstractFrame import AbstractFrame
-from hu.minux.prodmaster.gui.MinuxTable import MinuxTable
-from hu.minux.prodmaster.app.RawMaterial import RawMaterial
-from hu.minux.prodmaster.app.RawMaterialContent import RawMaterialContent
-from hu.minux.prodmaster.tools.World import World
-# from hu.minux.prodmaster.gui.RawMaterialContentDialog import RawMaterialContentDialog
+from hu.minux.prodmain.gui.AbstractFrame import AbstractFrame
+from hu.minux.prodmain.gui.MinuxTable import MinuxTable
+from hu.minux.prodmain.app.RawMaterial import RawMaterial
+from hu.minux.prodmain.app.RawMaterialContent import RawMaterialContent
+from hu.minux.prodmain.tools.World import World
+# from hu.minux.prodmain.gui.RawMaterialContentDialog import RawMaterialContentDialog
 
 
 class RawMaterialPanel(AbstractFrame):
@@ -32,8 +32,8 @@ class RawMaterialPanel(AbstractFrame):
     _remarkEntry = None
     
 
-    def __init__(self, master, appFrame):
-        AbstractFrame.__init__(self, master, appFrame)
+    def __init__(self, main, appFrame):
+        AbstractFrame.__init__(self, main, appFrame)
         
         
     @staticmethod

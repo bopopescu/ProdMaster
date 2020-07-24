@@ -5,8 +5,8 @@ Created on 2014.02.22.
 '''
 
 import logging
-from hu.minux.prodmaster.tools.DB import DB
-from hu.minux.prodmaster.l10n.hu import hu
+from hu.minux.prodmain.tools.DB import DB
+from hu.minux.prodmain.l10n.hu import hu
 
 class World(object):
 
@@ -22,12 +22,12 @@ class World(object):
     @staticmethod
     def init():
         try:
-            logging.basicConfig(filename='prodmaster.log',
+            logging.basicConfig(filename='prodmain.log',
                                 format='%(asctime)s %(levelname)s: %(message)s',
                                 datefmt='%Y-%m-%d %H:%M:%S',
                                 level=logging.DEBUG)
             World._logger = logging
-            logging.info("\n************** Prodmaster application. Go ahead ! **************")    
+            logging.info("\n************** Prodmain application. Go ahead ! **************")    
         except Exception as e:
             print("Logging has not been started.")
             print(e)

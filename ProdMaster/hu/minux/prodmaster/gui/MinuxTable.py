@@ -6,7 +6,7 @@ Created on 2014.05.14.
 
 from tkinter.ttk import *
 
-from hu.minux.prodmaster.tools.World import World
+from hu.minux.prodmain.tools.World import World
 
 
 class MinuxTable(Frame):
@@ -16,7 +16,7 @@ class MinuxTable(Frame):
 
     __data = None
     __header = None
-    __type = None ### id to callback master panel
+    __type = None ### id to callback main panel
     __rows = None
     __columnCount = 0
     __invisibleColumns = ()
@@ -29,9 +29,9 @@ class MinuxTable(Frame):
     ENTITY_IS_MARKED_FOR_DELETION = -9999
 
 
-    def __init__(self, master, columns=2, rows=1, header=('First header', 'Second header'),
+    def __init__(self, main, columns=2, rows=1, header=('First header', 'Second header'),
                  type=None):
-        Frame.__init__(self, master, padding=World.padSize())
+        Frame.__init__(self, main, padding=World.padSize())
 
         self.__type = type
 
@@ -45,7 +45,7 @@ class MinuxTable(Frame):
 
     def __appendRow(self):
         data = []
-        data = self.master.editChild(self.__type, data)
+        data = self.main.editChild(self.__type, data)
         if data == []:
             return
         
@@ -73,7 +73,7 @@ class MinuxTable(Frame):
 
             
     def __editRow(self, data):
-        newData = self.master.editChild(self.__type, data)
+        newData = self.main.editChild(self.__type, data)
         
         markedToDeletion = False
         if newData[self.ID_COLUMN_NR] == self.ENTITY_IS_MARKED_FOR_DELETION:
@@ -99,7 +99,7 @@ class MinuxTable(Frame):
     def clear(self):
         return
         World.LOG().info("MinuxTable.clear() called")
-        for widget in self.__widgetFrame.grid_slaves():
+        for widget in self.__widgetFrame.grid_subordinates():
             widget.grid_forget()
             widget.destroy()
 

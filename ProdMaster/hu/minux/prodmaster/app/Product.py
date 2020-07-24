@@ -4,8 +4,8 @@ Created on 2014.03.01.
 @author: fekete
 '''
 
-from hu.minux.prodmaster.app.AbstractModule import AbstractModule
-from hu.minux.prodmaster.dba.Product import ProductManager
+from hu.minux.prodmain.app.AbstractModule import AbstractModule
+from hu.minux.prodmain.dba.Product import ProductManager
 
 
 class Product(AbstractModule):

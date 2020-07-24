@@ -4,8 +4,8 @@ Created on 2014.06.18.
 @author: fekete
 '''
 
-from hu.minux.prodmaster.app.AbstractModule import AbstractModule
-from hu.minux.prodmaster.dba.Additive import AdditiveManager
+from hu.minux.prodmain.app.AbstractModule import AbstractModule
+from hu.minux.prodmain.dba.Additive import AdditiveManager
 
 class Additive(AbstractModule):
 

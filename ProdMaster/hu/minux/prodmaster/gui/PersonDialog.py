@@ -7,8 +7,8 @@ Created on 2014.02.27.
 from tkinter import *
 from tkinter.ttk import *
 
-from hu.minux.prodmaster.tools.World import World
-from hu.minux.prodmaster.gui.AbstractWindow import AbstractWindow
+from hu.minux.prodmain.tools.World import World
+from hu.minux.prodmain.gui.AbstractWindow import AbstractWindow
 
 
 class PersonDialog(AbstractWindow):
@@ -25,8 +25,8 @@ class PersonDialog(AbstractWindow):
     __person = None
 
 
-    def __init__(self, master, person):
-        Toplevel.__init__(self, master)
+    def __init__(self, main, person):
+        Toplevel.__init__(self, main)
         World.LOG().info("PersonDialog opening.")
         self.title(World.L("PersonDialog.TITLE"))
         self['bd'] = World.padSize()
@@ -109,7 +109,7 @@ class PersonDialog(AbstractWindow):
         c = 0
         f = Frame(self)
         readyButton = Button(f, text=World.L('READY'),
-                             command=self.__sendDataToMaster)
+                             command=self.__sendDataToMain)
         readyButton.pack(side=LEFT, padx=World.smallPadSize(), pady=World.smallPadSize())
 
         cancelButton = Button(f, text=World.L('CANCEL'), command=self.destroy)
@@ -130,7 +130,7 @@ class PersonDialog(AbstractWindow):
         self.destroy()
 
 
-    def __sendDataToMaster(self):
+    def __sendDataToMain(self):
         self.__person.name = self.__nameEntry.get()
         self.__person.address = self.__addressEntry.get('0.0', 'end-1c')
         self.__person.phone = self.__phoneEntry.get('0.0', 'end-1c')

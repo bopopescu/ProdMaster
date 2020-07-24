@@ -8,10 +8,10 @@ Created on 2014.02.21.
 from tkinter import *
 from tkinter.ttk import *
 
-from hu.minux.prodmaster.gui.AbstractFrame import AbstractFrame
-from hu.minux.prodmaster.gui.MinuxTable import MinuxTable
-from hu.minux.prodmaster.app.AccountClass import AccountClass
-from hu.minux.prodmaster.tools.World import World
+from hu.minux.prodmain.gui.AbstractFrame import AbstractFrame
+from hu.minux.prodmain.gui.MinuxTable import MinuxTable
+from hu.minux.prodmain.app.AccountClass import AccountClass
+from hu.minux.prodmain.tools.World import World
 
 
 class AccountClassPanel(AbstractFrame):
@@ -27,8 +27,8 @@ class AccountClassPanel(AbstractFrame):
     _remarkEntry = None
     
 
-    def __init__(self, master, appFrame):
-        AbstractFrame.__init__(self, master, appFrame)
+    def __init__(self, main, appFrame):
+        AbstractFrame.__init__(self, main, appFrame)
         
         
     @staticmethod

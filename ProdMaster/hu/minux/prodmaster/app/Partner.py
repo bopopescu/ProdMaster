@@ -4,8 +4,8 @@ Created on 2014.03.01.
 @author: fekete
 '''
 
-from hu.minux.prodmaster.app.AbstractModule import AbstractModule
-from hu.minux.prodmaster.dba.Partner import PartnerManager
+from hu.minux.prodmain.app.AbstractModule import AbstractModule
+from hu.minux.prodmain.dba.Partner import PartnerManager
 
 class Partner(AbstractModule):
 

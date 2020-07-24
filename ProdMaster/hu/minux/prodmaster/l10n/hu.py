@@ -7,7 +7,7 @@ Created on 2014.02.26.
 @author: fekete
 '''
 
-from hu.minux.prodmaster.l10n.Translator import Translator
+from hu.minux.prodmain.l10n.Translator import Translator
 
 
 class hu(Translator):
@@ -50,7 +50,7 @@ class hu(Translator):
                               
                               'AbstractFrame.ARC' : 'Az űrlap szerkesztő módban van. Válasszon az alábbiak közül:', 
 
-                              'Application.TITLE' : 'ProdMaster - MINUX Szoftver',
+                              'Application.TITLE' : 'ProdMain - MINUX Szoftver',
                               
                               'Exception.GENERAL' : 'Az alkalmazásban hiba lépett fel.\nTovábbi információt a naplófájlban talál.\n\nSTACKTRACE:\n',
                               'Exception.TITLE' : 'Alkalmazáshiba',

@@ -4,12 +4,12 @@ Created on 2014.03.01.
 @author: fekete
 '''
 
-from hu.minux.prodmaster.dba.DBEntity import DBEntity
-from hu.minux.prodmaster.dba.RawMaterialContent import RawMaterialContent
-from hu.minux.prodmaster.dba.RawMaterialContent import RawMaterialContentManager
-from hu.minux.prodmaster.dba.AbstractEntityManager import AbstractEntityManager
-from hu.minux.prodmaster.tools.World import World
-from hu.minux.prodmaster.dba.NameIdPair import NameIdPair
+from hu.minux.prodmain.dba.DBEntity import DBEntity
+from hu.minux.prodmain.dba.RawMaterialContent import RawMaterialContent
+from hu.minux.prodmain.dba.RawMaterialContent import RawMaterialContentManager
+from hu.minux.prodmain.dba.AbstractEntityManager import AbstractEntityManager
+from hu.minux.prodmain.tools.World import World
+from hu.minux.prodmain.dba.NameIdPair import NameIdPair
 
 
 class RawMaterial(DBEntity):

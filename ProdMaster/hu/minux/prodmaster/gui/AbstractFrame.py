@@ -13,9 +13,9 @@ from tkinter import TclError
 from tkinter.ttk import *
 from builtins import NotImplemented
 
-from hu.minux.prodmaster.tools.World import World
-from hu.minux.prodmaster.gui.QuestionDialog import QuestionDialog
-from hu.minux.prodmaster.dba.NameIdPair import NameIdPair
+from hu.minux.prodmain.tools.World import World
+from hu.minux.prodmain.gui.QuestionDialog import QuestionDialog
+from hu.minux.prodmain.dba.NameIdPair import NameIdPair
 
 
 class AbstractFrame(Frame):
@@ -43,9 +43,9 @@ class AbstractFrame(Frame):
     saveButton = None
 
 
-    def __init__(self, master, appFrame, elementId=0):
+    def __init__(self, main, appFrame, elementId=0):
         World().LOG().info("Frame called: " + self._type)
-        Frame.__init__(self, master, padding= World.padSize())
+        Frame.__init__(self, main, padding= World.padSize())
         self._myApplication = appFrame
         self._myElementId = elementId
        
@@ -69,9 +69,9 @@ class AbstractFrame(Frame):
             
         if self.answer != 'ABORT':
             self._myListBox.delete(0, END)
-            self.master.forget('current')
-            if self.master.index('end') > 0:
-                self.master.select('end')
+            self.main.forget('current')
+            if self.main.index('end') > 0:
+                self.main.select('end')
             else:
                 self.createButtonEnabled(False)
                 self.closeButtonEnabled(False)
@@ -338,7 +338,7 @@ class AbstractFrame(Frame):
         
         
     @staticmethod    
-    def getInstance(master):
+    def getInstance(main):
         raise NotImplemented
        
     

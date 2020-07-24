@@ -7,8 +7,8 @@ Created on 2014.02.27.
 import tkinter
 from tkinter.ttk import *
 
-from hu.minux.prodmaster.tools.World import World
-from hu.minux.prodmaster.gui.AbstractWindow import AbstractWindow
+from hu.minux.prodmain.tools.World import World
+from hu.minux.prodmain.gui.AbstractWindow import AbstractWindow
 
 
 class LoginDialog(AbstractWindow):
@@ -16,10 +16,10 @@ class LoginDialog(AbstractWindow):
     _nameEntry = None
     _passwordEntry = None
 
-    def __init__(self, master):
-        tkinter.Toplevel.__init__(self, master)
+    def __init__(self, main):
+        tkinter.Toplevel.__init__(self, main)
         World.LOG().info("Login process started.")
-        self.protocol("WM_DELETE_WINDOW", master._onExit)
+        self.protocol("WM_DELETE_WINDOW", main._onExit)
         self['bd'] = World.padSize()
              
         c = 0
@@ -51,11 +51,11 @@ class LoginDialog(AbstractWindow):
         r += 1
         c = 0
         loginButton = Button(self, text=World.L('LOGIN'),
-                             command=lambda: master._onSuccessfulLogin(self))
+                             command=lambda: main._onSuccessfulLogin(self))
         loginButton.grid(row=r, column=c,
                          padx=World.smallPadSize(), pady=World.smallPadSize())
         c += 1
-        exitButton = Button(self, text=World.L('EXIT'), command=master._onExit)
+        exitButton = Button(self, text=World.L('EXIT'), command=main._onExit)
         exitButton.grid(row=r, column=c,
                         padx=World.smallPadSize(), pady=World.smallPadSize())
         

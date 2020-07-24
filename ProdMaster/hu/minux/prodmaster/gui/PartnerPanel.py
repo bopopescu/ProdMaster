@@ -8,12 +8,12 @@ Created on 2014.02.21.
 from tkinter import *
 from tkinter.ttk import *
 
-from hu.minux.prodmaster.gui.AbstractFrame import AbstractFrame
-from hu.minux.prodmaster.gui.MinuxTable import MinuxTable
-from hu.minux.prodmaster.app.Partner import Partner
-from hu.minux.prodmaster.app.Person import Person
-from hu.minux.prodmaster.tools.World import World
-from hu.minux.prodmaster.gui.PersonDialog import PersonDialog
+from hu.minux.prodmain.gui.AbstractFrame import AbstractFrame
+from hu.minux.prodmain.gui.MinuxTable import MinuxTable
+from hu.minux.prodmain.app.Partner import Partner
+from hu.minux.prodmain.app.Person import Person
+from hu.minux.prodmain.tools.World import World
+from hu.minux.prodmain.gui.PersonDialog import PersonDialog
 
 
 class PartnerPanel(AbstractFrame):
@@ -40,8 +40,8 @@ class PartnerPanel(AbstractFrame):
     _remarkEntry = None
     
 
-    def __init__(self, master, appFrame):
-        AbstractFrame.__init__(self, master, appFrame)
+    def __init__(self, main, appFrame):
+        AbstractFrame.__init__(self, main, appFrame)
         
         
     @staticmethod

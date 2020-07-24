@@ -8,9 +8,9 @@ Created on 2014.02.21.
 from tkinter import *
 from tkinter.ttk import *
 
-from hu.minux.prodmaster.gui.AbstractFrame import AbstractFrame
-from hu.minux.prodmaster.app.AdditiveGroup import AdditiveGroup
-from hu.minux.prodmaster.tools.World import World
+from hu.minux.prodmain.gui.AbstractFrame import AbstractFrame
+from hu.minux.prodmain.app.AdditiveGroup import AdditiveGroup
+from hu.minux.prodmain.tools.World import World
 
 
 class AdditiveGroupPanel(AbstractFrame):
@@ -26,8 +26,8 @@ class AdditiveGroupPanel(AbstractFrame):
     _remarkEntry = None
     
 
-    def __init__(self, master, appFrame):
-        AbstractFrame.__init__(self, master, appFrame)
+    def __init__(self, main, appFrame):
+        AbstractFrame.__init__(self, main, appFrame)
         
         
     @staticmethod

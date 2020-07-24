@@ -7,8 +7,8 @@ Created on 2014.02.27.
 import tkinter
 from tkinter.ttk import *
 
-from hu.minux.prodmaster.tools.World import World
-from hu.minux.prodmaster.gui.AbstractWindow import AbstractWindow
+from hu.minux.prodmain.tools.World import World
+from hu.minux.prodmain.gui.AbstractWindow import AbstractWindow
 
 
 class QuestionDialog(AbstractWindow):
@@ -17,16 +17,16 @@ class QuestionDialog(AbstractWindow):
     abortButton = None
     saveButton = None
     cancelButton = None
-    _master = None
+    _main = None
 
-    def __init__(self, master,
+    def __init__(self, main,
                  title='',
                  message='',
                  abortLabel=World.L("ABORT"),
                  saveLabel=World.L("SAVE"),
                  cancelLabel=World.L("CANCEL")):
-        tkinter.Toplevel.__init__(self, master)
-        self._master = master
+        tkinter.Toplevel.__init__(self, main)
+        self._main = main
         self['bd'] = World.padSize()
              
         c = 0
@@ -59,5 +59,5 @@ class QuestionDialog(AbstractWindow):
 
 
     def _answer(self, op):
-        self._master.answer = op
+        self._main.answer = op
         self.destroy()

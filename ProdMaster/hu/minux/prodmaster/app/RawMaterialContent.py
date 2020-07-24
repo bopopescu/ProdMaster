@@ -4,8 +4,8 @@ Created on 2014.06.18.
 @author: fekete
 '''
 
-from hu.minux.prodmaster.app.AbstractModule import AbstractModule
-from hu.minux.prodmaster.dba.RawMaterialContent import RawMaterialContentManager
+from hu.minux.prodmain.app.AbstractModule import AbstractModule
+from hu.minux.prodmain.dba.RawMaterialContent import RawMaterialContentManager
 
 class RawMaterialContent(AbstractModule):
 

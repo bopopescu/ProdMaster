@@ -19,7 +19,7 @@ class DB(object):
         try:
             DB.conn = mysql.connector.connect(user='minux', password='nemerdekel',
                                                host='127.0.0.1',
-                                               database='prodmaster',
+                                               database='prodmain',
                                                get_warnings=True)
             DB.cursor = DB.conn.cursor()
             logging.info("Database connection successful")

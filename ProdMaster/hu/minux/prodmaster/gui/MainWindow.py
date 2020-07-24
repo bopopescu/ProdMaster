@@ -13,18 +13,18 @@ from tkinter.ttk import *
 import tkinter.messagebox as mbox
 
 
-from hu.minux.prodmaster.gui.AbstractWindow import AbstractWindow
-from hu.minux.prodmaster.gui.LoginDialog import LoginDialog
-from hu.minux.prodmaster.gui.AccountClassPanel import AccountClassPanel
-from hu.minux.prodmaster.gui.AdditivePanel import AdditivePanel
-from hu.minux.prodmaster.gui.AdditiveGroupPanel import AdditiveGroupPanel
-from hu.minux.prodmaster.gui.MovementTypePanel import MovementTypePanel
-from hu.minux.prodmaster.gui.PartnerPanel import PartnerPanel
-from hu.minux.prodmaster.gui.ProductPanel import ProductPanel
-from hu.minux.prodmaster.gui.RawMaterialPanel import RawMaterialPanel
-from hu.minux.prodmaster.gui.StockPanel import StockPanel
-from hu.minux.prodmaster.tools.World import World
-from hu.minux.prodmaster.app.Main import Main
+from hu.minux.prodmain.gui.AbstractWindow import AbstractWindow
+from hu.minux.prodmain.gui.LoginDialog import LoginDialog
+from hu.minux.prodmain.gui.AccountClassPanel import AccountClassPanel
+from hu.minux.prodmain.gui.AdditivePanel import AdditivePanel
+from hu.minux.prodmain.gui.AdditiveGroupPanel import AdditiveGroupPanel
+from hu.minux.prodmain.gui.MovementTypePanel import MovementTypePanel
+from hu.minux.prodmain.gui.PartnerPanel import PartnerPanel
+from hu.minux.prodmain.gui.ProductPanel import ProductPanel
+from hu.minux.prodmain.gui.RawMaterialPanel import RawMaterialPanel
+from hu.minux.prodmain.gui.StockPanel import StockPanel
+from hu.minux.prodmain.tools.World import World
+from hu.minux.prodmain.app.Main import Main
 
 
 class MainWindow(AbstractWindow):
@@ -36,11 +36,11 @@ class MainWindow(AbstractWindow):
     exitButton = None
     
     
-    def __init__(self, master=None):
+    def __init__(self, main=None):
         World.init()
-        Frame.__init__(self, master)
+        Frame.__init__(self, main)
         Tk.report_callback_exception = self._show_error
-        self.master.protocol("WM_DELETE_WINDOW", self._onExit)
+        self.main.protocol("WM_DELETE_WINDOW", self._onExit)
         self._initStyles()
         self._login()
                      
@@ -65,7 +65,7 @@ class MainWindow(AbstractWindow):
         
 
     def _createMenu(self):
-        menubar = Menu(self.master, tearoff=0)
+        menubar = Menu(self.main, tearoff=0)
             
         menuItems = Main.getMainMenuItems()   
         for element in menuItems:
@@ -81,7 +81,7 @@ class MainWindow(AbstractWindow):
                             newMenu.add_command(label=World.L("MainWindow." 
                                                               + item.name),
                                                 command=function) 
-        self.master.config(menu=menubar)
+        self.main.config(menu=menubar)
         
  
     def _createWidgets(self):                
@@ -107,7 +107,7 @@ class MainWindow(AbstractWindow):
     def _onExit(self):
         World.DBA().closeConnection()
         World.LOG().info("************** Application closed. Bye! **************\n")
-        self.master.destroy()
+        self.main.destroy()
   
   
     def _onPartners(self):   
@@ -200,5 +200,5 @@ w, h = root.winfo_screenwidth(), root.winfo_screenheight()
 #root.geometry("%dx%d+0+0" % (w, h-60))
 root.geometry("1024x768")
 root.minsize(800, 600)
-mainApp = MainWindow(master=root)
+mainApp = MainWindow(main=root)
 root.mainloop()

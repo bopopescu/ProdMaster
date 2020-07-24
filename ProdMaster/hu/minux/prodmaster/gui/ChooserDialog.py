@@ -9,8 +9,8 @@ from copy import deepcopy
 from tkinter import *
 from tkinter.ttk import *
 
-from hu.minux.prodmaster.tools.World import World
-from hu.minux.prodmaster.gui.AbstractWindow import AbstractWindow
+from hu.minux.prodmain.tools.World import World
+from hu.minux.prodmain.gui.AbstractWindow import AbstractWindow
 
 
 class ChooserDialog(AbstractWindow):
@@ -27,8 +27,8 @@ class ChooserDialog(AbstractWindow):
     __entity = None
 
 
-    def __init__(self, master, appEntity, entity):
-        Toplevel.__init__(self, master)
+    def __init__(self, main, appEntity, entity):
+        Toplevel.__init__(self, main)
         World.LOG().info("ChooserDialog opening.")
         self.title(World.L("ChooserDialog.TITLE"))
         self['bd'] = World.padSize()
@@ -75,7 +75,7 @@ class ChooserDialog(AbstractWindow):
         c = 0
         f = Frame(self)
         readyButton = Button(f, text=World.L('READY'),
-                             command=self.__sendDataToMaster)
+                             command=self.__sendDataToMain)
         readyButton.pack(side=LEFT, padx=World.smallPadSize(), pady=World.smallPadSize())
 
         cancelButton = Button(f, text=World.L('CANCEL'), command=self.destroy)
@@ -99,7 +99,7 @@ class ChooserDialog(AbstractWindow):
         pass
 
 
-    def __sendDataToMaster(self):
+    def __sendDataToMain(self):
         idx = int(self._nameListBox.curselection()[0])
         self.__entity.id = self._myStoredListItems[idx].id
         self.__entity.name = self._myStoredListItems[idx].name
